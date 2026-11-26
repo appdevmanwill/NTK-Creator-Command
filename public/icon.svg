@@ -1,0 +1,18 @@
+<svg width="512" height="512" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="36" height="36" rx="9" fill="#111115" />
+  <rect x="2.25" y="2.25" width="31.5" height="31.5" rx="7" stroke="#D4AF37" stroke-opacity="0.55" stroke-width="1" />
+  <path
+    d="M8.5 23.5V12.5L14.5 23.5V12.5M17.2 12.5H22.2M19.7 12.5V23.5M24.4 12.5V23.5M24.4 18L28.5 12.5M24.4 18L28.5 23.5"
+    stroke="url(#ntkChampagne)"
+    stroke-width="1.9"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <defs>
+    <linearGradient id="ntkChampagne" x1="8" y1="10" x2="29" y2="26" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5ECD6" />
+      <stop offset="0.5" stop-color="#D4AF37" />
+      <stop offset="1" stop-color="#B88B22" />
+    </linearGradient>
+  </defs>
+</svg>

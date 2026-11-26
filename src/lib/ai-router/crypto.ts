@@ -1,12 +1,6 @@
 import crypto from 'crypto';
 import fs from 'fs';
-import path from 'path';
-
-const VAULT_KEY_FILENAME = '.ntk-vault-key';
-
-function getVaultKeyPath(): string {
-  return path.join(process.cwd(), VAULT_KEY_FILENAME);
-}
+import { getVaultKeyPath } from '@/lib/paths';
 
 export function ensureVaultKey(): Buffer {
   const keyPath = getVaultKeyPath();

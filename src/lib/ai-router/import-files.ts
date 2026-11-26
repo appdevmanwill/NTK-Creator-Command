@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { prisma } from '@/lib/db';
+import { resolveFilesDir } from '@/lib/paths';
 import { PROVIDER_CAPABILITY_DEFAULTS, PROVIDER_MODEL_CHAINS } from './catalog';
 import { encryptApiKey } from './crypto';
 import { ProviderType } from './types';
@@ -21,14 +22,7 @@ export interface KeyImportSummary {
 }
 
 function resolveFilesDirectory(): string | null {
-  const cwd = process.cwd();
-  const candidates = [path.join(cwd, 'FILES'), path.join(cwd, 'files')];
-  for (const dir of candidates) {
-    if (fs.existsSync(dir) && fs.statSync(dir).isDirectory()) {
-      return dir;
-    }
-  }
-  return null;
+  return resolveFilesDir();
 }
 
 function inferProvider(hint: string, keyValue: string): ProviderType {

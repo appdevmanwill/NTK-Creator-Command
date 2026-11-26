@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-canvas: #f6f3ec;
+  --bg-surface: #ffffff;
+  --bg-elevated: #efeae0;
+  --border-subtle: #e2d9c8;
+  --border-accent: rgba(158, 115, 24, 0.34);
+  --text-primary: #141210;
+  --text-secondary: #5c564c;
+  --accent: #9e7318;
+  --accent-hover: #876010;
+  --accent-fg: #ffffff;
+  --accent-text: #8c6410;
+  --accent-soft: rgba(158, 115, 24, 0.1);
+}
+
+[data-theme='dark'] {
+  --bg-canvas: #09090b;
+  --bg-surface: #111115;
+  --bg-elevated: #18181f;
+  --border-subtle: rgba(255, 248, 232, 0.09);
+  --border-accent: rgba(212, 175, 55, 0.34);
+  --text-primary: #f5f1e8;
+  --text-secondary: #9f988c;
+  --accent: #d4af37;
+  --accent-hover: #e5c158;
+  --accent-fg: #0d0b07;
+  --accent-text: #e2c05b;
+  --accent-soft: rgba(212, 175, 55, 0.12);
+}
+
+html,
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  min-height: 100%;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+* {
+  border-color: var(--border-subtle);
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+.atelier-hero-bg {
+  background-image:
+    radial-gradient(ellipse 80% 55% at 12% 0%, var(--accent-soft), transparent 65%),
+    radial-gradient(ellipse 65% 45% at 92% 100%, var(--accent-soft), transparent 70%);
+}

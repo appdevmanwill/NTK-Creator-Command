@@ -19,5 +19,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "FILES", "WORKING", "ARCHIVE", "HANDOFF_TO_GEMINI", "DEPLOY_MANUAL", "storage"]
+  "exclude": ["node_modules", "FILES", "WORKING", "ARCHIVE", "HANDOFF_TO_GEMINI", "DEPLOY_MANUAL", "storage", "mobile-web", "desktop", "android-app"]
 }

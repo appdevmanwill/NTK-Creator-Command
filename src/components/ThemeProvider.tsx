@@ -39,6 +39,9 @@ function applyThemeToDocument(resolved: 'light' | 'dark') {
   if (meta) {
     meta.setAttribute('content', resolved === 'dark' ? '#09090b' : '#f6f3ec');
   }
+  const bridge = (window as unknown as { NTKAndroidBridge?: { setSystemBars?: (mode: string) => void } })
+    .NTKAndroidBridge;
+  bridge?.setSystemBars?.(resolved);
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {

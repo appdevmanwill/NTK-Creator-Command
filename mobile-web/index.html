@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#09090b" />
+  <title>NTK Creator Command</title>
+  <script>
+    (function () {
+      try {
+        var m = localStorage.getItem('ntk-theme-mode') || 'system';
+        var resolved =
+          m === 'light' || m === 'dark'
+            ? m
+            : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
+        document.documentElement.setAttribute('data-theme', resolved);
+        if (resolved === 'dark') document.documentElement.classList.add('dark');
+        else document.documentElement.classList.remove('dark');
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', resolved === 'dark' ? '#09090b' : '#f6f3ec');
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="antialiased">
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

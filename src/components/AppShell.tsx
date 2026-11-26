@@ -396,42 +396,45 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* Main Content */}
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="sticky top-0 z-30 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]/92 backdrop-blur px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
+        <header className="sticky top-0 z-30 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]/92 backdrop-blur px-3 sm:px-6 min-h-14 py-2 flex items-center justify-between gap-2 safe-top">
+          <div className="flex items-center gap-2.5 min-w-0">
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden rounded-lg border p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              className="lg:hidden rounded-lg border p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] shrink-0"
               aria-label="Open menu"
             >
               <Menu className="h-5 w-5" />
             </button>
-            <div className="text-xs font-medium tracking-wide text-[var(--text-secondary)] hidden sm:block">
+            <div className="text-xs font-semibold tracking-tight text-[var(--text-primary)] sm:hidden truncate">
+              NTK Creator
+            </div>
+            <div className="text-xs font-medium tracking-wide text-[var(--text-secondary)] hidden sm:block truncate">
               {expMode === 'guided'
                 ? 'Guided Atelier · Every release waits for your final approval'
                 : 'Executive Studio · Local-First Architecture'}
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               type="button"
               onClick={() => setHelpOpen(true)}
               data-testid="open-help-btn"
-              className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-3 py-1.5 text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-accent)] transition"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-2.5 sm:px-3 py-1.5 text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-accent)] transition min-h-[36px]"
             >
               <HelpCircle className="h-3.5 w-3.5 text-[var(--accent-text)]" />
-              <span>Guide</span>
+              <span className="hidden xs:inline sm:inline">Guide</span>
             </button>
 
             <Link
               href="/admin/keys"
               data-testid="pool-health-pill"
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-3 py-1.5 text-xs font-medium hover:border-[var(--border-accent)] transition"
+              className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-2.5 sm:px-3 py-1.5 text-xs font-medium hover:border-[var(--border-accent)] transition min-h-[36px]"
             >
               <Activity
                 className={cn(
-                  'h-3.5 w-3.5',
+                  'h-3.5 w-3.5 shrink-0',
                   health && health.healthy > 0
                     ? 'text-emerald-600 dark:text-emerald-400'
                     : health && health.cooldown > 0
@@ -441,26 +444,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               />
               {health ? (
                 expMode === 'guided' ? (
-                  <span className="flex items-center gap-1.5">
+                  <span className="flex items-center gap-1.5 whitespace-nowrap">
                     <span className="text-emerald-700 dark:text-emerald-400 font-semibold">
-                      {health.healthy > 0 ? `AI Pool Ready (${health.healthy} healthy)` : 'Zero-Key Mode'}
+                      {health.healthy > 0 ? `AI (${health.healthy})` : 'Zero-Key'}
                     </span>
                   </span>
                 ) : (
-                  <span className="flex items-center gap-1.5">
+                  <span className="flex items-center gap-1.5 whitespace-nowrap">
                     <span className="text-emerald-700 dark:text-emerald-400 font-semibold">{health.healthy} healthy</span>
-                    {health.cooldown > 0 && <span className="text-amber-600 dark:text-amber-400">· {health.cooldown} cooldown</span>}
-                    {health.exhausted > 0 && <span className="text-rose-600 dark:text-rose-400">· {health.exhausted} exhausted</span>}
-                    {health.totalEnabled === 0 && <span className="text-[var(--text-secondary)]">· Zero-Key Mode</span>}
+                    {health.cooldown > 0 && <span className="hidden sm:inline text-amber-600 dark:text-amber-400">· {health.cooldown} cooldown</span>}
+                    {health.exhausted > 0 && <span className="hidden sm:inline text-rose-600 dark:text-rose-400">· {health.exhausted} exhausted</span>}
+                    {health.totalEnabled === 0 && <span className="text-[var(--text-secondary)]">· Zero-Key</span>}
                     {health.pausedJobs > 0 && (
-                      <span className="rounded-full bg-amber-500/20 px-1.5 py-0.5 text-[10px] text-amber-700 dark:text-amber-300">
+                      <span className="hidden sm:inline rounded-full bg-amber-500/20 px-1.5 py-0.5 text-[10px] text-amber-700 dark:text-amber-300">
                         {health.pausedJobs} saved drafts
                       </span>
                     )}
                   </span>
                 )
               ) : (
-                <span>Checking AI...</span>
+                <span>AI...</span>
               )}
             </Link>
           </div>
@@ -490,9 +493,64 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         )}
 
-        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-7xl w-full mx-auto">
+        <main className="flex-1 px-4 sm:px-6 lg:px-8 pt-5 pb-24 lg:pb-8 max-w-7xl w-full mx-auto">
           {children}
         </main>
+
+        {/* Mobile Native Bottom Navigation Bar */}
+        <nav
+          aria-label="Mobile navigation"
+          data-testid="mobile-bottom-nav"
+          className="lg:hidden fixed bottom-0 inset-x-0 z-40 border-t border-[var(--border-subtle)] bg-[var(--bg-surface)]/95 backdrop-blur safe-bottom"
+        >
+          <div className="grid grid-cols-5 h-16">
+            {[
+              { label: 'Home', href: '/', icon: LayoutDashboard, active: pathname === '/' },
+              {
+                label: 'Atlas',
+                href: '/research/faceless-finder',
+                icon: Radar,
+                active: pathname.startsWith('/research') || pathname.startsWith('/coach'),
+              },
+              {
+                label: 'Press',
+                href: '/products',
+                icon: Package,
+                active: pathname.startsWith('/products'),
+              },
+              {
+                label: 'Cinema',
+                href: '/packs/flow-movie',
+                icon: Film,
+                active: pathname.startsWith('/packs'),
+              },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    'flex flex-col items-center justify-center gap-1 text-[11px] font-medium transition-colors',
+                    item.active ? 'text-[var(--accent-text)] font-semibold' : 'text-[var(--text-secondary)]'
+                  )}
+                >
+                  <Icon className="h-5 w-5" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(true)}
+              className="flex flex-col items-center justify-center gap-1 text-[11px] font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              aria-label="More studios and settings"
+            >
+              <Menu className="h-5 w-5" />
+              <span>More</span>
+            </button>
+          </div>
+        </nav>
       </div>
     </div>
   );

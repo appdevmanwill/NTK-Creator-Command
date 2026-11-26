@@ -7,26 +7,46 @@ import { chromium } from 'playwright';
 function findBrowserExecutable(): string | undefined {
   const candidates: string[] = [];
 
-  // Check Playwright cache (%LOCALAPPDATA%\ms-playwright\chromium-*\chrome-win*\chrome.exe)
-  const localAppData = process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local');
-  const pwDir = path.join(localAppData, 'ms-playwright');
-  if (fs.existsSync(pwDir)) {
-    const entries = fs.readdirSync(pwDir).filter((n) => n.startsWith('chromium-'));
-    for (const entry of entries) {
-      const p1 = path.join(pwDir, entry, 'chrome-win64', 'chrome.exe');
-      const p2 = path.join(pwDir, entry, 'chrome-win', 'chrome.exe');
-      candidates.push(p1, p2);
-    }
+  if (process.env.NTK_CHROMIUM_PATH) {
+    candidates.push(process.env.NTK_CHROMIUM_PATH);
   }
 
-  // Standard Chrome / Edge fallbacks on Windows
-  candidates.push(
-    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-    'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
-  );
+  if (process.platform === 'win32') {
+    const localAppData = process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local');
+    const pwDir = path.join(localAppData, 'ms-playwright');
+    if (fs.existsSync(pwDir)) {
+      const entries = fs.readdirSync(pwDir).filter((n) => n.startsWith('chromium-'));
+      for (const entry of entries) {
+        candidates.push(
+          path.join(pwDir, entry, 'chrome-win64', 'chrome.exe'),
+          path.join(pwDir, entry, 'chrome-win', 'chrome.exe')
+        );
+      }
+    }
+    candidates.push(
+      'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+      'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
+    );
+  } else if (process.platform === 'linux') {
+    const pwDir = path.join(os.homedir(), '.cache', 'ms-playwright');
+    if (fs.existsSync(pwDir)) {
+      const entries = fs.readdirSync(pwDir).filter((n) => n.startsWith('chromium-'));
+      for (const entry of entries) {
+        candidates.push(path.join(pwDir, entry, 'chrome-linux', 'chrome'));
+      }
+    }
+    candidates.push(
+      '/usr/bin/google-chrome',
+      '/usr/bin/chromium',
+      '/usr/bin/chromium-browser',
+      '/snap/bin/chromium'
+    );
+  } else if (process.platform === 'darwin') {
+    candidates.push('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome');
+  }
 
   for (const c of candidates) {
-    if (fs.existsSync(c)) return c;
+    if (c && fs.existsSync(c)) return c;
   }
   return undefined;
 }
@@ -65,7 +85,7 @@ export async function renderHtmlToPdfBuffer(
     }
   }
 
-  // Guaranteed PDFKit Fallback
+  // Guaranteed PDFKit Fallback (100% offline, zero external browser or font downloads required)
   const buffer = await new Promise<Buffer>((resolve, reject) => {
     const doc = new PDFDocument({ size: 'A4', margin: 48, info: { Title: fallbackSections.title } });
     const chunks: Buffer[] = [];
@@ -73,17 +93,40 @@ export async function renderHtmlToPdfBuffer(
     doc.on('end', () => resolve(Buffer.concat(chunks)));
     doc.on('error', reject);
 
-    doc.fontSize(24).fillColor('#1e1b4b').text(fallbackSections.title, { align: 'left' });
+    // Clean Obsidian & Champagne editorial cover
+    doc.rect(0, 0, doc.page.width, doc.page.height).fill('#111115');
+    doc
+      .rect(28, 28, doc.page.width - 56, doc.page.height - 56)
+      .lineWidth(1)
+      .strokeColor('#D4AF37')
+      .stroke();
+    doc
+      .fontSize(10)
+      .fillColor('#D4AF37')
+      .text('NTK CREATOR COMMAND · DIGITAL EDITION', 48, 64, { characterSpacing: 1.5 });
+    doc
+      .fontSize(28)
+      .fillColor('#F5F1E8')
+      .text(fallbackSections.title, 48, 120, { width: doc.page.width - 96, align: 'left' });
     if (fallbackSections.subtitle) {
-      doc.moveDown(0.5).fontSize(12).fillColor('#475569').text(fallbackSections.subtitle);
+      doc
+        .moveDown(0.75)
+        .fontSize(13)
+        .fillColor('#B9B1A3')
+        .text(fallbackSections.subtitle, { width: doc.page.width - 96, lineGap: 4 });
     }
-    doc.moveDown(1.2);
+    doc
+      .fontSize(11)
+      .fillColor('#D4AF37')
+      .text('Compiled Locally — Offline Editorial Engine', 48, doc.page.height - 86);
 
     for (const blk of fallbackSections.blocks) {
       doc.addPage();
-      doc.fontSize(16).fillColor('#312e81').text(blk.heading);
-      doc.moveDown(0.6);
-      doc.fontSize(11).fillColor('#1e293b').text(blk.body, { lineGap: 4 });
+      doc.rect(0, 0, doc.page.width, doc.page.height).fill('#F6F3EC');
+      doc.fillColor('#9E7318').rect(48, 48, 44, 3).fill();
+      doc.fontSize(18).fillColor('#141210').text(blk.heading, 48, 64, { width: doc.page.width - 96 });
+      doc.moveDown(0.7);
+      doc.fontSize(11).fillColor('#2C2823').text(blk.body, { width: doc.page.width - 96, lineGap: 5 });
     }
     doc.end();
   });

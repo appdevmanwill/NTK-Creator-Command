@@ -173,6 +173,58 @@ Return STRICT JSON:
       });
 
       if (runResult.status === 'PAUSED_QUOTA') {
+        if (runResult.completedSteps === 0) {
+          const offlineChapters: EbookChapter[] = Array.from({ length: body.chapterCount }, (_, idx) => {
+            const chTitle = `Pillar ${idx + 1}: Mastering ${body.title}`;
+            return {
+              number: idx + 1,
+              title: chTitle,
+              bodyHtml: [
+                `<p>This chapter breaks down ${body.topic} into a clear, repeatable workflow tailored for ${body.audience}.</p>`,
+                `<p>Start by auditing your current baseline, choosing one high-leverage action for this week, and tracking measurable outputs in a simple checklist.</p>`,
+                `<p>Avoid overcomplicating tools early: ship a clean version first, collect real feedback, and refine from evidence.</p>`,
+              ].join(''),
+              personalStoryTip: `Add a real example or personal milestone related to Pillar ${idx + 1} (${body.title}).`,
+              checklist: [
+                `Define one measurable goal for ${chTitle}`,
+                'Complete a focused 25-minute implementation sprint',
+                'Review results and document your repeatable template',
+              ],
+              illustrationPrompt: `Clean flat geometric editorial diagram illustrating ${chTitle}`,
+            };
+          });
+          const { html, fallbackSections } = buildEbookDocumentHtml({
+            title: body.title,
+            subtitle: `Practical Field Edition for ${body.audience}`,
+            authorName: body.authorName,
+            brandColor: body.brandColor,
+            illustrationMode: body.illustrationMode,
+            chapters: offlineChapters,
+            conclusion: `Apply one checklist from "${body.title}" today and track steady weekly progress.`,
+          });
+          const pdf = await renderHtmlToPdfBuffer(html, fallbackSections);
+          const fileName = `ntk-command-${slugify(body.title, 'ebook')}.pdf`;
+          const saved = await saveSingleProductArtifact({
+            type: 'EBOOK',
+            title: body.title,
+            fileName,
+            buffer: pdf.buffer,
+            metadata: {
+              pdfEngine: pdf.engine,
+              chapterCount: body.chapterCount,
+              provider: 'Offline Editorial Engine',
+              chapters: offlineChapters,
+            },
+          });
+          return NextResponse.json({
+            projectId: saved.project.id,
+            fileName: saved.fileName,
+            bytes: saved.bytes,
+            pdfEngine: pdf.engine,
+            providerSummary: 'Offline Editorial Engine',
+            previewChapters: offlineChapters,
+          });
+        }
         return NextResponse.json(runResult, { status: 429 });
       }
       if (runResult.status === 'FAILED') {

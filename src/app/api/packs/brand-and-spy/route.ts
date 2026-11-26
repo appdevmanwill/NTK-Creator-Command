@@ -33,6 +33,15 @@ Return STRICT JSON:
   "thumbnailTemplates": ["16:9 bold thumbnail template 1", "16:9 bold thumbnail template 2", "16:9 bold thumbnail template 3"]
 }`;
 
+      let parsed: {
+        logoPrompt: string;
+        pfpPrompt: string;
+        bannerPrompt: string;
+        mascotMasterPrompt: string;
+        thumbnailTemplates: string[];
+      };
+      let providerSummary = 'Offline Studio Engine';
+
       try {
         const res = await generateWithRouter({
           taskType: 'fast_generation',
@@ -40,49 +49,50 @@ Return STRICT JSON:
           jsonMode: true,
           maxOutputTokens: 3072,
         });
-        const parsed = extractJsonFromText<{
-          logoPrompt: string;
-          pfpPrompt: string;
-          bannerPrompt: string;
-          mascotMasterPrompt: string;
-          thumbnailTemplates: string[];
-        }>(res.text);
-
-        const files = [
-          {
-            path: 'README.md',
-            content: `# Brand, Mascot & Thumbnail Pack — ${body.brandOrKeyword}\n\nReady for Google Flow Nano Banana or Colab image generation via BrowserOS neo (\`FEAICCWS\`).`,
-          },
-          { path: 'logo_and_pfp_prompts.md', content: `## Logo Prompt\n${parsed.logoPrompt}\n\n## Profile Picture (1:1 Safe Zone)\n${parsed.pfpPrompt}` },
-          { path: 'banner_prompt.md', content: `## Channel Banner (2560x1440 Safe Center)\n${parsed.bannerPrompt}` },
-          { path: 'mascot_master_profile.md', content: `## Mascot Master Prompt\n${parsed.mascotMasterPrompt}` },
-          {
-            path: 'thumbnail_prompts_16x9.md',
-            content: parsed.thumbnailTemplates.map((t, i) => `### Thumbnail Concept ${i + 1}\n${t}`).join('\n\n'),
-          },
-        ];
-
-        const compiled = await compileAndSaveZipPack({
-          type: 'BRAND_PACK',
-          title: `${body.brandOrKeyword} Brand Pack`,
-          metadata: { niche: body.niche },
-          textFiles: files,
-        });
-
-        return NextResponse.json({
-          projectId: compiled.project.id,
-          files,
-          providerSummary: `${res.provider}/${res.model}`,
-        });
+        parsed = extractJsonFromText(res.text);
+        providerSummary = `${res.provider}/${res.model}`;
       } catch (err) {
-        if (err instanceof AllKeysExhaustedError) {
-          return NextResponse.json(
-            { zeroKeyMode: true, zeroKeyPrompt: buildZeroKeyMetaPrompt('Brand Pack', prompt), error: err.message },
-            { status: 429 }
-          );
-        }
-        throw err;
+        if (!(err instanceof AllKeysExhaustedError)) throw err;
+        const mascot = body.mascotIdea || 'Minimalist geometric emblem character';
+        parsed = {
+          logoPrompt: `Vector-clean editorial emblem logo for "${body.brandOrKeyword}" (${body.niche}), obsidian background #09090b, champagne gold lines #d4af37, crisp geometric balance, no clutter.`,
+          pfpPrompt: `1:1 circular-safe profile avatar featuring ${mascot} for "${body.brandOrKeyword}", high-contrast centered subject, clean rim lighting.`,
+          bannerPrompt: `2560x1440 YouTube channel banner with centered 1546x423 safe zone reading "${body.brandOrKeyword.toUpperCase()}"${body.textOnlyBanner ? ', clean typography only' : `, subtle tagline "${body.uploadScheduleText || 'New Editions Weekly'}"`}, dark obsidian & gold aesthetic.`,
+          mascotMasterPrompt: `Character sheet of ${mascot} for "${body.brandOrKeyword}": front, 3/4 turn, and pointing pose, flat editorial shading, consistent palette.`,
+          thumbnailTemplates: [
+            `16:9 high-contrast split frame for "${body.niche}": bold 3-word hook on left, dramatic visual subject on right, warm gold focal arrow.`,
+            `16:9 before-vs-after transformation card for "${body.brandOrKeyword}", clean sans headline, uncluttered dark backdrop.`,
+            `16:9 close-up proof artifact thumbnail showing a clean checklist/ledger sheet with high contrast.`,
+          ],
+        };
       }
+
+      const files = [
+        {
+          path: 'README.md',
+          content: `# Brand, Mascot & Thumbnail Pack — ${body.brandOrKeyword}\n\nReady for Google Flow Nano Banana or local creative workflows.`,
+        },
+        { path: 'logo_and_pfp_prompts.md', content: `## Logo Prompt\n${parsed.logoPrompt}\n\n## Profile Picture (1:1 Safe Zone)\n${parsed.pfpPrompt}` },
+        { path: 'banner_prompt.md', content: `## Channel Banner (2560x1440 Safe Center)\n${parsed.bannerPrompt}` },
+        { path: 'mascot_master_profile.md', content: `## Mascot Master Prompt\n${parsed.mascotMasterPrompt}` },
+        {
+          path: 'thumbnail_prompts_16x9.md',
+          content: parsed.thumbnailTemplates.map((t, i) => `### Thumbnail Concept ${i + 1}\n${t}`).join('\n\n'),
+        },
+      ];
+
+      const compiled = await compileAndSaveZipPack({
+        type: 'BRAND_PACK',
+        title: `${body.brandOrKeyword} Brand Pack`,
+        metadata: { niche: body.niche },
+        textFiles: files,
+      });
+
+      return NextResponse.json({
+        projectId: compiled.project.id,
+        files,
+        providerSummary,
+      });
     }
 
     // AD_SPY_PACK

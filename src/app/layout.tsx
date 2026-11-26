@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Cormorant_Garamond, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
@@ -28,10 +28,30 @@ const jetbrains = JetBrains_Mono({
   display: 'swap',
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f6f3ec' },
+    { media: '(prefers-color-scheme: dark)', color: '#09090b' },
+  ],
+};
+
 export const metadata: Metadata = {
   title: 'NTK Creator Command — Private Creator Atelier',
   description:
     'Local-first editorial studio for digital publications, formula models, cinema prompt packs, and channel intelligence by NTK Hub.',
+  manifest: '/manifest.webmanifest',
+  icons: {
+    icon: '/icon.svg',
+    apple: '/icon-192.png',
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'NTK Creator Command',
+  },
 };
 
 const noFoucScript = `
@@ -42,6 +62,8 @@ const noFoucScript = `
     document.documentElement.setAttribute('data-theme', resolved);
     if (resolved === 'dark') document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', resolved === 'dark' ? '#09090b' : '#f6f3ec');
   } catch (e) {}
 })();
 `;

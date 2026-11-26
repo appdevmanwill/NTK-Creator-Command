@@ -1,0 +1,65 @@
+{
+  "appId": "com.ntkhub.creatorcommand",
+  "productName": "NTK Creator Command",
+  "electronVersion": "45.4.1",
+  "copyright": "Copyright © 2026 NTK Hub",
+  "directories": {
+    "output": "desktop/dist",
+    "buildResources": "desktop/build"
+  },
+  "files": [
+    "desktop/main.js",
+    "desktop/preload.js",
+    "desktop/splash.html",
+    "desktop/build/icon.png",
+    "package.json"
+  ],
+  "extraResources": [
+    {
+      "from": "desktop/server-bundle",
+      "to": "server-bundle"
+    }
+  ],
+  "asar": true,
+  "compression": "normal",
+  "afterPack": "./desktop/after-pack.js",
+  "win": {
+    "icon": "desktop/build/icon.ico",
+    "signAndEditExecutable": false,
+    "target": [
+      {
+        "target": "portable",
+        "arch": ["x64"]
+      },
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      }
+    ]
+  },
+  "portable": {
+    "artifactName": "NTK-Creator-Command-Portable-${version}.${ext}"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "NTK Creator Command",
+    "artifactName": "NTK-Creator-Command-Setup-${version}.${ext}"
+  },
+  "linux": {
+    "icon": "desktop/build/icon.png",
+    "category": "Utility",
+    "synopsis": "Private Creator Atelier by NTK Hub",
+    "maintainer": "NTK Hub <support@ntkhub.com>",
+    "target": [
+      {
+        "target": "tar.gz",
+        "arch": ["x64"]
+      }
+    ],
+    "artifactName": "NTK-Creator-Command-${version}-linux-${arch}.${ext}"
+  }
+}

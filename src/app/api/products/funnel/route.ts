@@ -55,6 +55,9 @@ Return STRICT JSON:
   "verticalShowcaseScript12s": "Full 10-15s vertical showcase script"
 }`;
 
+    let parsed: Record<string, unknown>;
+    let providerSummary = 'Offline Studio Engine';
+
     try {
       const res = await generateWithRouter({
         taskType: 'long_context',
@@ -63,50 +66,72 @@ Return STRICT JSON:
         maxOutputTokens: 4096,
       });
 
-      const parsed = extractJsonFromText<Record<string, unknown>>(res.text);
-      const files = [
-        {
-          path: 'storefront_copy.md',
-          content: `# Storefront Copy (${body.platform}) — ${body.productTitle}\n\n## Hero Headline\n${parsed.heroHeadline}\n\n## Instant Download Benefits\n${((parsed.instantDownloadBenefits as string[]) ?? []).map((b) => `- ${b}`).join('\n')}\n\n## Pricing Ladder ($7–$25 Sweet Spot)\n${JSON.stringify(parsed.pricingLadder, null, 2)}\n\n## About Section\n${parsed.aboutSection}\n\n## Free Lead-Magnet / Newsletter Hook\n${parsed.leadMagnetHook}\n`,
-        },
-        {
-          path: 'banner_prompts.md',
-          content: `# Store Banner Prompts\n\n## Desktop Banner\n${parsed.desktopBannerPrompt}\n\n## Mobile Banner\n${parsed.mobileBannerPrompt}\n`,
-        },
-        {
-          path: 'one_product_10_videos_plan.md',
-          content: `# "One Product, Many Videos" Organic Content Plan\nStore Link (Never Change): ${body.storeUrl}\n\n${((parsed.tenVideoContentPlan as Array<{ videoNumber: number; angle: string; hook: string; cta: string }>) ?? [])
-            .map((v) => `### Video ${v.videoNumber}: ${v.angle}\n- **Hook:** ${v.hook}\n- **CTA:** ${v.cta}`)
-            .join('\n\n')}\n`,
-        },
-        {
-          path: 'promo_scripts.md',
-          content: `# Promo Scripts\n\n## 45–60s Presenter Promo Script\n${parsed.presenterPromoScript45s}\n\n## 10–15s Vertical Product Showcase Script\n${parsed.verticalShowcaseScript12s}\n`,
-        },
-      ];
-
-      const compiled = await compileAndSaveZipPack({
-        type: 'STORE_FUNNEL',
-        title: `${body.productTitle} Launch Funnel`,
-        metadata: { platform: body.platform, storeUrl: body.storeUrl, funnel: parsed },
-        textFiles: files,
-      });
-
-      return NextResponse.json({
-        projectId: compiled.project.id,
-        funnel: parsed,
-        files,
-        providerSummary: `${res.provider}/${res.model}`,
-      });
+      parsed = extractJsonFromText<Record<string, unknown>>(res.text);
+      providerSummary = `${res.provider}/${res.model}`;
     } catch (err) {
-      if (err instanceof AllKeysExhaustedError) {
-        return NextResponse.json(
-          { zeroKeyMode: true, zeroKeyPrompt: buildZeroKeyMetaPrompt('Store Copy & Funnel', prompt), error: err.message },
-          { status: 429 }
-        );
-      }
-      throw err;
+      if (!(err instanceof AllKeysExhaustedError)) throw err;
+      parsed = {
+        heroHeadline: `Turn "${body.productTitle}" into a clear, repeatable win for ${body.targetAudience}.`,
+        instantDownloadBenefits: [
+          `Instant digital download on ${body.platform} — zero waiting`,
+          `Built specifically for ${body.targetAudience}`,
+          `Practical step-by-step structure: ${body.productSummary}`,
+          'Zero recurring subscription fees — yours to keep forever',
+        ],
+        pricingLadder: [
+          { tier: 'Starter Edition', price: '$9', includes: `${body.productTitle} Core Edition` },
+          { tier: 'Complete Bundle', price: `$${body.starterPriceUsd}`, includes: 'Core Edition + Quick-Start Checklist' },
+          { tier: 'Pro + Bonus Templates', price: '$25', includes: 'Complete Bundle + Companion Workbook' },
+        ],
+        aboutSection: `Built inside NTK Creator Command for ${body.targetAudience}. Designed for real-world clarity without fluff.`,
+        leadMagnetHook: `Download the free 1-page starter checklist before grabbing ${body.productTitle}.`,
+        desktopBannerPrompt: `Clean 1920x640 storefront banner for "${body.productTitle}", warm obsidian and gold editorial styling.`,
+        mobileBannerPrompt: `1080x1080 square mobile hero banner for "${body.productTitle}", centered title and crisp product mockup.`,
+        tenVideoContentPlan: Array.from({ length: 10 }, (_, idx) => ({
+          videoNumber: idx + 1,
+          angle: `Angle ${idx + 1}: Solving one specific bottleneck in ${body.productTitle}`,
+          hook: `Here is the fastest way ${body.targetAudience} can fix step #${idx + 1} without wasting hours.`,
+          cta: `Grab the full edition here: ${body.storeUrl}`,
+        })),
+        presenterPromoScript45s: `If you struggle with ${body.productSummary}, "${body.productTitle}" gives you a clean step-by-step system you can apply today. Link in bio: ${body.storeUrl}.`,
+        verticalShowcaseScript12s: `Stop guessing. Here is the exact system inside "${body.productTitle}". Tap the link to download instantly: ${body.storeUrl}.`,
+      };
     }
+
+    const files = [
+      {
+        path: 'storefront_copy.md',
+        content: `# Storefront Copy (${body.platform}) — ${body.productTitle}\n\n## Hero Headline\n${parsed.heroHeadline}\n\n## Instant Download Benefits\n${((parsed.instantDownloadBenefits as string[]) ?? []).map((b) => `- ${b}`).join('\n')}\n\n## Pricing Ladder ($7–$25 Sweet Spot)\n${JSON.stringify(parsed.pricingLadder, null, 2)}\n\n## About Section\n${parsed.aboutSection}\n\n## Free Lead-Magnet / Newsletter Hook\n${parsed.leadMagnetHook}\n`,
+      },
+      {
+        path: 'banner_prompts.md',
+        content: `# Store Banner Prompts\n\n## Desktop Banner\n${parsed.desktopBannerPrompt}\n\n## Mobile Banner\n${parsed.mobileBannerPrompt}\n`,
+      },
+      {
+        path: 'one_product_10_videos_plan.md',
+        content: `# "One Product, Many Videos" Organic Content Plan\nStore Link (Never Change): ${body.storeUrl}\n\n${((parsed.tenVideoContentPlan as Array<{ videoNumber: number; angle: string; hook: string; cta: string }>) ?? [])
+          .map((v) => `### Video ${v.videoNumber}: ${v.angle}\n- **Hook:** ${v.hook}\n- **CTA:** ${v.cta}`)
+          .join('\n\n')}\n`,
+      },
+      {
+        path: 'promo_scripts.md',
+        content: `# Promo Scripts\n\n## 45–60s Presenter Promo Script\n${parsed.presenterPromoScript45s}\n\n## 10–15s Vertical Product Showcase Script\n${parsed.verticalShowcaseScript12s}\n`,
+      },
+    ];
+
+    const compiled = await compileAndSaveZipPack({
+      type: 'STORE_FUNNEL',
+      title: `${body.productTitle} Launch Funnel`,
+      metadata: { platform: body.platform, storeUrl: body.storeUrl, funnel: parsed },
+      textFiles: files,
+    });
+
+    return NextResponse.json({
+      projectId: compiled.project.id,
+      funnel: parsed,
+      files,
+      providerSummary,
+    });
   } catch (err) {
     return NextResponse.json(
       { error: err instanceof Error ? err.message : 'Failed to build store funnel' },

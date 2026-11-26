@@ -4,6 +4,8 @@ import JSZip from 'jszip';
 import { prisma } from '@/lib/db';
 import { slugify } from '@/lib/utils';
 
+import { getStorageDir } from '@/lib/paths';
+
 export interface PackTextFile {
   path: string;
   content: string;
@@ -15,9 +17,7 @@ export interface PackBinaryFile {
 }
 
 export function getStorageRoot(): string {
-  const root = path.resolve(process.cwd(), 'storage');
-  fs.mkdirSync(root, { recursive: true });
-  return root;
+  return getStorageDir();
 }
 
 export function assertInsideStorage(targetPath: string): string {

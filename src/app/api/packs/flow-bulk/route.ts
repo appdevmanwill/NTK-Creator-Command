@@ -39,6 +39,9 @@ Return STRICT JSON:
   "narrationScript": "01 [0:00-0:08]: ...\\n02 [0:08-0:16]: ..."
 }`;
 
+    let parsed: { flowBulkBlock: string; narrationScript: string };
+    let providerSummary = 'Offline Studio Engine';
+
     try {
       const res = await generateWithRouter({
         taskType: 'long_context',
@@ -47,8 +50,28 @@ Return STRICT JSON:
         maxOutputTokens: 6144,
       });
 
-      const parsed = extractJsonFromText<{ flowBulkBlock: string; narrationScript: string }>(res.text);
-      const ffmpegStitch = `# Local CPU-Friendly Ken Burns Assembly (8th Gen Dell / No GPU)
+      parsed = extractJsonFromText<{ flowBulkBlock: string; narrationScript: string }>(res.text);
+      providerSummary = `${res.provider}/${res.model}`;
+    } catch (err) {
+      if (!(err instanceof AllKeysExhaustedError)) throw err;
+      const lines = Array.from({ length: sceneCount }, (_, idx) => {
+        const num = String(idx + 1).padStart(2, '0');
+        return `${num}. ${body.aspectRatio} scene ${num} for "${body.title}": visual metaphor illustrating "${body.topic}"${body.recurringCharacter ? ` featuring ${body.recurringCharacter}` : ''}, clean focal composition.`;
+      });
+      const narrLines = Array.from({ length: sceneCount }, (_, idx) => {
+        const num = String(idx + 1).padStart(2, '0');
+        const startSec = idx * 8;
+        const endSec = startSec + 8;
+        const fmt = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+        return `${num} [${fmt(startSec)}-${fmt(endSec)}]: Voiceover beat ${num} explaining a practical insight on ${body.topic}.`;
+      });
+      parsed = {
+        flowBulkBlock: `GLOBAL STYLE HEADER: ${body.styleHeader}\n\n${lines.join('\n')}`,
+        narrationScript: narrLines.join('\n'),
+      };
+    }
+
+    const ffmpegStitch = `# Local CPU-Friendly Ken Burns Assembly (8th Gen Dell / No GPU)
 
 Each numbered image (\`01.png\`..\`${String(sceneCount).padStart(2, '0')}.png\`) is animated with subtle 8-second zoompan and stitched via Intel QuickSync (\`h264_qsv\`) or \`libx264 -preset veryfast\`:
 
@@ -61,44 +84,31 @@ ffmpeg -f concat -safe 0 -i clips.txt -i narration.mp3 -c:v copy -c:a aac -short
 \`\`\`
 `;
 
-      const files = [
-        { path: 'google_flow_bulk_block.txt', content: parsed.flowBulkBlock },
-        { path: 'timed_narration_script.md', content: `# Timed Narration Script — ${body.title}\n\n${parsed.narrationScript}` },
-        { path: 'ken_burns_ffmpeg.md', content: ffmpegStitch },
-        {
-          path: 'README.md',
-          content: `# ${body.title} — Google Flow Bulk Image Pack\n\n- **Scenes:** ${sceneCount}\n- **Aspect Ratio:** ${body.aspectRatio}\n- **Browser:** BrowserOS neo (\`FEAICCWS\`), Turbo Mode OFF\n`,
-        },
-      ];
+    const files = [
+      { path: 'google_flow_bulk_block.txt', content: parsed.flowBulkBlock },
+      { path: 'timed_narration_script.md', content: `# Timed Narration Script — ${body.title}\n\n${parsed.narrationScript}` },
+      { path: 'ken_burns_ffmpeg.md', content: ffmpegStitch },
+      {
+        path: 'README.md',
+        content: `# ${body.title} — Google Flow Bulk Image Pack\n\n- **Scenes:** ${sceneCount}\n- **Aspect Ratio:** ${body.aspectRatio}\n- **Browser:** BrowserOS neo (\`FEAICCWS\`), Turbo Mode OFF\n`,
+      },
+    ];
 
-      const compiled = await compileAndSaveZipPack({
-        type: 'FLOW_BULK',
-        title: body.title,
-        metadata: { sceneCount, aspectRatio: body.aspectRatio, styleHeader: body.styleHeader },
-        textFiles: files,
-      });
+    const compiled = await compileAndSaveZipPack({
+      type: 'FLOW_BULK',
+      title: body.title,
+      metadata: { sceneCount, aspectRatio: body.aspectRatio, styleHeader: body.styleHeader },
+      textFiles: files,
+    });
 
-      return NextResponse.json({
-        projectId: compiled.project.id,
-        sceneCount,
-        flowBulkBlock: parsed.flowBulkBlock,
-        narrationScript: parsed.narrationScript,
-        files,
-        providerSummary: `${res.provider}/${res.model}`,
-      });
-    } catch (err) {
-      if (err instanceof AllKeysExhaustedError) {
-        return NextResponse.json(
-          {
-            zeroKeyMode: true,
-            zeroKeyPrompt: buildZeroKeyMetaPrompt('Google Flow Bulk Style Block', prompt),
-            error: err.message,
-          },
-          { status: 429 }
-        );
-      }
-      throw err;
-    }
+    return NextResponse.json({
+      projectId: compiled.project.id,
+      sceneCount,
+      flowBulkBlock: parsed.flowBulkBlock,
+      narrationScript: parsed.narrationScript,
+      files,
+      providerSummary,
+    });
   } catch (err) {
     return NextResponse.json(
       { error: err instanceof Error ? err.message : 'Failed to generate bulk style pack' },

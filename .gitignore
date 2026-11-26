@@ -27,3 +27,13 @@ out/
 coverage/
 *.tsbuildinfo
 next-env.d.ts
+desktop/server-bundle/
+desktop/dist/
+mobile-web/node_modules/
+mobile-web/dist/
+android-app/.gradle/
+android-app/build/
+android-app/app/build/
+android-app/local.properties
+android-app/keystore/
+android-app/app/src/main/assets/www/

@@ -259,6 +259,60 @@ Return clean Markdown listing Shot 01..Shot ${String(scene.shotCount).padStart(2
     });
 
     if (runResult.status === 'PAUSED_QUOTA') {
+      if (runResult.completedSteps === 0) {
+        const offlineCharsMd =
+          '# Character Profiles (Google Flow)\n\n' +
+          body.outline.characters
+            .map(
+              (c) =>
+                `## ${c.name} (${c.role || 'Cast'})\n- **Visual Identity:** ${c.visualIdentity}\n- **Voice/Tone:** ${c.voiceNote || 'Natural, clear delivery'}`
+            )
+            .join('\n\n');
+        const offlineLocsMd =
+          '# Location Profiles (Saved as Google Flow Character Profiles)\n\n' +
+          body.outline.locations
+            .map((l) => `## ${l.name}\n- **Visual Profile:** ${l.visualProfile}`)
+            .join('\n\n');
+        const charHandles = body.outline.characters.map((c) => `@${c.name.replace(/\s+/g, '')}`).join(', ');
+        const offlineScenesData = body.outline.scenes.map((sc) => {
+          const shots = Array.from({ length: sc.shotCount }, (_, i) => {
+            const shotNum = String(i + 1).padStart(2, '0');
+            return `### Shot ${shotNum}\n- **Attached Profiles:** ${charHandles}, @${sc.locationName.replace(/\s+/g, '')}\n- **Framing:** ${i === 0 ? 'Wide establishing push-in' : i % 2 === 0 ? 'Medium over-the-shoulder' : 'Close-up reaction'}\n- **Google Flow Prompt:** ${body.aspectRatio} cinematic shot in ${sc.locationName}: ${sc.summary} (beat ${i + 1}/${sc.shotCount}), consistent lighting and wardrobe.\n- **Audio Cue:** Subtle ambient room tone & clear voiceover beat.`;
+          }).join('\n\n');
+          return {
+            sceneNumber: sc.sceneNumber,
+            title: sc.title,
+            markdown: shots,
+            shots: [],
+          };
+        });
+        const files = buildStaticDocs(body, offlineCharsMd, offlineLocsMd, offlineScenesData);
+        const compiled = await compileAndSaveZipPack({
+          type: 'FLOW_MOVIE',
+          title: body.outline.title,
+          seriesGroupId: body.seriesGroupId || body.outline.title,
+          metadata: {
+            outline: body.outline,
+            aspectRatio: body.aspectRatio,
+            runtimeMinutes: body.runtimeMinutes,
+            charactersMd: offlineCharsMd,
+            locationsMd: offlineLocsMd,
+          },
+          textFiles: files,
+        });
+        return NextResponse.json({
+          status: 'COMPLETED',
+          projectId: compiled.project.id,
+          files,
+          triggerPrompts: [
+            {
+              label: 'Test Scene 1 Only (Opening 8 Shots)',
+              prompt: `Open BrowserOS neo using profile FEAICCWS. Go to Google Flow, keep Turbo Mode OFF, set ${body.aspectRatio} and 1 clip per shot. Create profiles from characters.md and locations.md, then run ONLY Scene 1 from scenes/scene_01.md.`,
+            },
+          ],
+          providerSummary: 'Offline Studio Engine',
+        });
+      }
       return NextResponse.json(
         {
           status: 'PAUSED_QUOTA',

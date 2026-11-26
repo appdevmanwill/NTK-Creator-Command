@@ -72,12 +72,18 @@ Whenever you suggest YouTube channel names, wrap each suggested name like [CHANN
       modelUsed = res.model;
     } catch (err) {
       if (err instanceof AllKeysExhaustedError) {
-        replyText = `All AI keys are temporarily in cooldown. Here is your copy-paste Zero-Key Prompt:\n\n${buildZeroKeyMetaPrompt(
-          'Viral Hook Coach',
-          body.message
-        )}`;
-        providerUsed = 'ZERO_KEY';
-        modelUsed = 'manual';
+        const cleanTopic = body.message.replace(/[^a-zA-Z0-9 ]+/g, ' ').trim().split(/\s+/).slice(0, 3).join('') || 'CreatorStudio';
+        replyText = `Offline Hook Blueprint for "${body.message.slice(0, 80)}":\n\n` +
+          `1. **Contrarian Hook:** "Most beginners waste weeks on gear—top channels win with one simple system."\n` +
+          `2. **Curiosity Open Loop:** "Watch the first 15 seconds of this breakdown, especially step #3."\n` +
+          `3. **Digital Product Tie-In ($15):** Pair the video with a 1-page checklist PDF or formula tracker.\n` +
+          `4. **Channel Handle Ideas:** [CHANNEL: ${cleanTopic}Lab] [CHANNEL: Quiet${cleanTopic}]\n\n` +
+          `---\nOptional copy-paste prompt if you want to expand this later in any web AI chat:\n\n${buildZeroKeyMetaPrompt(
+            'Viral Hook Coach',
+            body.message
+          )}`;
+        providerUsed = 'OFFLINE_COACH';
+        modelUsed = 'deterministic';
       } else {
         throw err;
       }

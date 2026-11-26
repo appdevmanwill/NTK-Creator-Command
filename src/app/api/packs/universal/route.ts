@@ -30,6 +30,15 @@ Return STRICT JSON:
   "postProcess": "CPU-friendly post-processing / packaging instructions"
 }`;
 
+    let parsed: {
+      readme: string;
+      agentInstructions: string;
+      prompts: string;
+      qaChecklist: string;
+      postProcess: string;
+    };
+    let providerSummary = 'Offline Studio Engine';
+
     try {
       const res = await generateWithRouter({
         taskType: 'long_context',
@@ -38,49 +47,45 @@ Return STRICT JSON:
         maxOutputTokens: 4096,
       });
 
-      const parsed = extractJsonFromText<{
-        readme: string;
-        agentInstructions: string;
-        prompts: string;
-        qaChecklist: string;
-        postProcess: string;
-      }>(res.text);
-
-      const files = [
-        { path: 'README.md', content: parsed.readme },
-        { path: 'agent_instructions.md', content: parsed.agentInstructions },
-        { path: 'prompts.md', content: parsed.prompts },
-        { path: 'qa_checklist.md', content: parsed.qaChecklist },
-        { path: 'post_process.md', content: parsed.postProcess },
-      ];
-
-      const compiled = await compileAndSaveZipPack({
-        type: 'UNIVERSAL_PACK',
-        title: `${body.platformName} Playbook`,
-        metadata: { platformUrl: body.platformUrl, targetAgent: body.targetAgent },
-        textFiles: files,
-      });
-
-      return NextResponse.json({
-        projectId: compiled.project.id,
-        files,
-        providerSummary: `${res.provider}/${res.model}`,
-        triggerPrompts: [
-          {
-            label: `Execute with ${agentName}`,
-            prompt: `Use BrowserOS neo profile FEAICCWS. Read README.md and agent_instructions.md for ${body.platformName} (${body.platformUrl}), apply prompts.md with Turbo Mode OFF, verify via qa_checklist.md, and run post_process.md.`,
-          },
-        ],
-      });
+      parsed = extractJsonFromText(res.text);
+      providerSummary = `${res.provider}/${res.model}`;
     } catch (err) {
-      if (err instanceof AllKeysExhaustedError) {
-        return NextResponse.json(
-          { zeroKeyMode: true, zeroKeyPrompt: buildZeroKeyMetaPrompt('Universal Platform Playbook', prompt), error: err.message },
-          { status: 429 }
-        );
-      }
-      throw err;
+      if (!(err instanceof AllKeysExhaustedError)) throw err;
+      parsed = {
+        readme: `# ${body.platformName} Playbook (${agentName})\n\n- **Target URL:** ${body.platformUrl}\n- **Goal:** ${body.creativeGoal}\n- **Profile:** BrowserOS neo (\`FEAICCWS\`)`,
+        agentInstructions: `1. Open ${body.platformUrl} in BrowserOS neo profile \`FEAICCWS\`.\n2. Keep Turbo Mode OFF and confirm settings.\n3. Paste prompts from \`prompts.md\` one section at a time and inspect outputs before downloading.`,
+        prompts: `### Primary Prompt for ${body.platformName}\nCreate "${body.creativeGoal}" with clean editorial consistency and clear subject framing.`,
+        qaChecklist: `- [ ] Output matches "${body.creativeGoal}"\n- [ ] No visual artifacts or truncated text\n- [ ] Files saved in project folder`,
+        postProcess: `Assemble finished assets locally using FFmpeg stream copy (\`-c copy\`) or package final deliverables in NTK Creator Command Vault.`,
+      };
     }
+
+    const files = [
+      { path: 'README.md', content: parsed.readme },
+      { path: 'agent_instructions.md', content: parsed.agentInstructions },
+      { path: 'prompts.md', content: parsed.prompts },
+      { path: 'qa_checklist.md', content: parsed.qaChecklist },
+      { path: 'post_process.md', content: parsed.postProcess },
+    ];
+
+    const compiled = await compileAndSaveZipPack({
+      type: 'UNIVERSAL_PACK',
+      title: `${body.platformName} Playbook`,
+      metadata: { platformUrl: body.platformUrl, targetAgent: body.targetAgent },
+      textFiles: files,
+    });
+
+    return NextResponse.json({
+      projectId: compiled.project.id,
+      files,
+      providerSummary,
+      triggerPrompts: [
+        {
+          label: `Execute with ${agentName}`,
+          prompt: `Use BrowserOS neo profile FEAICCWS. Read README.md and agent_instructions.md for ${body.platformName} (${body.platformUrl}), apply prompts.md with Turbo Mode OFF, verify via qa_checklist.md, and run post_process.md.`,
+        },
+      ],
+    });
   } catch (err) {
     return NextResponse.json(
       { error: err instanceof Error ? err.message : 'Failed to build universal pack' },
