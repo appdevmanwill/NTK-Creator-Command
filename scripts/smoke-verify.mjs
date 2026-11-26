@@ -204,7 +204,17 @@ async function main() {
     if (!coachRes.message?.content) throw new Error('Coach offline reply missing');
 
     // Airplane-Mode Playwright UI verification (block ALL external internet URLs!)
-    const routes = ['/', '/products', '/research/faceless-finder', '/packs/flow-movie', '/coach', '/library', '/admin/keys'];
+    const routes = [
+      '/',
+      '/products',
+      '/research/faceless-finder',
+      '/packs/flow-movie',
+      '/packs/music-studio',
+      '/packs/notebooks',
+      '/coach',
+      '/library',
+      '/admin/keys',
+    ];
     for (const vp of [
       { name: 'mobile', width: 360, height: 800 },
       { name: 'desktop', width: 1280, height: 800 },

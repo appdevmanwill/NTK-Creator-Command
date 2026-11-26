@@ -4,8 +4,10 @@ import {
   ArrowRight,
   BookText,
   CalendarDays,
+  Check,
   CheckCircle2,
   Compass,
+  Copy,
   Download,
   ExternalLink,
   FileSpreadsheet,
@@ -19,6 +21,7 @@ import {
   Menu,
   Monitor,
   Moon,
+  Music,
   NotebookPen,
   Package,
   Plus,
@@ -49,6 +52,7 @@ import {
   buildJournalPdf,
   buildPlannerPdf,
 } from './generators';
+import { buildMobileMusicVideoZip, MobileMusicPlatform } from './music-studio';
 import {
   addCustomChannel,
   CoachMessage,
@@ -126,12 +130,35 @@ export default function App() {
   const [latestEdition, setLatestEdition] = useState<SavedEdition | null>(null);
 
   // Cinema / Packs form
+  const [cinemaSubMode, setCinemaSubMode] = useState<'PACKS' | 'MUSIC_VIDEO'>('PACKS');
   const [packKind, setPackKind] = useState<PackKind>('FLOW_MOVIE');
   const [packTitle, setPackTitle] = useState('Midnight Courier — Episode 01');
   const [packPremise, setPackPremise] = useState('A bicycle courier discovers a coded brass key in the rain');
   const [packStyle, setPackStyle] = useState('35mm neo-noir rain reflections, warm amber & obsidian palette');
   const [packBusy, setPackBusy] = useState(false);
   const [latestPack, setLatestPack] = useState<SavedEdition | null>(null);
+
+  // Music & Video Command Studio form
+  const [musicPlatform, setMusicPlatform] = useState<MobileMusicPlatform>('ALL_PLATFORMS_MASTER');
+  const [musicCloudHost, setMusicCloudHost] = useState<'COLAB' | 'KAGGLE'>('COLAB');
+  const [musicEngine, setMusicEngine] = useState<'ACE_STEP_1_5' | 'DIFFRHYTHM' | 'MUSICGEN_MEDIUM'>('ACE_STEP_1_5');
+  const [musicTitle, setMusicTitle] = useState('Ink Insight — Anthem');
+  const [musicTheme, setMusicTheme] = useState('A story-driven rap track with uplifting chorus and cinematic rain visuals');
+  const [musicGenre, setMusicGenre] = useState('Afrobeat / Boom-Bap Hip-Hop');
+  const [musicMood, setMusicMood] = useState('Cinematic, Urgent, Inspiring');
+  const [musicBpm, setMusicBpm] = useState(108);
+  const [musicKey, setMusicKey] = useState('C minor');
+  const [musicVocalMode, setMusicVocalMode] = useState<'VOCAL' | 'INSTRUMENTAL'>('VOCAL');
+  const [musicAspect, setMusicAspect] = useState<'16:9' | '9:16'>('9:16');
+  const [musicExclude, setMusicExclude] = useState('muffled mix, heavy distortion, off-beat drums');
+  const [musicBusy, setMusicBusy] = useState(false);
+  const [latestMusicResult, setLatestMusicResult] = useState<{
+    edition: SavedEdition;
+    copyPasteMasterPrompt: string;
+    antigravityPrompt: string;
+    codexPrompt: string;
+  } | null>(null);
+  const [copiedPromptTag, setCopiedPromptTag] = useState<string | null>(null);
 
   // Coach form
   const [coachInput, setCoachInput] = useState('');
@@ -301,6 +328,74 @@ export default function App() {
       showToast(err instanceof Error ? err.message : 'Pack build failed', 'error');
     } finally {
       setPackBusy(false);
+    }
+  };
+
+  const handleCopyText = async (tag: string, text: string) => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      setCopiedPromptTag(tag);
+      showToast('Copied to clipboard', 'success');
+      setTimeout(() => setCopiedPromptTag((prev) => (prev === tag ? null : prev)), 2000);
+    } catch {
+      showToast('Copy failed — use ZIP export instead', 'error');
+    }
+  };
+
+  const handleMusicCreate = async () => {
+    if (!musicTitle.trim()) {
+      showToast('Please enter a track title', 'error');
+      return;
+    }
+    setMusicBusy(true);
+    try {
+      const out = await buildMobileMusicVideoZip({
+        platform: musicPlatform,
+        cloudHost: musicCloudHost,
+        colabEngine: musicEngine,
+        title: musicTitle.trim(),
+        theme: musicTheme.trim(),
+        genre: musicGenre.trim(),
+        mood: musicMood.trim(),
+        bpm: Math.max(50, Math.min(200, Number(musicBpm) || 108)),
+        musicalKey: musicKey.trim() || 'C minor',
+        vocalMode: musicVocalMode,
+        aspectRatio: musicAspect,
+        excludeTraits: musicExclude.trim(),
+      });
+      const saved = await saveEdition({
+        type: 'MUSIC_VIDEO_PACK',
+        title: musicTitle.trim(),
+        fileName: out.fileName,
+        mimeType: 'application/zip',
+        bytes: out.bytes,
+        summary: out.summary,
+        providerSummary: out.providerSummary,
+      });
+      setLatestMusicResult({
+        edition: saved,
+        copyPasteMasterPrompt: out.copyPasteMasterPrompt,
+        antigravityPrompt: out.antigravityPrompt,
+        codexPrompt: out.codexPrompt,
+      });
+      setEditions(await listEditions());
+      showToast(`${saved.fileName} ready in Vault`, 'success');
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Music & Video bundle failed', 'error');
+    } finally {
+      setMusicBusy(false);
     }
   };
 
@@ -862,96 +957,347 @@ export default function App() {
         {tab === 'cinema' && (
           <div className="space-y-4" data-testid="mobile-cinema">
             <div>
-              <h1 className="font-display text-2xl font-bold">Cinema &amp; Pack Studio</h1>
+              <h1 className="font-display text-2xl font-bold">Cinema &amp; Music Studio</h1>
               <p className="text-xs text-[var(--text-secondary)]">
-                Compile ordered prompt packs, continuity anchors, and FFmpeg assembly scripts into a clean .ZIP.
+                Compile video prompt packs, multi-platform music prompts, binary MIDI guides, and working Colab/Kaggle notebooks into a clean .ZIP.
               </p>
             </div>
 
-            <div className="rounded-2xl border bg-[var(--bg-surface)] p-4 space-y-3.5">
-              <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
-                  Pack Type
-                </label>
-                <select
-                  value={packKind}
-                  onChange={(e) => setPackKind(e.target.value as PackKind)}
-                  className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3 py-2.5 text-sm"
-                >
-                  <option value="FLOW_MOVIE">Flow Cinema Movie Pack</option>
-                  <option value="FLOW_BULK">Visual Style Cloner Pack</option>
-                  <option value="BRAND_PACK">Brand &amp; Ad Intelligence Pack</option>
-                  <option value="NOTEBOOK_PACK">Cloud GPU Lab Pack</option>
-                  <option value="PUBLISH_PACK">Safe Release Upload Pack</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
-                  Project Title
-                </label>
-                <input
-                  type="text"
-                  value={packTitle}
-                  onChange={(e) => setPackTitle(e.target.value)}
-                  className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3.5 py-2.5 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
-                  Story Premise / Topic
-                </label>
-                <textarea
-                  rows={2}
-                  value={packPremise}
-                  onChange={(e) => setPackPremise(e.target.value)}
-                  className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3.5 py-2.5 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
-                  Visual Style Anchor
-                </label>
-                <input
-                  type="text"
-                  value={packStyle}
-                  onChange={(e) => setPackStyle(e.target.value)}
-                  className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3.5 py-2.5 text-sm"
-                />
-              </div>
+            <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                disabled={packBusy}
-                onClick={handlePackCreate}
-                data-testid="mobile-pack-create"
-                className="w-full rounded-xl bg-[var(--accent)] text-[var(--accent-fg)] py-3 px-4 text-sm font-semibold flex items-center justify-center gap-2 min-h-[46px] disabled:opacity-50"
+                data-testid="cinema-submode-packs"
+                onClick={() => setCinemaSubMode('PACKS')}
+                className={`rounded-xl border px-3 py-2.5 text-xs font-semibold flex items-center justify-center gap-1.5 ${
+                  cinemaSubMode === 'PACKS'
+                    ? 'bg-[var(--accent)] text-[var(--accent-fg)] border-transparent'
+                    : 'bg-[var(--bg-surface)] text-[var(--text-primary)]'
+                }`}
               >
                 <Film className="h-4 w-4" />
-                <span>{packBusy ? 'Packing ZIP...' : 'Create Production .ZIP'}</span>
+                <span>Video &amp; Packs</span>
+              </button>
+              <button
+                type="button"
+                data-testid="cinema-submode-music"
+                onClick={() => setCinemaSubMode('MUSIC_VIDEO')}
+                className={`rounded-xl border px-3 py-2.5 text-xs font-semibold flex items-center justify-center gap-1.5 ${
+                  cinemaSubMode === 'MUSIC_VIDEO'
+                    ? 'bg-[var(--accent)] text-[var(--accent-fg)] border-transparent'
+                    : 'bg-[var(--bg-surface)] text-[var(--text-primary)]'
+                }`}
+              >
+                <Music className="h-4 w-4" />
+                <span>Music + Video Studio</span>
               </button>
             </div>
 
-            {latestPack && (
-              <div className="rounded-2xl border border-emerald-500/40 bg-[var(--bg-surface)] p-4 space-y-3" data-testid="latest-pack-result">
-                <div className="flex items-center gap-2 text-xs font-semibold text-emerald-500">
-                  <CheckCircle2 className="h-4 w-4" /> Ready: {latestPack.fileName}
-                </div>
-                <div className="grid grid-cols-2 gap-2">
+            {cinemaSubMode === 'PACKS' ? (
+              <>
+                <div className="rounded-2xl border bg-[var(--bg-surface)] p-4 space-y-3.5">
+                  <div>
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                      Pack Type
+                    </label>
+                    <select
+                      value={packKind}
+                      onChange={(e) => setPackKind(e.target.value as PackKind)}
+                      className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3 py-2.5 text-sm"
+                    >
+                      <option value="FLOW_MOVIE">Flow Cinema Movie Pack</option>
+                      <option value="FLOW_BULK">Visual Style Cloner Pack</option>
+                      <option value="BRAND_PACK">Brand &amp; Ad Intelligence Pack</option>
+                      <option value="NOTEBOOK_PACK">Cloud GPU Lab Pack</option>
+                      <option value="PUBLISH_PACK">Safe Release Upload Pack</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                      Project Title
+                    </label>
+                    <input
+                      type="text"
+                      value={packTitle}
+                      onChange={(e) => setPackTitle(e.target.value)}
+                      className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3.5 py-2.5 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                      Story Premise / Topic
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={packPremise}
+                      onChange={(e) => setPackPremise(e.target.value)}
+                      className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3.5 py-2.5 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                      Visual Style Anchor
+                    </label>
+                    <input
+                      type="text"
+                      value={packStyle}
+                      onChange={(e) => setPackStyle(e.target.value)}
+                      className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3.5 py-2.5 text-sm"
+                    />
+                  </div>
                   <button
                     type="button"
-                    onClick={() => handleExportEdition(latestPack, 'save')}
-                    className="rounded-xl bg-[var(--accent)] text-[var(--accent-fg)] py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-1.5"
+                    disabled={packBusy}
+                    onClick={handlePackCreate}
+                    data-testid="mobile-pack-create"
+                    className="w-full rounded-xl bg-[var(--accent)] text-[var(--accent-fg)] py-3 px-4 text-sm font-semibold flex items-center justify-center gap-2 min-h-[46px] disabled:opacity-50"
                   >
-                    <Download className="h-4 w-4" /> Save ZIP
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleExportEdition(latestPack, 'share')}
-                    className="rounded-xl border bg-[var(--bg-elevated)] py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-1.5"
-                  >
-                    <Share2 className="h-4 w-4" /> Share ZIP
+                    <Film className="h-4 w-4" />
+                    <span>{packBusy ? 'Packing ZIP...' : 'Create Production .ZIP'}</span>
                   </button>
                 </div>
-              </div>
+
+                {latestPack && (
+                  <div className="rounded-2xl border border-emerald-500/40 bg-[var(--bg-surface)] p-4 space-y-3" data-testid="latest-pack-result">
+                    <div className="flex items-center gap-2 text-xs font-semibold text-emerald-500">
+                      <CheckCircle2 className="h-4 w-4" /> Ready: {latestPack.fileName}
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleExportEdition(latestPack, 'save')}
+                        className="rounded-xl bg-[var(--accent)] text-[var(--accent-fg)] py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-1.5"
+                      >
+                        <Download className="h-4 w-4" /> Save ZIP
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleExportEdition(latestPack, 'share')}
+                        className="rounded-xl border bg-[var(--bg-elevated)] py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-1.5"
+                      >
+                        <Share2 className="h-4 w-4" /> Share ZIP
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="rounded-2xl border bg-[var(--bg-surface)] p-4 space-y-3.5" data-testid="mobile-music-form">
+                  <div>
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                      Target Music &amp; Video Platform
+                    </label>
+                    <select
+                      value={musicPlatform}
+                      onChange={(e) => setMusicPlatform(e.target.value as MobileMusicPlatform)}
+                      className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3 py-2.5 text-sm"
+                    >
+                      <option value="ALL_PLATFORMS_MASTER">All Platforms Master (Flow + Suno + Treblo + ACE + Colab)</option>
+                      <option value="GOOGLE_FLOW">Google Flow Music (Lyria 3.5 + Veo)</option>
+                      <option value="SUNO">Suno v4/v4.5 (Style ≤1000 chars + Video)</option>
+                      <option value="TREBLO">Treblo (formerly Sonauto)</option>
+                      <option value="ACE_STUDIO">ACE Studio (Vocal + Binary MIDI)</option>
+                      <option value="UDIO">Udio (Tag Style + Cover Video)</option>
+                      <option value="MUREKA">Mureka (Brief ≤1024 chars)</option>
+                      <option value="RIFFUSION">Riffusion / Producer.ai (Vibe ≤120 chars)</option>
+                      <option value="ELEVENLABS_MUSIC">ElevenLabs Music &amp; Voiceover</option>
+                      <option value="COLAB_KAGGLE_OPEN">Free Cloud GPU (Colab / Kaggle)</option>
+                    </select>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                        Cloud Host
+                      </label>
+                      <select
+                        value={musicCloudHost}
+                        onChange={(e) => setMusicCloudHost(e.target.value as 'COLAB' | 'KAGGLE')}
+                        className="w-full rounded-xl border bg-[var(--bg-elevated)] px-2.5 py-2 text-xs"
+                      >
+                        <option value="COLAB">Google Colab (T4)</option>
+                        <option value="KAGGLE">Kaggle (P100/T4)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                        Open-Source Engine
+                      </label>
+                      <select
+                        value={musicEngine}
+                        onChange={(e) => setMusicEngine(e.target.value as 'ACE_STEP_1_5' | 'DIFFRHYTHM' | 'MUSICGEN_MEDIUM')}
+                        className="w-full rounded-xl border bg-[var(--bg-elevated)] px-2.5 py-2 text-xs"
+                      >
+                        <option value="ACE_STEP_1_5">ACE-Step 1.5 (T4 Float32)</option>
+                        <option value="DIFFRHYTHM">DiffRhythm (Fast Song)</option>
+                        <option value="MUSICGEN_MEDIUM">MusicGen-Medium</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                      Track / Video Title
+                    </label>
+                    <input
+                      type="text"
+                      value={musicTitle}
+                      onChange={(e) => setMusicTitle(e.target.value)}
+                      className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3.5 py-2.5 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                      Story Theme &amp; Lyrics Direction
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={musicTheme}
+                      onChange={(e) => setMusicTheme(e.target.value)}
+                      className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3.5 py-2.5 text-sm"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                        Genre
+                      </label>
+                      <input
+                        type="text"
+                        value={musicGenre}
+                        onChange={(e) => setMusicGenre(e.target.value)}
+                        className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3 py-2 text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                        Mood
+                      </label>
+                      <input
+                        type="text"
+                        value={musicMood}
+                        onChange={(e) => setMusicMood(e.target.value)}
+                        className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3 py-2 text-xs"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    <div>
+                      <label className="block text-[10px] font-semibold uppercase text-[var(--text-secondary)] mb-1">BPM</label>
+                      <input
+                        type="number"
+                        min={50}
+                        max={200}
+                        value={musicBpm}
+                        onChange={(e) => setMusicBpm(Number(e.target.value))}
+                        className="w-full rounded-xl border bg-[var(--bg-elevated)] px-2.5 py-2 text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-semibold uppercase text-[var(--text-secondary)] mb-1">Key</label>
+                      <input
+                        type="text"
+                        value={musicKey}
+                        onChange={(e) => setMusicKey(e.target.value)}
+                        className="w-full rounded-xl border bg-[var(--bg-elevated)] px-2.5 py-2 text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-semibold uppercase text-[var(--text-secondary)] mb-1">Vocals</label>
+                      <select
+                        value={musicVocalMode}
+                        onChange={(e) => setMusicVocalMode(e.target.value as 'VOCAL' | 'INSTRUMENTAL')}
+                        className="w-full rounded-xl border bg-[var(--bg-elevated)] px-2 py-2 text-xs"
+                      >
+                        <option value="VOCAL">Vocal</option>
+                        <option value="INSTRUMENTAL">Inst.</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-semibold uppercase text-[var(--text-secondary)] mb-1">Ratio</label>
+                      <select
+                        value={musicAspect}
+                        onChange={(e) => setMusicAspect(e.target.value as '16:9' | '9:16')}
+                        className="w-full rounded-xl border bg-[var(--bg-elevated)] px-2 py-2 text-xs"
+                      >
+                        <option value="9:16">9:16</option>
+                        <option value="16:9">16:9</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                      Exclude Traits
+                    </label>
+                    <input
+                      type="text"
+                      value={musicExclude}
+                      onChange={(e) => setMusicExclude(e.target.value)}
+                      className="w-full rounded-xl border bg-[var(--bg-elevated)] px-3 py-2 text-xs"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    disabled={musicBusy}
+                    onClick={handleMusicCreate}
+                    data-testid="mobile-music-create"
+                    className="w-full rounded-xl bg-[var(--accent)] text-[var(--accent-fg)] py-3 px-4 text-sm font-semibold flex items-center justify-center gap-2 min-h-[46px] disabled:opacity-50"
+                  >
+                    <Music className="h-4 w-4" />
+                    <span>{musicBusy ? 'Building Music + Video Bundle...' : 'Generate Complete Music & Video .ZIP'}</span>
+                  </button>
+                </div>
+
+                {latestMusicResult && (
+                  <div className="rounded-2xl border border-emerald-500/40 bg-[var(--bg-surface)] p-4 space-y-3" data-testid="latest-music-result">
+                    <div className="flex items-center gap-2 text-xs font-semibold text-emerald-500">
+                      <CheckCircle2 className="h-4 w-4" /> Ready: {latestMusicResult.edition.fileName}
+                    </div>
+                    <div className="grid grid-cols-1 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleCopyText('master', latestMusicResult.copyPasteMasterPrompt)}
+                        className="rounded-xl border bg-[var(--bg-elevated)] py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-1.5"
+                      >
+                        {copiedPromptTag === 'master' ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+                        <span>{copiedPromptTag === 'master' ? 'Copied Complete Prompt' : 'Copy Complete Prompt (All Platforms)'}</span>
+                      </button>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleCopyText('antigravity', latestMusicResult.antigravityPrompt)}
+                          className="rounded-xl border bg-[var(--bg-elevated)] py-2 px-2.5 text-[11px] font-semibold flex items-center justify-center gap-1"
+                        >
+                          {copiedPromptTag === 'antigravity' ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+                          <span>Antigravity Prompt</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyText('codex', latestMusicResult.codexPrompt)}
+                          className="rounded-xl border bg-[var(--bg-elevated)] py-2 px-2.5 text-[11px] font-semibold flex items-center justify-center gap-1"
+                        >
+                          {copiedPromptTag === 'codex' ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+                          <span>Codex Prompt</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleExportEdition(latestMusicResult.edition, 'save')}
+                        className="rounded-xl bg-[var(--accent)] text-[var(--accent-fg)] py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-1.5"
+                      >
+                        <Download className="h-4 w-4" /> Save .ZIP
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleExportEdition(latestMusicResult.edition, 'share')}
+                        className="rounded-xl border bg-[var(--bg-elevated)] py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-1.5"
+                      >
+                        <Share2 className="h-4 w-4" /> Share .ZIP
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}

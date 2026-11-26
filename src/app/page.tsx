@@ -13,6 +13,7 @@ import {
   FolderArchive,
   HelpCircle,
   KeyRound,
+  Music,
   Package,
   Radar,
   ShieldCheck,
@@ -36,6 +37,7 @@ interface DashboardData {
 
 const PRO_QUICK_LAUNCH = [
   { title: 'Flow Cinema Studio', desc: 'Character & set continuity profiles, shot prompts & stream-copy FFmpeg', href: '/packs/flow-movie', icon: Film },
+  { title: 'Music & Video Studio', desc: 'Google Flow Music, Suno, Treblo, ACE Studio MIDI, Colab/Kaggle Audio + MP4', href: '/packs/music-studio', icon: Music },
   { title: 'Digital Press Studio', desc: 'Print-editorial PDF editions, formula .xlsx models & 365-day planners', href: '/products', icon: Package },
   { title: 'Cloud GPU Production Lab', desc: 'Free Colab & Kaggle T4/P100 notebooks for music, shorts & Whisper', href: '/packs/notebooks', icon: Cpu },
   { title: 'Opportunity Atlas', desc: 'Tracked faceless channels with live digital store & revenue signals', href: '/research/faceless-finder', icon: Radar },

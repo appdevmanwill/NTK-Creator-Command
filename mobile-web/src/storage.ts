@@ -3,7 +3,7 @@ import { ChannelItem, STARTER_CHANNELS } from './channels-data';
 
 export interface SavedEdition {
   id: string;
-  type: 'EBOOK' | 'SPREADSHEET' | 'PLANNER' | 'JOURNAL' | 'FLOW_MOVIE' | 'FLOW_BULK' | 'BRAND_PACK' | 'NOTEBOOK_PACK' | 'PUBLISH_PACK';
+  type: 'EBOOK' | 'SPREADSHEET' | 'PLANNER' | 'JOURNAL' | 'FLOW_MOVIE' | 'FLOW_BULK' | 'BRAND_PACK' | 'NOTEBOOK_PACK' | 'PUBLISH_PACK' | 'MUSIC_VIDEO_PACK';
   title: string;
   fileName: string;
   mimeType: string;

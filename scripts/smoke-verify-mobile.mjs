@@ -102,7 +102,11 @@ async function main() {
     await page.click('[data-testid="mobile-pack-create"]');
     await page.waitForSelector('[data-testid="latest-pack-result"]', { timeout: 15000 });
 
-    // Confirm 3 items saved in Vault
+    await page.click('[data-testid="cinema-submode-music"]');
+    await page.click('[data-testid="mobile-music-create"]');
+    await page.waitForSelector('[data-testid="latest-music-result"]', { timeout: 15000 });
+
+    // Confirm 4 items saved in Vault (PDF, XLSX, Cinema ZIP, Music+Video ZIP)
     await page.click('[data-testid="nav-vault"]');
     const vaultText = await page.textContent('[data-testid="mobile-vault"]');
     if (!vaultText?.includes('.pdf') || !vaultText?.includes('.xlsx') || !vaultText?.includes('.zip')) {

@@ -54,6 +54,7 @@ export default function LibraryPage() {
         <Select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="sm:w-60">
           <option value="ALL">All Types</option>
           <option value="FLOW_MOVIE">FLOW_MOVIE</option>
+          <option value="MUSIC_VIDEO_PACK">MUSIC_VIDEO_PACK</option>
           <option value="FLOW_BULK">FLOW_BULK</option>
           <option value="KAGGLE_COLAB">KAGGLE_COLAB</option>
           <option value="BRAND_PACK">BRAND_PACK</option>

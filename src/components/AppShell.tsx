@@ -19,6 +19,7 @@ import {
   Menu,
   Monitor,
   Moon,
+  Music,
   Package,
   Radar,
   Search,
@@ -50,6 +51,7 @@ const PRO_NAV_SECTIONS: NavSection[] = [
     heading: 'PRODUCTION PACKS',
     items: [
       { label: 'Flow Cinema Studio', href: '/packs/flow-movie', icon: Film },
+      { label: 'Music & Video Studio', href: '/packs/music-studio', icon: Music },
       { label: 'Visual Style Cloner', href: '/packs/flow-bulk', icon: Layers },
       { label: 'Cloud GPU Lab', href: '/packs/notebooks', icon: Cpu },
       { label: 'Brand Identity & Ad Intelligence', href: '/packs/brand-and-spy', icon: Sparkles },
@@ -139,6 +141,7 @@ const PILLAR_TABS: Array<{
     match: (p) => p.startsWith('/packs'),
     tabs: [
       { label: 'Flow Cinema Studio', href: '/packs/flow-movie' },
+      { label: 'Music & Video Studio', href: '/packs/music-studio' },
       { label: 'Visual Style Cloner', href: '/packs/flow-bulk' },
       { label: 'Cloud GPU Lab', href: '/packs/notebooks' },
       { label: 'Brand & Ad Intelligence', href: '/packs/brand-and-spy' },

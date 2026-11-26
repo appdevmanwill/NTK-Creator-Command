@@ -74,10 +74,10 @@ export default function NotebooksPage() {
             <div>
               <Label>Notebook Pipeline</Label>
               <Select value={template} onChange={(e) => setTemplate(e.target.value as typeof template)}>
-                <option value="AI_MUSIC">AI Music Generation (MusicGen)</option>
-                <option value="MUSIC_VIDEO_SHORTS">AI Music Video & Viral Shorts</option>
-                <option value="TALKING_PROMO">Talking Product Promo / Avatar</option>
-                <option value="WHISPER_UPSCALE">Cloud Whisper + 4K Upscaling/FFmpeg</option>
+                <option value="AI_MUSIC">AI Music Song (ACE-Step 1.5 T4 Safe + Fallback)</option>
+                <option value="MUSIC_VIDEO_SHORTS">Full Audio + Beat-Synced Music Video (.MP4 + .SRT)</option>
+                <option value="TALKING_PROMO">Talking Product Promo Video (.MP4 + Captions)</option>
+                <option value="WHISPER_UPSCALE">Cloud Whisper Transcription (.SRT / .TXT / .JSON)</option>
               </Select>
             </div>
             <div>
