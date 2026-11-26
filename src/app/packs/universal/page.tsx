@@ -53,8 +53,8 @@ export default function UniversalPackPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title='Universal "Any Platform" Playbook Builder'
-        subtitle="Turn any creative, video, music, or storefront website into a structured Antigravity or Codex execution pack with BrowserOS neo FEAICCWS guardrails."
+        title="Universal Playbook Engine"
+        subtitle="Turn any creative, audio, video, or storefront website into a structured Antigravity or Codex execution playbook with BrowserOS neo guardrails."
       />
 
       <Card className="space-y-4">
@@ -77,7 +77,7 @@ export default function UniversalPackPage() {
                 setPlatformName(p.name);
                 setPlatformUrl(p.url);
               }}
-              className="rounded-full border bg-[var(--bg-elevated)] px-3 py-1 text-xs hover:border-indigo-500"
+              className="rounded-full border border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-3 py-1 text-xs hover:border-[var(--border-accent)]"
             >
               {p.name}
             </button>

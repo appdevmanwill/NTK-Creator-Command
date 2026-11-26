@@ -28,16 +28,16 @@ interface SparkedIdea {
 
 const DEFAULT_VIBES = [
   'Surprise Me',
-  'Money & Side Income',
-  'Thriller & Mystery',
-  'Daily Life & Focus',
+  'Wealth & Cashflow',
+  'Cinema & Suspense',
+  'Focus & Discipline',
   'History & Culture',
 ];
 
 export function IdeaSparkWidget({
   category,
   onApplyIdea,
-  heading = 'Blank mind? Let AI generate ideas for you',
+  heading = 'Starting from a blank page? Spark curated concepts',
   vibes = DEFAULT_VIBES,
 }: {
   category: IdeaCategory;
@@ -70,14 +70,14 @@ export function IdeaSparkWidget({
         onApplyIdea(list[0].fields);
         setAppliedIdx(0);
         pushToast({
-          title: `Filled "${list[0].label}"!`,
-          description: 'Edit anything you like or click Create right away.',
+          title: `Filled "${list[0].label}"`,
+          description: 'Refine any detail or click Create whenever ready.',
           tone: 'success',
         });
       }
     } catch (err) {
       pushToast({
-        title: 'Idea spark failed',
+        title: 'Concept spark failed',
         description: err instanceof Error ? err.message : 'Try again',
         tone: 'error',
       });
@@ -88,18 +88,21 @@ export function IdeaSparkWidget({
 
   return (
     <div
-      className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 space-y-3"
+      className="rounded-2xl border border-[var(--border-accent)] bg-[var(--accent-soft)] p-4 space-y-3"
       data-testid="idea-spark-widget"
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
-        <div className="flex items-center gap-2">
-          <div className="rounded-xl bg-amber-500/15 p-2 text-amber-400 shrink-0">
+        <div className="flex items-center gap-2.5">
+          <div className="rounded-xl border border-[var(--border-accent)] bg-[var(--bg-surface)] p-2 text-[var(--accent-text)] shrink-0">
             <Lightbulb className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-xs font-bold text-[var(--text-primary)]">{heading}</div>
+            <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--accent-text)]">
+              Editorial Premise Desk
+            </div>
+            <div className="text-xs font-semibold text-[var(--text-primary)]">{heading}</div>
             <div className="text-[11px] text-[var(--text-secondary)]">
-              Pick a vibe or just click a button—we&apos;ll fill the boxes for you.
+              Choose a direction below or fill a publication-ready concept in one click.
             </div>
           </div>
         </div>
@@ -114,7 +117,7 @@ export function IdeaSparkWidget({
             data-testid="spark-ideas-btn"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
-            {loading ? 'Thinking...' : 'Spark 4 Ideas for Me'}
+            {loading ? 'Composing...' : 'Spark 4 Concepts'}
           </Button>
           <Button
             type="button"
@@ -124,7 +127,7 @@ export function IdeaSparkWidget({
             data-testid="surprise-fill-btn"
           >
             <Wand2 className="h-3.5 w-3.5" />
-            Surprise Me & Fill
+            Curate &amp; Fill
           </Button>
         </div>
       </div>
@@ -135,10 +138,10 @@ export function IdeaSparkWidget({
             key={v}
             type="button"
             onClick={() => setSelectedVibe(v)}
-            className={`rounded-full px-2.5 py-1 text-[11px] font-medium border transition ${
+            className={`rounded-full px-3 py-1 text-[11px] font-medium border transition ${
               selectedVibe === v
-                ? 'bg-amber-500 text-slate-950 border-amber-500 font-semibold'
-                : 'bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                ? 'bg-[var(--accent)] text-[var(--accent-fg)] border-[var(--accent)] font-semibold'
+                : 'border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-accent)]'
             }`}
           >
             {v}
@@ -149,7 +152,7 @@ export function IdeaSparkWidget({
       {ideas.length > 0 && (
         <div className="space-y-2 pt-1">
           <div className="flex items-center justify-between text-[11px] text-[var(--text-secondary)]">
-            <span>Click any idea below to auto-fill the form:</span>
+            <span>Select any concept below to populate the studio:</span>
             {providerLabel && <span className="font-mono">{providerLabel}</span>}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -164,20 +167,20 @@ export function IdeaSparkWidget({
                     onApplyIdea(idea.fields);
                     setAppliedIdx(idx);
                     pushToast({
-                      title: `Filled "${idea.label}"!`,
-                      description: 'Edit anything or click Create.',
+                      title: `Loaded "${idea.label}"`,
+                      description: 'Refine any detail or click Create.',
                       tone: 'success',
                     });
                   }}
                   className={`text-left rounded-xl border p-3 transition space-y-1 ${
                     selected
-                      ? 'border-emerald-500 bg-emerald-500/10'
-                      : 'bg-[var(--bg-surface)] hover:border-indigo-500/60'
+                      ? 'border-emerald-500/70 bg-emerald-500/10'
+                      : 'border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--border-accent)]'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-bold text-[var(--text-primary)]">{idea.label}</span>
-                    {selected && <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" />}
+                    <span className="text-xs font-semibold text-[var(--text-primary)]">{idea.label}</span>
+                    {selected && <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />}
                   </div>
                   <p className="text-[11px] text-[var(--text-secondary)] leading-snug">{idea.tagline}</p>
                 </button>

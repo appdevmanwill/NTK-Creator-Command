@@ -55,9 +55,9 @@ export default function NotebooksPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Kaggle & Google Colab Free Cloud GPU Notebooks"
-        subtitle="Offload heavy AI music, beat-synced shorts, avatar lip-sync, and Whisper/4K upscaling off your Dell laptop onto free T4/P100 cloud GPUs."
-        badge="nbformat 4 • $0 GPU"
+        title="Cloud GPU Production Lab"
+        subtitle="Dispatch heavy AI music scoring, beat-synced shorts, avatar promos, and Whisper/4K mastering onto free Kaggle and Colab T4/P100 cloud GPUs."
+        badge="nbformat 4 · $0 GPU"
       />
 
       <Card className="space-y-4">

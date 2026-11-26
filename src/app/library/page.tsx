@@ -41,8 +41,8 @@ export default function LibraryPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Pack & Product Library"
-        subtitle="Browse, download, or clean up every generated agent pack (.zip), digital product (.pdf / .xlsx), and publishing package stored locally."
+        title="Editions & Pack Archive"
+        subtitle="Inspect, download, or manage every generated agent pack (.zip), digital edition (.pdf / .xlsx), and release dossier stored on your machine."
         badge={`${projects.length} Items`}
       />
 

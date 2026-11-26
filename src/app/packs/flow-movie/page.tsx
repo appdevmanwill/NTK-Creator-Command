@@ -29,7 +29,7 @@ export default function FlowMoviePage() {
   const [aspectRatio, setAspectRatio] = useState<'16:9' | '9:16'>('16:9');
   const [runtimeMinutes, setRuntimeMinutes] = useState(3);
   const [outlineMode, setOutlineMode] = useState<'ONE_LINE' | 'MANUAL'>('ONE_LINE');
-  const [idea, setIdea] = useState('A late-night Lagos dispatch rider finds an old cassette revealing a hidden tech fortune.');
+  const [idea, setIdea] = useState("In 1924 Lagos, an apprentice watchmaker discovers an encrypted cipher hidden inside the governor's pocket watch.");
   const [manualTitle, setManualTitle] = useState('');
   const [manualCharacters, setManualCharacters] = useState('');
   const [manualLocations, setManualLocations] = useState('');
@@ -131,41 +131,43 @@ export default function FlowMoviePage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Google Flow AI Movie & Series Pack Builder"
-        subtitle="Type a 1-line story idea, review your characters and scenes, and download a complete Google Flow instruction pack (.ZIP)."
-        badge="BrowserOS neo • FEAICCWS"
+        title="Flow Cinema Studio"
+        subtitle="Turn a sharp premise into cast and set continuity sheets, ordered shot prompts, and a production archive (.ZIP)."
+        badge="BrowserOS neo · FEAICCWS"
       />
 
       <StudioStarterBanner
-        whatYouGet="Locked character & location profiles (so faces and rooms stay consistent), scene-by-scene shot prompts, Turbo-OFF safety instructions, and simple video-joining commands."
-        safeNote="1 clip/shot credit saver"
+        whatYouGet="Consistent character and location dossiers, sequential shot prompts, Turbo-OFF cost guardrails, and Intel QuickSync assembly commands."
+        safeNote="1 clip per shot precision"
         samples={[
           {
-            label: 'Lagos Night Thriller',
-            onApply: () => {
-              setOutlineMode('ONE_LINE');
-              setIdea('A late-night Lagos dispatch rider finds an old cassette revealing a hidden tech fortune.');
-              pushToast({ title: 'Loaded Lagos Thriller idea', tone: 'info' });
-            },
-          },
-          {
-            label: '9:16 Vertical Mystery Short',
-            onApply: () => {
-              setOutlineMode('ONE_LINE');
-              setAspectRatio('9:16');
-              setRuntimeMinutes(1);
-              setIdea('A young baker opens a locked flour tin and finds a map pointing beneath her own shop.');
-              pushToast({ title: 'Loaded 9:16 Vertical Mystery sample', tone: 'info' });
-            },
-          },
-          {
-            label: 'Ancient History Episode',
+            label: 'Clockmaker of Marina (Period Thriller)',
             onApply: () => {
               setOutlineMode('ONE_LINE');
               setAspectRatio('16:9');
               setRuntimeMinutes(3);
-              setIdea('A teenage astronomer in ancient Timbuktu races before dawn to protect star charts from a sandstorm.');
-              pushToast({ title: 'Loaded History sample', tone: 'info' });
+              setIdea("In 1924 Lagos, an apprentice watchmaker discovers an encrypted cipher hidden inside the governor's pocket watch.");
+              pushToast({ title: 'Loaded period thriller premise', tone: 'info' });
+            },
+          },
+          {
+            label: 'Room 404 at Hotel Meridian (9:16)',
+            onApply: () => {
+              setOutlineMode('ONE_LINE');
+              setAspectRatio('9:16');
+              setRuntimeMinutes(1);
+              setIdea('A night clerk is handed a brass key for Room 404, even though the fourth floor was sealed thirty years ago.');
+              pushToast({ title: 'Loaded 9:16 noir premise', tone: 'info' });
+            },
+          },
+          {
+            label: 'Star Charts of Timbuktu (Drama)',
+            onApply: () => {
+              setOutlineMode('ONE_LINE');
+              setAspectRatio('16:9');
+              setRuntimeMinutes(3);
+              setIdea('A young astronomer in fifteenth-century Timbuktu races before dawn to safeguard rare celestial manuscripts from an approaching storm.');
+              pushToast({ title: 'Loaded historical drama premise', tone: 'info' });
             },
           },
         ]}
@@ -242,7 +244,7 @@ export default function FlowMoviePage() {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <Label className="mb-0">Target Runtime: {runtimeMinutes} min</Label>
-                <span className="text-xs font-mono text-indigo-400">~{estCredits.toLocaleString()} Flow credits</span>
+                <span className="text-xs font-mono text-[var(--accent-text)]">~{estCredits.toLocaleString()} Flow credits</span>
               </div>
               <input
                 type="range"
@@ -250,7 +252,7 @@ export default function FlowMoviePage() {
                 max={60}
                 value={runtimeMinutes}
                 onChange={(e) => setRuntimeMinutes(Number(e.target.value))}
-                className="w-full accent-indigo-600"
+                className="w-full accent-amber-500"
               />
             </div>
 
@@ -298,8 +300,8 @@ export default function FlowMoviePage() {
         <Card className="lg:col-span-7 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Film className="h-4 w-4 text-indigo-400" />
-              <h2 className="text-sm font-bold">Step 2: Editable Outline Review</h2>
+              <Film className="h-4 w-4 text-[var(--accent-text)]" />
+              <h2 className="text-sm font-semibold">Step 2: Editable Outline Review</h2>
             </div>
             {outline && (
               <Button onClick={() => handleBuildPack()} disabled={building}>
@@ -393,10 +395,10 @@ export default function FlowMoviePage() {
           />
           {result?.projectId && (
             <NextStepCard
-              title="Next: Prepare Your Safe Draft Upload Pack"
-              description="Once your video clips are assembled, generate your SEO title, description with store link, and Safe Draft instructions."
+              title="Next: Prepare Your Safe Release Package"
+              description="Once your clips are assembled, generate your SEO title, store link block, and Safe Release instructions."
               href="/publish-packs"
-              cta="Open Safe Draft Publisher"
+              cta="Open Safe Release Desk"
             />
           )}
         </div>

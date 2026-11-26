@@ -46,7 +46,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           >
             {item.tone === 'success' && <CheckCircle2 className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />}
             {item.tone === 'error' && <AlertTriangle className="h-5 w-5 text-rose-500 shrink-0 mt-0.5" />}
-            {item.tone === 'info' && <Info className="h-5 w-5 text-indigo-500 shrink-0 mt-0.5" />}
+            {item.tone === 'info' && <Info className="h-5 w-5 text-[var(--accent-text)] shrink-0 mt-0.5" />}
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-[var(--text-primary)]">{item.title}</p>
               {item.description && (

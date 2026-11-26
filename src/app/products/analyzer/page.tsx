@@ -84,15 +84,15 @@ export default function ProductAndStoreAnalyzerPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Live Product & Competitor Store Analyzer"
-        subtitle="Inspect public Shopify /products.json catalogs or score any live digital product URL for 1–5 Replication Potential and differentiation gaps."
+        title="Market & Storefront Audit"
+        subtitle="Inspect public Shopify /products.json catalogs or score live digital products for 1–5 Replication Potential and positioning gaps."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="space-y-4">
           <div className="flex items-center gap-2">
-            <Globe className="h-4 w-4 text-indigo-400" />
-            <h2 className="text-sm font-bold">Competitor Store Analyzer (Shopify / Public URL)</h2>
+            <Globe className="h-4 w-4 text-[var(--accent-text)]" />
+            <h2 className="text-sm font-semibold">Competitor Store Analyzer (Shopify / Public URL)</h2>
           </div>
           <form onSubmit={analyzeStore} className="space-y-3">
             <div>
@@ -155,8 +155,8 @@ export default function ProductAndStoreAnalyzerPage() {
           {prodRes && (
             <div className="space-y-3 pt-3 border-t text-xs" data-testid="product-analysis-result">
               <div className="flex items-center justify-between gap-2">
-                <span className="font-bold text-sm">{prodRes.report.productTitle}</span>
-                <span className="rounded-full bg-indigo-500/15 border border-indigo-500/30 px-2.5 py-0.5 font-bold text-indigo-400">
+                <span className="font-semibold text-sm">{prodRes.report.productTitle}</span>
+                <span className="rounded-full bg-[var(--accent-soft)] border border-[var(--border-accent)] px-2.5 py-0.5 font-semibold text-[var(--accent-text)]">
                   Replication Score: {prodRes.report.replicationScore}/5
                 </span>
               </div>

@@ -22,7 +22,7 @@ import { useToast } from '@/components/ToastProvider';
 
 type StudioTab = 'EBOOK' | 'SPREADSHEET' | 'PLANNER' | 'JOURNAL';
 
-const CHART_COLORS = ['#6366F1', '#0EA5E9', '#10B981', '#F59E0B', '#EC4899', '#8B5CF6'];
+const CHART_COLORS = ['#9E7318', '#D4AF37', '#2F6F5E', '#6E5A4F', '#B45309', '#3F4B5B'];
 
 export default function DigitalProductsStudioPage() {
   const { pushToast } = useToast();
@@ -30,34 +30,34 @@ export default function DigitalProductsStudioPage() {
   const [loading, setLoading] = useState(false);
 
   // Ebook 8-input form
-  const [ebookTitle, setEbookTitle] = useState('The 30-Day Cashflow & Side-Income Reset');
-  const [ebookTopic, setEbookTopic] = useState('Practical budgeting, cutting hidden expenses, and launching a $15 digital product');
+  const [ebookTitle, setEbookTitle] = useState("The Quiet Compounder's Ledger");
+  const [ebookTopic, setEbookTopic] = useState('Auditing recurring cash leaks, redirecting weekly surplus, and shipping your first $15 digital edition');
   const [illustrationMode, setIllustrationMode] = useState<'FLAT_SVG' | 'PLACEHOLDER_PROMPTS'>('FLAT_SVG');
   const [chapterCount, setChapterCount] = useState(4);
-  const [ebookColor, setEbookColor] = useState('#4F46E5');
+  const [ebookColor, setEbookColor] = useState('#9E7318');
   const [authorName, setAuthorName] = useState('NTK Hub');
-  const [writingStyle, setWritingStyle] = useState('Direct, actionable, encouraging');
-  const [ebookAudience, setEbookAudience] = useState('Beginners & side-hustle builders');
+  const [writingStyle, setWritingStyle] = useState('Crisp, editorial, high-clarity guidance');
+  const [ebookAudience, setEbookAudience] = useState('Independent earners and first-time creators');
 
   // Spreadsheet form
-  const [sheetTitle, setSheetTitle] = useState('Creator Monthly Cashflow & Product Revenue Tracker');
-  const [sheetPrompt, setSheetPrompt] = useState('Track digital product sales, ad/tool expenses, savings transfers, and monthly net balance');
-  const [sheetAudience, setSheetAudience] = useState('Solo digital creators');
+  const [sheetTitle, setSheetTitle] = useState('Sovereign Paycheck & Allocation Model');
+  const [sheetPrompt, setSheetPrompt] = useState('Track digital edition revenue, platform fees, fixed obligations, reserves, and monthly net margin');
+  const [sheetAudience, setSheetAudience] = useState('Solo digital publishers');
   const [sheetComplexity, setSheetComplexity] = useState<'SIMPLE' | 'STANDARD' | 'ADVANCED'>('STANDARD');
-  const [sheetColor, setSheetColor] = useState('#4F46E5');
+  const [sheetColor, setSheetColor] = useState('#141210');
 
   // Planner form
-  const [plannerTitle, setPlannerTitle] = useState('Creator Focus & Habit Command Planner');
-  const [plannerTheme, setPlannerTheme] = useState('Daily deep work, content velocity, and zero-impulse spending');
+  const [plannerTitle, setPlannerTitle] = useState('Thirty Days of Quiet Momentum');
+  const [plannerTheme, setPlannerTheme] = useState('Protected morning deep work, intentional spending, and daily execution discipline');
   const [durationDays, setDurationDays] = useState<30 | 365>(30);
-  const [layoutStyle, setLayoutStyle] = useState('Minimalist Grid');
-  const [plannerColor, setPlannerColor] = useState('#4F46E5');
+  const [layoutStyle, setLayoutStyle] = useState('Editorial Ruled Grid');
+  const [plannerColor, setPlannerColor] = useState('#9E7318');
 
   // Journal form
-  const [journalTitle, setJournalTitle] = useState('Mindful Spending & Financial Clarity Workbook');
-  const [journalType, setJournalType] = useState('Budgeting & Reflection Workbook');
-  const [journalTopic, setJournalTopic] = useState('Weekly spending audits, trigger awareness, and 90-day debt/savings goals');
-  const [journalColor, setJournalColor] = useState('#4F46E5');
+  const [journalTitle, setJournalTitle] = useState('The Calm Ledger Reflection Edition');
+  const [journalType, setJournalType] = useState('Financial Clarity & Decision Workbook');
+  const [journalTopic, setJournalTopic] = useState('Weekly spending reviews, impulse-pause prompts, and quarterly savings milestones');
+  const [journalColor, setJournalColor] = useState('#9E7318');
 
   const [pausedQuota, setPausedQuota] = useState<PausedQuotaState | null>(null);
   const [artifact, setArtifact] = useState<{
@@ -165,41 +165,41 @@ export default function DigitalProductsStudioPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Digital Product Studio"
-        subtitle="Pick a product type below, type your topic (or click a sample), and export a finished PDF or Excel workbook ready to sell."
-        badge="$0 Local Engine"
+        title="Digital Press Studio"
+        subtitle="Select a publication format, define your premise or spark one with AI, and compile a finished PDF edition or formula workbook."
+        badge="Local Editorial Engine"
       />
 
       <StudioStarterBanner
-        whatYouGet="A finished, styled PDF ebook, auto-calculating Excel (.xlsx) workbook, 30/365-day planner, or printable journal saved right to your computer."
-        safeNote="100% local • $0 tool cost"
+        whatYouGet="A print-editorial PDF monograph, auto-calculating Excel (.xlsx) financial model, 30/365-day hyperlinked planner, or guided workbook stored directly on disk."
+        safeNote="100% local · Zero subscription fees"
         samples={[
           {
-            label: '30-Day Budget Reset Ebook',
+            label: "Quiet Compounder's Ledger (PDF)",
             onApply: () => {
               setTab('EBOOK');
-              setEbookTitle('The 30-Day Cashflow & Side-Income Reset');
-              setEbookTopic('Practical budgeting, cutting hidden expenses, and launching a $15 digital product');
-              pushToast({ title: 'Loaded Ebook sample', tone: 'info' });
+              setEbookTitle("The Quiet Compounder's Ledger");
+              setEbookTopic('Auditing recurring cash leaks, redirecting weekly surplus, and shipping your first $15 digital edition');
+              pushToast({ title: 'Loaded Ebook edition preset', tone: 'info' });
             },
           },
           {
-            label: 'Monthly Cashflow Sheet (.xlsx)',
+            label: 'Sovereign Allocation Model (.xlsx)',
             onApply: () => {
               setTab('SPREADSHEET');
-              setSheetTitle('Creator Monthly Cashflow & Product Revenue Tracker');
-              setSheetPrompt('Track digital product sales, ad/tool expenses, savings transfers, and monthly net balance');
-              pushToast({ title: 'Loaded Spreadsheet sample', tone: 'info' });
+              setSheetTitle('Sovereign Paycheck & Allocation Model');
+              setSheetPrompt('Track digital edition revenue, platform fees, fixed obligations, reserves, and monthly net margin');
+              pushToast({ title: 'Loaded Excel model preset', tone: 'info' });
             },
           },
           {
-            label: '30-Day Focus Planner',
+            label: 'Quiet Momentum 30-Day Planner',
             onApply: () => {
               setTab('PLANNER');
-              setPlannerTitle('Creator Focus & Habit Command Planner');
-              setPlannerTheme('Daily deep work, content velocity, and zero-impulse spending');
+              setPlannerTitle('Thirty Days of Quiet Momentum');
+              setPlannerTheme('Protected morning deep work, intentional spending, and daily execution discipline');
               setDurationDays(30);
-              pushToast({ title: 'Loaded 30-Day Planner sample', tone: 'info' });
+              pushToast({ title: 'Loaded 30-Day Planner preset', tone: 'info' });
             },
           },
         ]}
@@ -447,11 +447,11 @@ export default function DigitalProductsStudioPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {artifact.previewChapters.map((c) => (
                   <div key={c.number} className="rounded-xl border bg-[var(--bg-elevated)] p-3 text-xs space-y-1">
-                    <div className="font-bold text-indigo-400">
+                    <div className="font-semibold text-[var(--accent-text)]">
                       Chapter {c.number}: {c.title}
                     </div>
                     <p className="text-[var(--text-secondary)]">
-                      <strong>Personal Story Prompt:</strong> {c.personalStoryTip}
+                      <strong>Author Margin Note:</strong> {c.personalStoryTip}
                     </p>
                   </div>
                 ))}
@@ -463,28 +463,34 @@ export default function DigitalProductsStudioPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="rounded-xl border bg-[var(--bg-elevated)] p-3">
                     <div className="text-xs text-[var(--text-secondary)]">Total Income</div>
-                    <div className="text-lg font-bold text-emerald-400">${artifact.spreadsheetPreview.totalIncome.toLocaleString()}</div>
+                    <div className="font-display text-2xl font-semibold text-emerald-600 dark:text-emerald-400">
+                      ${artifact.spreadsheetPreview.totalIncome.toLocaleString()}
+                    </div>
                   </div>
                   <div className="rounded-xl border bg-[var(--bg-elevated)] p-3">
                     <div className="text-xs text-[var(--text-secondary)]">Total Expenses</div>
-                    <div className="text-lg font-bold text-rose-400">${artifact.spreadsheetPreview.totalExpense.toLocaleString()}</div>
+                    <div className="font-display text-2xl font-semibold text-rose-600 dark:text-rose-400">
+                      ${artifact.spreadsheetPreview.totalExpense.toLocaleString()}
+                    </div>
                   </div>
                   <div className="rounded-xl border bg-[var(--bg-elevated)] p-3">
                     <div className="text-xs text-[var(--text-secondary)]">Net Balance</div>
-                    <div className="text-lg font-bold text-indigo-400">${artifact.spreadsheetPreview.netBalance.toLocaleString()}</div>
+                    <div className="font-display text-2xl font-semibold text-[var(--accent-text)]">
+                      ${artifact.spreadsheetPreview.netBalance.toLocaleString()}
+                    </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   <div className="h-64 rounded-xl border bg-[var(--bg-elevated)] p-3">
-                    <div className="text-xs font-bold mb-2">Category Breakdown (Bar)</div>
+                    <div className="text-xs font-semibold mb-2">Category Breakdown (Bar)</div>
                     <ResponsiveContainer width="100%" height="88%">
                       <BarChart data={artifact.spreadsheetPreview.chartSummary}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(159,152,140,0.22)" />
                         <XAxis dataKey="category" tick={{ fontSize: 11 }} />
                         <YAxis tick={{ fontSize: 11 }} />
                         <Tooltip />
-                        <Bar dataKey="total" fill="#6366F1" radius={[6, 6, 0, 0]} />
+                        <Bar dataKey="total" fill="#D4AF37" radius={[6, 6, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>

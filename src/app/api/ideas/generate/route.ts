@@ -33,465 +33,476 @@ interface IdeaEntry {
 }
 
 const FIELD_HINTS: Record<IdeaCategory, string> = {
-  FLOW_MOVIE: '{ "idea": "1-sentence cinematic movie idea with clear conflict and setting" }',
-  FLOW_BULK: '{ "title": "Video title", "topic": "1-line video topic", "recurringCharacter": "Simple visual character description" }',
-  NOTEBOOK_GPU: '{ "title": "Project title", "promptOrLyrics": "Clear audio/video/script prompt" }',
-  BRAND_MASCOT: '{ "brandOrKeyword": "Channel brand name", "niche": "Clear niche", "mascotIdea": "Simple memorable mascot description" }',
-  AD_SPY: '{ "brandOrKeyword": "Digital product keyword to spy on", "niche": "Target niche" }',
-  UNIVERSAL_PLAYBOOK: '{ "platformName": "Platform name (e.g. Payhip, Suno, Canva)", "platformUrl": "https://...", "creativeGoal": "Clear beginner goal" }',
-  EBOOK: '{ "title": "Promise-driven ebook title", "topic": "Practical problem solved", "audience": "Clear beginner audience" }',
-  SPREADSHEET: '{ "title": "Spreadsheet tracker title", "prompt": "What columns/metrics it tracks", "audience": "Target user" }',
-  PLANNER: '{ "title": "Planner title", "theme": "Daily focus & habit theme" }',
-  JOURNAL: '{ "title": "Workbook/Journal title", "journalType": "Reflection/Budgeting Workbook", "topic": "Core weekly exercises" }',
-  STORE_FUNNEL: '{ "productTitle": "Product title", "productSummary": "1-sentence outcome promise", "targetAudience": "Target buyer" }',
-  NOTEBOOKLM_CHANNEL: '{ "channelName": "Memorable channel name", "niche": "Evergreen niche", "targetAudience": "Target viewer", "flagshipProduct": "Product + price e.g. Budget OS ($15)" }',
-  PUBLISH_TOPIC: '{ "titleOrTopic": "Click-worthy YouTube video title/topic" }',
+  FLOW_MOVIE: '{ "idea": "1-sentence cinematic premise with clear stakes, setting, and tactile object" }',
+  FLOW_BULK: '{ "title": "Editorial video title", "topic": "1-line thesis", "recurringCharacter": "Distinctive visual silhouette character description" }',
+  NOTEBOOK_GPU: '{ "title": "Project title", "promptOrLyrics": "Specific instrumentation, mood, tempo, and mastering cue" }',
+  BRAND_MASCOT: '{ "brandOrKeyword": "Distinctive studio or channel house name", "niche": "Clear niche", "mascotIdea": "Architectural emblem or memorable mascot description" }',
+  AD_SPY: '{ "brandOrKeyword": "High-margin digital product keyword to audit", "niche": "Target category" }',
+  UNIVERSAL_PLAYBOOK: '{ "platformName": "Platform name (e.g. Payhip, Selar, Suno, Gumroad)", "platformUrl": "https://...", "creativeGoal": "Clear launch goal" }',
+  EBOOK: '{ "title": "Publication-grade editorial title", "topic": "Concrete reader outcome", "audience": "Specific reader profile" }',
+  SPREADSHEET: '{ "title": "Executive spreadsheet model title", "prompt": "Specific cashflows, categories, and decision metrics tracked", "audience": "Target user" }',
+  PLANNER: '{ "title": "Editorial planner title", "theme": "Focused cadence and discipline framework" }',
+  JOURNAL: '{ "title": "Guided edition title", "journalType": "Reflection/Decision Workbook", "topic": "Structured weekly exercises" }',
+  STORE_FUNNEL: '{ "productTitle": "Product edition title", "productSummary": "1-sentence concrete value statement", "targetAudience": "Specific buyer profile" }',
+  NOTEBOOKLM_CHANNEL: '{ "channelName": "Memorable publication or house name", "niche": "Evergreen category", "targetAudience": "Target viewer", "flagshipProduct": "Flagship edition + price e.g. Sovereign Ledger ($15)" }',
+  PUBLISH_TOPIC: '{ "titleOrTopic": "High-authority YouTube title/premise" }',
 };
 
 const FALLBACK_BANK: Record<IdeaCategory, IdeaEntry[]> = {
   FLOW_MOVIE: [
     {
-      label: 'Midnight Bus Cassette',
-      tagline: 'Suspense mystery set on a rainy late-night commute.',
-      fields: { idea: 'A tired night-shift nurse finds an unlabeled cassette on a midnight bus that predicts tomorrow morning’s news.' },
+      label: 'Nocturne on Carter Bridge',
+      tagline: 'Atmospheric suspense set during a midnight power outage.',
+      fields: {
+        idea: 'On a fog-bound Lagos bridge at 2:00 AM, a lone courier opens a brass courier tube holding blueprints that predict the city’s next grid failure.',
+      },
     },
     {
-      label: 'The Rooftop Solar Kid',
-      tagline: 'Uplifting near-future underdog story.',
-      fields: { idea: 'A 16-year-old tinkerer builds a pocket solar battery from scrap parts to keep her neighborhood clinic lit during a blackout.' },
+      label: 'Room 404 at Hotel Meridian',
+      tagline: 'Chamber mystery built around one sealed floor.',
+      fields: {
+        idea: 'A weekend night clerk at a grand coastal hotel is handed a key to Room 404, even though the fourth floor was bricked behind mahogany paneling thirty years ago.',
+      },
     },
     {
-      label: 'Key 404 at Old Hotel',
-      tagline: 'Cozy mystery with one locked room.',
-      fields: { idea: 'A weekend hotel receptionist is handed a brass key for Room 404—even though the fourth floor was bricked up thirty years ago.' },
+      label: 'The Clockmaker of Marina',
+      tagline: '1920s period intrigue with tactile gold-and-ebony detail.',
+      fields: {
+        idea: 'In 1924 Lagos, an apprentice horologist discovers an encrypted harbor cipher engraved inside the governor’s broken pocket watch.',
+      },
     },
     {
-      label: 'Clockmaker’s Debt',
-      tagline: 'Historical drama with high visual contrast.',
-      fields: { idea: 'In 1920s Lagos, an apprentice watchmaker discovers an encrypted ledger tucked inside the governor’s broken pocket watch.' },
+      label: 'Star Charts of Timbuktu',
+      tagline: 'Historical drama driven by quiet courage and spectacle.',
+      fields: {
+        idea: 'Before a Saharan dust wall reaches the city gates, a young astronomer races across lantern-lit rooftops to move seven irreplaceable celestial folios underground.',
+      },
     },
   ],
   FLOW_BULK: [
     {
-      label: 'Silent Wealth Rules',
-      tagline: 'High-CPM finance explainer using calm scenes.',
+      label: 'The Architecture of Quiet Wealth',
+      tagline: 'High-CPM finance essay pairing calm pacing with a flagship sheet.',
       fields: {
-        title: '7 Money Habits That Quietly Double Savings in 12 Months',
-        topic: 'Simple weekly cashflow rules for beginners starting from zero',
-        recurringCharacter: 'Calm indigo-hoodie stickman carrying a glowing golden coin',
+        title: 'Seven Quiet Balance-Sheet Rules That Outperform Loud Income',
+        topic: 'Structuring weekly savings transfers and low-overhead cash reserves from a modest salary',
+        recurringCharacter: 'Charcoal silhouette analyst in a tailored camel overcoat carrying a brass ledger',
       },
     },
     {
-      label: 'Ancient Trade Secrets',
-      tagline: 'Evergreen history storytelling.',
+      label: 'The Forgotten Gold Coast Trade',
+      tagline: 'Documentary narrative built for evening long-form viewers.',
       fields: {
-        title: 'How One Spice Route Built an Entire Desert Empire',
-        topic: 'Visual journey following ancient caravan traders across the Sahara',
-        recurringCharacter: 'Storyteller traveler in a deep cobalt cloak with a brass lantern',
+        title: 'How One Trans-Saharan Route Reshaped Mediterranean Finance',
+        topic: 'Tracing gold weigh-stations, brass weights, and library cities across medieval West Africa',
+        recurringCharacter: 'Hooded chronicler in deep obsidian cloak holding a warm amber astrolabe',
       },
     },
     {
-      label: 'Focus Reset Protocol',
-      tagline: 'Productivity stickman guide.',
+      label: 'Cognitive Monasticism',
+      tagline: 'Refined deep-work essay with clear visual metaphors.',
       fields: {
-        title: 'How to Fix a Scattered Mind in 48 Hours',
-        topic: 'Replacing morning phone scrolling with 3 tiny daily anchors',
-        recurringCharacter: 'Minimalist slate stickman holding a pocket hourglass',
+        title: 'Forty-Eight Hours Without Reactive Feeds: A Focus Protocol',
+        topic: 'Rebuilding morning attention spans through three scheduled paper rituals',
+        recurringCharacter: 'Minimalist slate figure beside an alabaster desk lamp and mechanical sandglass',
       },
     },
     {
-      label: 'Micro-Product Blueprint',
-      tagline: 'Creator business explainer.',
+      label: 'Small Catalog, High Margin',
+      tagline: 'Digital publishing case study with strong product intent.',
       fields: {
-        title: 'Why 1,000 Views Can Earn More Than 100,000 Views',
-        topic: 'Pairing small helpful videos with one $15 downloadable template',
-        recurringCharacter: 'Friendly geometric owl wearing square glasses',
+        title: 'Why Four Thousand Focused Viewers Outearn Viral Noise',
+        topic: 'Pairing high-trust tutorials with a single $15 print-grade edition',
+        recurringCharacter: 'Crisp geometric ink owl wearing thin brass spectacles',
       },
     },
   ],
   NOTEBOOK_GPU: [
     {
-      label: 'Warm Afro-LoFi Focus Beat',
-      tagline: 'Royalty-free background track for study & story videos.',
+      label: 'Obsidian Afro-LoFi Chamber',
+      tagline: 'Warm dusk instrumentation suited to essays and reading rooms.',
       fields: {
-        title: 'Warm Afro-LoFi Study & Storytelling Loop',
-        promptOrLyrics: 'Warm electric piano chords, soft shaker percussion, deep mellow bassline, vinyl crackle, 96 BPM instrumental',
+        title: 'Obsidian Afro-LoFi Evening Score',
+        promptOrLyrics: 'Muted Rhodes electric piano, brushed shaker groove, warm upright bassline, subtle analog tape warmth, 94 BPM instrumental',
       },
     },
     {
-      label: 'Suspense Cinema Underscore',
-      tagline: 'Moody tension bed for mystery shorts.',
+      label: 'Carter Bridge Noir Tension',
+      tagline: 'Restrained cinematic bed for thriller shorts and cold opens.',
       fields: {
-        title: 'Midnight Mystery Tension Underscore',
-        promptOrLyrics: 'Sparse pulsing synth bass, soft rain ambience, distant muted piano notes, 110 BPM cinematic instrumental',
+        title: 'Carter Bridge Noir Underscore',
+        promptOrLyrics: 'Low cello pulse, distant rain texture, sparse felt piano harmonics, deep sub swell, 106 BPM instrumental',
       },
     },
     {
-      label: 'Product Promo Voiceover Bed',
-      tagline: 'Clean upbeat music behind product demos.',
+      label: 'Atelier Edition Launch Cue',
+      tagline: 'Polished minimalist soundtrack for digital product walkthroughs.',
       fields: {
-        title: 'Clean Tech Product Launch Beat',
-        promptOrLyrics: 'Crisp pluck synths, light clap groove, uplifting warm chord progression, 116 BPM instrumental',
+        title: 'Atelier Editorial Launch Pulse',
+        promptOrLyrics: 'Crisp acoustic pluck arpeggios, refined rim-click groove, uplifting Rhodes chords, 114 BPM clean master',
       },
     },
     {
-      label: 'Calm Nature Documentary Bed',
-      tagline: 'Gentle ambient background for long-form explainers.',
+      label: 'Horizon Documentary Bed',
+      tagline: 'Spacious ambient texture for long-form historical narration.',
       fields: {
-        title: 'Horizon Documentary Ambient Score',
-        promptOrLyrics: 'Airy pad textures, acoustic guitar harmonics, gentle marimba pulse, 88 BPM calm instrumental',
+        title: 'Horizon Documentary Chamber Bed',
+        promptOrLyrics: 'Warm string pads, gentle wooden marimba ostinato, clean nylon acoustic harmonic swells, 86 BPM calm instrumental',
       },
     },
   ],
   BRAND_MASCOT: [
     {
-      label: 'Quiet Ledger Lab',
-      tagline: 'Clean personal finance & spreadsheet channel.',
+      label: 'Meridian Ledger House',
+      tagline: 'Private editorial identity for personal finance & spreadsheets.',
       fields: {
-        brandOrKeyword: 'Quiet Ledger Lab',
-        niche: 'Personal Finance & Budget Spreadsheets',
-        mascotIdea: 'Friendly navy-blue fox wearing round glasses holding a neat notebook',
+        brandOrKeyword: 'Meridian Ledger House',
+        niche: 'Personal Finance & Allocation Models',
+        mascotIdea: 'Geometric brass compass owl emblem with crisp ivory linework on matte obsidian',
       },
     },
     {
-      label: 'Lantern Lore',
-      tagline: 'Cozy historical & cultural storytelling.',
+      label: 'Atelier Chronos',
+      tagline: 'Elevated historical storytelling and documentary monographs.',
       fields: {
-        brandOrKeyword: 'Lantern Lore',
-        niche: 'Forgotten World & African History',
-        mascotIdea: 'Warm amber brass lantern character with expressive glowing eyes',
+        brandOrKeyword: 'Atelier Chronos',
+        niche: 'World & West African History Essays',
+        mascotIdea: 'Architectural brushed-gold astrolabe crest framed in warm parchment tones',
       },
     },
     {
-      label: 'Habit Sketch',
-      tagline: 'Simple stickman self-improvement explainers.',
+      label: 'Quiet Focus Press',
+      tagline: 'Study architecture, paper rituals, and calm productivity.',
       fields: {
-        brandOrKeyword: 'Habit Sketch',
-        niche: 'Focus, Habits & Student Productivity',
-        mascotIdea: 'Crisp charcoal stickman wearing an electric-indigo backpack',
+        brandOrKeyword: 'Quiet Focus Press',
+        niche: 'Deep Work & Student Editions',
+        mascotIdea: 'Minimalist obsidian fountain nib transforming into an illuminated window frame',
       },
     },
     {
-      label: 'Orbit Minute',
-      tagline: 'Bite-sized space & science mysteries.',
+      label: 'Observatory Dispatch',
+      tagline: 'Accessible astronomy, physics, and scientific curiosities.',
       fields: {
-        brandOrKeyword: 'Orbit Minute',
-        niche: 'Space & Everyday Science',
-        mascotIdea: 'Tiny silver dome robot with a glowing cyan visor',
+        brandOrKeyword: 'Observatory Dispatch',
+        niche: 'Science & Space Chronicles',
+        mascotIdea: 'Brass tabletop telescope silhouette inside a double champagne hairline ring',
       },
     },
   ],
   AD_SPY: [
     {
-      label: 'Budget Spreadsheet Templates',
-      tagline: 'High-demand evergreen digital template niche.',
-      fields: { brandOrKeyword: 'monthly budget spreadsheet', niche: 'Personal Finance Templates' },
+      label: 'Household Allocation Models',
+      tagline: 'High-intent evergreen spreadsheet demand year-round.',
+      fields: { brandOrKeyword: 'household cashflow allocation spreadsheet', niche: 'Personal Finance Editions' },
     },
     {
-      label: 'Digital ADHD / Focus Planner',
-      tagline: 'Top-converting printable & tablet planner niche.',
-      fields: { brandOrKeyword: 'digital daily planner pdf', niche: 'Productivity Planners' },
+      label: 'Hyperlinked Executive Planners',
+      tagline: 'Consistent tablet & printable productivity conversions.',
+      fields: { brandOrKeyword: 'hyperlinked daily focus planner pdf', niche: 'Executive & Student Planners' },
     },
     {
-      label: 'Small Business Bookkeeping Sheet',
-      tagline: 'Strong B2B buyer intent at $15–$29.',
-      fields: { brandOrKeyword: 'small business expense tracker', niche: 'Solo Business Tools' },
+      label: 'Solo Studio Bookkeeping Kits',
+      tagline: 'Strong $15-$29 buyer willingness among freelancers.',
+      fields: { brandOrKeyword: 'solo creator bookkeeping ledger xlsx', niche: 'Independent Business Tools' },
     },
     {
-      label: 'Wedding & Event Checklist Kit',
-      tagline: 'Year-round celebration planning niche.',
-      fields: { brandOrKeyword: 'wedding planner spreadsheet', niche: 'Event Planning Templates' },
+      label: 'Milestone Event Budget Books',
+      tagline: 'High-ticket event organization templates with clear ROI.',
+      fields: { brandOrKeyword: 'wedding vendor budget workbook', niche: 'Event Planning Editions' },
     },
   ],
   UNIVERSAL_PLAYBOOK: [
     {
-      label: 'Payhip $0 Store Launch',
-      tagline: 'Publish your first PDF or Excel product for $0/month.',
+      label: 'Payhip Signature Listing',
+      tagline: 'Launch an instant-download edition at $0/month fixed cost.',
       fields: {
         platformName: 'Payhip',
         platformUrl: 'https://payhip.com',
-        creativeGoal: 'Upload my digital product file, write a clear benefit title, set a $15 price, and publish a clean instant-download checkout page.',
+        creativeGoal: 'Publish a flagship PDF edition and Excel companion bundle at $15 with tailored benefit bullets and instant checkout delivery.',
       },
     },
     {
-      label: 'Selar Africa & Global Checkout',
-      tagline: 'Accept NGN, USD, GBP cards with zero monthly fee.',
+      label: 'Selar Multi-Currency Desk',
+      tagline: 'Accept NGN, USD, and GBP buyers cleanly.',
       fields: {
         platformName: 'Selar',
         platformUrl: 'https://selar.com',
-        creativeGoal: 'List a $9–$15 digital ebook + workbook bundle with multi-currency checkout and automatic file delivery.',
+        creativeGoal: 'List an illustrated digital handbook + workbook pairing with local and international card settlement.',
       },
     },
     {
-      label: 'Suno Royalty-Free Background Music',
-      tagline: 'Create custom intro/outro music beds.',
+      label: 'Suno Chamber Score Workflow',
+      tagline: 'Produce bespoke vocal-free narration underscores.',
       fields: {
         platformName: 'Suno',
         platformUrl: 'https://suno.com',
-        creativeGoal: 'Generate 3 calm instrumental background tracks without vocals for YouTube storytelling videos.',
+        creativeGoal: 'Compose three restrained 94 BPM instrumental beds engineered to sit cleanly beneath documentary narration.',
       },
     },
     {
-      label: 'Gumroad Clean Digital Listing',
-      tagline: 'Fast storefront for global buyers.',
+      label: 'Gumroad Editorial Storefront',
+      tagline: 'Convert organic channel traffic into instant sales.',
       fields: {
         platformName: 'Gumroad',
         platformUrl: 'https://gumroad.com',
-        creativeGoal: 'Publish a digital template with a crisp cover image, 5 bullet benefits, and instant PDF/XLSX delivery.',
+        creativeGoal: 'Stage a minimalist edition storefront featuring preview spreads, a $15 anchor price, and automatic digital fulfillment.',
       },
     },
   ],
   EBOOK: [
     {
-      label: '30-Day Money Leaks Reset',
-      tagline: 'Helps beginners spot and stop wasted weekly spending.',
+      label: "The Quiet Compounder's Ledger",
+      tagline: 'Shows readers how to reclaim silent weekly leaks into steady reserves.',
       fields: {
-        title: 'Plug the Leaks: The 30-Day Everyday Money Reset',
-        topic: 'How to audit hidden weekly subscriptions, cut food/impulse waste, and build your first $500 safety buffer',
-        audience: 'Young earners & students living paycheck to paycheck',
+        title: "The Quiet Compounder's Ledger",
+        topic: 'Identifying invisible recurring charges, restructuring paycheck splits, and building a resilient $1,000 starter reserve',
+        audience: 'Young professionals and independent earners building financial calm',
       },
     },
     {
-      label: 'First Digital Product Weekend',
-      tagline: 'Step-by-step guide to creating and selling a $15 PDF.',
+      label: 'First Edition in Forty-Eight Hours',
+      tagline: 'Guides beginners from a single practical skill to a live $15 listing.',
       fields: {
-        title: 'Weekend Product Launch: From Zero Ideas to First Digital Sale',
-        topic: 'Picking one everyday problem, writing a short helpful guide, and listing it on a $0/month store',
-        audience: 'Complete beginners starting an online side income',
+        title: 'First Edition in Forty-Eight Hours',
+        topic: 'Selecting one concrete buyer problem, drafting a tight 25-page handbook, and publishing on a zero-fee storefront',
+        audience: 'First-time digital authors launching without an existing audience',
       },
     },
     {
-      label: 'Phone-Free Focus Playbook',
-      tagline: 'Practical routine to reclaim 2 focused hours daily.',
+      label: 'Stillness Architecture',
+      tagline: 'Rebuilds daily cognitive stamina for students and solo builders.',
       fields: {
-        title: 'The 2-Hour Focus Protocol for Distracted Minds',
-        topic: 'Simple morning habits, notification rules, and 25-minute work sprints that double daily output',
-        audience: 'Students and remote workers struggling with procrastination',
+        title: 'Stillness Architecture: Reclaiming Deep Attention',
+        topic: 'Eliminating fragmented mornings with ninety-minute protected focus blocks and structured paper checklists',
+        audience: 'University students and remote builders overwhelmed by constant alerts',
       },
     },
     {
-      label: 'Meal & Grocery Budget Blueprint',
-      tagline: 'Saves families 25%+ on monthly food costs.',
+      label: 'Pantry Economics',
+      tagline: 'Cuts monthly household grocery spend without sacrificing nutrition.',
       fields: {
-        title: 'Smart Kitchen, Half the Bill: Weekly Meal & Grocery Planning',
-        topic: 'Batch-prep shopping lists, pantry rotation, and zero-waste weekly menus on a tight budget',
-        audience: 'Busy households and college students',
+        title: 'Pantry Economics: The Structured Weekly Table',
+        topic: 'Building rotating staple inventories, waste-proof prep schedules, and predictable weekly grocery ceilings',
+        audience: 'Households seeking calmer, lower-cost weekly food routines',
       },
     },
   ],
   SPREADSHEET: [
     {
-      label: 'Paycheck & Bill Split Tracker',
-      tagline: 'Auto-calculates bills, savings, and safe daily spending.',
+      label: 'Sovereign Paycheck Allocation Model',
+      tagline: 'Separates obligations, reserves, and safe daily spending on receipt.',
       fields: {
-        title: 'Paycheck-to-Paycheck Bill & Savings Splitter',
-        prompt: 'Track every paycheck, fixed bills, debt payments, savings transfers, and safe weekly spending balance',
-        audience: 'Salaried workers & students managing monthly cashflow',
+        title: 'Sovereign Paycheck & Allocation Model',
+        prompt: 'Track incoming paychecks, fixed housing and utility commitments, emergency reserve transfers, and unallocated weekly cash',
+        audience: 'Salaried professionals and young earners organizing monthly cashflow',
       },
     },
     {
-      label: 'Side-Hustle Profit & Expense Sheet',
-      tagline: 'Shows real net profit for solo sellers.',
+      label: 'Studio P&L & Margin Ledger',
+      tagline: 'Calculates true net margin after storefront fees and production costs.',
       fields: {
-        title: 'Creator & Side-Hustle Profit Dashboard',
-        prompt: 'Log product sales, platform fees, software expenses, ad spend, and net monthly profit by category',
-        audience: 'Freelancers, digital creators, and small shop owners',
+        title: 'Independent Studio Profit & Margin Ledger',
+        prompt: 'Log digital edition unit sales, processor fees, software outlays, tax reserves, and monthly net operating profit',
+        audience: 'Digital publishers, consultants, and solo studios',
       },
     },
     {
-      label: '90-Day Debt Snowball Planner',
-      tagline: 'Visualizes debt payoff progress automatically.',
+      label: 'Zero-Debt Horizon Tracker',
+      tagline: 'Projects payoff dates across multiple obligations automatically.',
       fields: {
-        title: '90-Day Debt Payoff & Freedom Tracker',
-        prompt: 'Track loan balances, monthly interest, extra payments, and payoff milestones across categories',
-        audience: 'Anyone paying down credit cards or personal loans',
+        title: 'Zero-Debt Horizon & Payoff Model',
+        prompt: 'Compare loan principals, monthly rates, snowballed extra payments, and milestone payoff dates by account',
+        audience: 'Earners systematically retiring personal or card debt',
       },
     },
     {
-      label: 'Event & Wedding Budget Control',
-      tagline: 'Prevents surprise overspending before event day.',
+      label: 'Ceremony & Vendor Capital Sheet',
+      tagline: 'Keeps wedding or milestone deposits aligned against hard ceilings.',
       fields: {
-        title: 'Stress-Free Event & Celebration Budget Sheet',
-        prompt: 'Compare estimated vs actual vendor deposits, catering, venue, outfits, and guest count totals',
-        audience: 'Couples and small event organizers',
+        title: 'Milestone Event & Vendor Allocation Sheet',
+        prompt: 'Audit estimated vs contracted vendor fees, deposit schedules, venue allocations, and guest-tier totals',
+        audience: 'Couples and independent event planners',
       },
     },
   ],
   PLANNER: [
     {
-      label: '30-Day Side-Hustle Action Planner',
-      tagline: '1 small task a day to launch without overwhelm.',
+      label: 'Thirty Days of Quiet Momentum',
+      tagline: 'Replaces scattered to-do lists with one anchor objective daily.',
       fields: {
-        title: 'The 30-Day Side-Hustle Momentum Planner',
-        theme: 'Daily 30-minute focus block, one tiny daily win, and weekly review',
+        title: 'Thirty Days of Quiet Momentum',
+        theme: 'One morning deep-work block, intentional spending discipline, and evening review',
       },
     },
     {
-      label: 'Student Exam & Study Sprint',
-      tagline: 'Organizes study blocks, weak topics, and sleep habits.',
+      label: 'Thesis & Examination Sprint',
+      tagline: 'Structures thirty days of focused academic revision without burnout.',
       fields: {
-        title: 'Calm Exam & Deep-Study 30-Day Planner',
-        theme: 'Time-blocked revision, active recall checklist, and stress-free evening wind-down',
+        title: 'The Thirty-Day Examination & Deep Study Folio',
+        theme: 'Active recall blocks, weak-subject triage, and protected sleep hours',
       },
     },
     {
-      label: 'No-Spend Challenge Tracker',
-      tagline: 'Turns saving money into a 30-day visual game.',
+      label: 'Intentional Capital 30-Day Cadence',
+      tagline: 'Tracks discretionary pauses and weekly net savings momentum.',
       fields: {
-        title: '30-Day Zero-Impulse Spending Planner',
-        theme: 'Daily no-spend streaks, urge triggers, and money saved tally',
+        title: 'Intentional Capital: 30-Day Discipline Planner',
+        theme: 'Daily zero-impulse streaks, trigger notes, and cumulative reserve tally',
       },
     },
     {
-      label: 'Creator Consistency 365 Planner',
-      tagline: 'Tracks hooks, scripts, uploads, and store clicks.',
+      label: 'Creator Editorial Dispatch',
+      tagline: 'Aligns premise writing, visual packs, and release cadence weekly.',
       fields: {
-        title: 'Faceless Creator Consistency Planner',
-        theme: 'Hook bank, filming/generation checklist, upload cadence, and monthly review',
+        title: 'The Editorial Creator Release Planner',
+        theme: 'Hook curation, studio batching, upload verification, and offer click tracking',
       },
     },
   ],
   JOURNAL: [
     {
-      label: 'Money Mindset & Trigger Workbook',
-      tagline: 'Uncovers emotional spending habits gently.',
+      label: 'The Calm Ledger Reflection Edition',
+      tagline: 'Pairs practical weekly cash audits with calm decision prompts.',
       fields: {
-        title: 'Calm Money Habits & Spending Reflection Workbook',
-        journalType: 'Budgeting & Mindset Workbook',
-        topic: 'Weekly spending check-ins, impulse-buy pause prompts, and savings celebrations',
+        title: 'The Calm Ledger Reflection Edition',
+        journalType: 'Financial Clarity & Decision Workbook',
+        topic: 'Weekly spending audits, emotional trigger awareness, and quarterly capital milestones',
       },
     },
     {
-      label: 'Sunday Reset Clarity Journal',
-      tagline: '15-minute weekly reflection for calmer Mondays.',
+      label: 'The Sunday Evening Reset Folio',
+      tagline: 'A fifteen-minute weekly ritual to enter Monday with composure.',
       fields: {
-        title: 'The Sunday Reset Weekly Reflection Journal',
-        journalType: 'Guided Reflection Journal',
-        topic: 'Reviewing weekly wins, clearing mental clutter, and picking 3 calm priorities for Monday',
+        title: 'The Sunday Evening Reset Folio',
+        journalType: 'Executive Reflection Workbook',
+        topic: 'Capturing weekly lessons, closing open mental loops, and selecting three deliberate Monday priorities',
       },
     },
     {
-      label: 'Beginner Confidence & Action Log',
-      tagline: 'Helps shy starters track small daily courage steps.',
+      label: 'Measured Courage Workbook',
+      tagline: 'Helps quiet starters ship creative work without perfectionism.',
       fields: {
-        title: 'Small Brave Steps: 30-Day Action Workbook',
-        journalType: 'Personal Growth Workbook',
-        topic: 'Overcoming perfectionism, shipping imperfect drafts, and celebrating consistency',
+        title: 'Measured Courage: Thirty-Day Publishing Workbook',
+        journalType: 'Creative Output Workbook',
+        topic: 'Replacing hesitation with daily small drafts, feedback logs, and completed releases',
       },
     },
     {
-      label: 'Gratitude & Financial Peace Log',
-      tagline: 'Pairs daily gratitude with simple saving goals.',
+      label: 'Stewardship & Gratitude Folio',
+      tagline: 'Unites evening gratitude notes with steady long-term goals.',
       fields: {
-        title: 'Daily Gratitude & Peaceful Finances Journal',
-        journalType: 'Mindful Money Journal',
-        topic: 'Three daily gratitudes, one smart money choice, and evening peace check-in',
+        title: 'Stewardship & Daily Gratitude Folio',
+        journalType: 'Mindful Capital Journal',
+        topic: 'Three grounded daily reflections, one deliberate money decision, and calm evening closure',
       },
     },
   ],
   STORE_FUNNEL: [
     {
-      label: 'Paycheck Splitter Bundle ($15)',
-      tagline: 'High-converting starter finance offer.',
+      label: "Quiet Compounder's Kit ($15)",
+      tagline: 'High-trust finance bundle for Payhip or Selar.',
       fields: {
-        productTitle: 'The 30-Day Paycheck & Budget Reset Kit',
-        productSummary: 'An easy Excel tracker + short PDF guide that shows where every dollar goes in under 15 minutes a week.',
-        targetAudience: 'Beginners tired of wondering where their paycheck disappeared',
+        productTitle: "The Quiet Compounder's Ledger & Allocation Kit",
+        productSummary: 'An editorial PDF handbook and live Excel model that locates wasted cashflow and automates weekly reserves in 15 minutes.',
+        targetAudience: 'Earners ready for clear control over every paycheck without complex jargon',
       },
     },
     {
-      label: 'Student Focus Planner ($9)',
-      tagline: 'Impulse-buy friendly price point.',
+      label: 'Examination & Focus Folio ($12)',
+      tagline: 'Accessible student edition priced for rapid conversion.',
       fields: {
-        productTitle: 'Calm Study & Exam Sprint Digital Planner',
-        productSummary: 'A clean printable & tablet-ready 30-day planner that replaces overwhelm with clear 25-minute study blocks.',
-        targetAudience: 'College students and self-learners preparing for exams',
+        productTitle: 'Thirty-Day Examination & Deep Study Folio',
+        productSummary: 'A hyperlinked 30-day tablet and printable study planner engineered to turn scattered revision into calm daily output.',
+        targetAudience: 'University students and certification candidates',
       },
     },
     {
-      label: 'Creator Prompt & Script Kit ($19)',
-      tagline: 'Appeals to aspiring faceless channels.',
+      label: 'Creator Editorial Kit ($19)',
+      tagline: 'Built for aspiring faceless channels wanting a polished start.',
       fields: {
-        productTitle: 'Faceless Story & Hook Starter Kit',
-        productSummary: '50 proven 10-second opening hooks plus a step-by-step video checklist to launch without showing your face.',
-        targetAudience: 'Shy beginners wanting to start a faceless YouTube channel',
+        productTitle: 'The Faceless Editorial Hook & Launch Kit',
+        productSummary: 'Fifty proven cold-open frameworks paired with a step-by-step release checklist for launching without appearing on camera.',
+        targetAudience: 'Private beginners launching an authoritative faceless channel',
       },
     },
     {
-      label: 'Zero-Waste Meal Planner ($12)',
-      tagline: 'Practical everyday household saver.',
+      label: 'Pantry Economics Workbook ($12)',
+      tagline: 'Tangible household savings proposition with immediate ROI.',
       fields: {
-        productTitle: 'Half-Bill Weekly Meal & Grocery Planner',
-        productSummary: 'Reusable weekly meal templates and smart grocery lists designed to cut food waste by 25%.',
-        targetAudience: 'Busy families and young adults cooking on a budget',
+        productTitle: 'Pantry Economics Weekly Table & Budget Kit',
+        productSummary: 'Structured weekly menu boards and automatic grocery tracking sheets designed to cut household food waste by 25%.',
+        targetAudience: 'Busy households looking to lower recurring grocery bills',
       },
     },
   ],
   NOTEBOOKLM_CHANNEL: [
     {
-      label: 'Quiet Ledger Academy',
-      tagline: 'Evergreen budgeting + Excel kit channel.',
+      label: 'Meridian Ledger House',
+      tagline: 'Authority finance essays paired with a $15 Excel & PDF bundle.',
       fields: {
-        channelName: 'Quiet Ledger Academy',
-        niche: 'Personal Finance & Budgeting',
-        targetAudience: 'Young earners building their first emergency fund',
-        flagshipProduct: 'Paycheck & Budget OS ($15)',
+        channelName: 'Meridian Ledger House',
+        niche: 'Personal Finance & Capital Habits',
+        targetAudience: 'Young professionals building six-month financial resilience',
+        flagshipProduct: "The Quiet Compounder's Ledger ($15)",
       },
     },
     {
-      label: 'Focus Sketch Club',
-      tagline: 'Stickman productivity + planner funnel.',
+      label: 'Quiet Focus Press',
+      tagline: 'Cognitive discipline essays funneling into a $12 planner.',
       fields: {
-        channelName: 'Focus Sketch Club',
-        niche: 'Study Habits & Beat Procrastination',
-        targetAudience: 'Students and remote workers',
-        flagshipProduct: '30-Day Deep Focus Planner ($12)',
+        channelName: 'Quiet Focus Press',
+        niche: 'Deep Work & Study Architecture',
+        targetAudience: 'Students and independent creators seeking structured focus',
+        flagshipProduct: 'Thirty Days of Quiet Momentum ($12)',
       },
     },
     {
-      label: 'Lantern History Tales',
-      tagline: 'Story-driven historical essays + illustrated ebook.',
+      label: 'Atelier Chronos',
+      tagline: 'Cinema-grade historical storytelling with an illustrated monograph.',
       fields: {
-        channelName: 'Lantern History Tales',
-        niche: 'World & African History Stories',
-        targetAudience: 'Curious evening documentary listeners',
-        flagshipProduct: 'Illustrated Forgotten Empires Ebook ($14)',
+        channelName: 'Atelier Chronos',
+        niche: 'World & West African History Chronicles',
+        targetAudience: 'Evening documentary listeners who value narrative depth',
+        flagshipProduct: 'Forgotten Trade Empires Illustrated Edition ($14)',
       },
     },
     {
-      label: 'Simple Side Income',
-      tagline: 'Beginner-friendly digital product tutorials.',
+      label: 'Sovereign Editions Desk',
+      tagline: 'Practical walkthroughs teaching clean $15 digital publishing.',
       fields: {
-        channelName: 'Simple Side Income',
-        niche: 'Digital Products & Creator Tools',
-        targetAudience: 'First-time online creators starting with $0',
-        flagshipProduct: 'Weekend Product Launch Workbook ($15)',
+        channelName: 'Sovereign Editions Desk',
+        niche: 'Digital Publishing & Independent Studios',
+        targetAudience: 'First-time creators building lean local assets',
+        flagshipProduct: 'First Edition in Forty-Eight Hours ($15)',
       },
     },
   ],
   PUBLISH_TOPIC: [
     {
-      label: '3 Money Leaks Fixed in 10 Mins',
-      tagline: 'High-curiosity practical finance hook.',
-      fields: { titleOrTopic: '3 Quiet Money Leaks Keeping You Broke (And the 10-Minute Fix)' },
+      label: 'Three Silent Cashflow Leaks',
+      tagline: 'High-trust curiosity premise anchored to a workbook offer.',
+      fields: { titleOrTopic: 'Three Silent Cashflow Leaks Hiding Inside Everyday Bank Statements' },
     },
     {
-      label: 'How I Built a $15 Sheet From Scratch',
-      tagline: 'Behind-the-scenes tutorial driving store clicks.',
-      fields: { titleOrTopic: 'How to Build & Sell a Simple Budget Spreadsheet With Zero Experience' },
+      label: 'Building a Flagship $15 Edition',
+      tagline: 'Behind-the-scenes studio walkthrough driving direct clicks.',
+      fields: { titleOrTopic: 'How to Architect and Publish a Print-Grade $15 Digital Edition Locally' },
     },
     {
-      label: 'The 5AM Phone-Free Morning Test',
-      tagline: 'Relatable transformation story.',
-      fields: { titleOrTopic: 'I Quit Checking My Phone for 7 Mornings — Here Is What Changed' },
+      label: 'Seven Mornings Without Reactive Feeds',
+      tagline: 'Disciplined personal experiment with broad appeal.',
+      fields: { titleOrTopic: 'I Replaced Morning Scrolling With Paper Allocation for Seven Days' },
     },
     {
-      label: 'One Product, Ten Simple Videos',
-      tagline: 'Creator growth breakdown.',
-      fields: { titleOrTopic: 'Why You Only Need 1 Good Digital Product to Start Earning Online' },
+      label: 'One Edition, Ten Focused Essays',
+      tagline: 'Evergreen funnel architecture explained clearly.',
+      fields: { titleOrTopic: 'Why One Thoughtful Digital Edition Beats Chasing Viral AdSense' },
     },
   ],
 };
+
+const CLICHE_BAN =
+  'STRICT NAMING RULES: Never use tired cliché words like "Ultimate", "Mastery", "Unlock", "Game-Changer", "Quick Guide", "Secrets Revealed", "Hack", "Garden Gnome", or "Lost Treasure". Write crisp, publication-grade, distinguished titles that feel like a boutique imprint while remaining plain and approachable for complete beginners.';
 
 export async function POST(req: NextRequest) {
   try {
@@ -499,19 +510,21 @@ export async function POST(req: NextRequest) {
     const mood = body.moodOrNiche?.trim() || 'Surprise Me';
     const seedHint = Math.floor(Math.random() * 9000 + 1000);
 
-    const prompt = `Generate 4 fresh, beginner-friendly creative ideas for a novice student who has a completely blank mind and doesn't know what to type yet.
+    const prompt = `Generate 4 distinctive, publication-grade creative concepts for a beginner student starting with a blank page.
 Studio Category: ${body.category}
-Student Vibe / Interest: ${mood}
+Editorial Direction: ${mood}
 Freshness Seed: ${seedHint}
 
+${CLICHE_BAN}
+
 Requirements:
-- Keep every idea crystal clear, practical, zero-jargon, and immediately usable by a beginner.
+- Every title and premise must sound refined, specific, commercially credible, and immediately clear to a beginner.
 - Return STRICT JSON ONLY matching this exact schema:
 {
   "ideas": [
     {
-      "label": "Short 2-5 word title",
-      "tagline": "1 plain-English sentence explaining why this works",
+      "label": "Short 2-5 word distinguished title",
+      "tagline": "1 crisp active-voice sentence explaining why this works",
       "fields": ${FIELD_HINTS[body.category]}
     }
   ]
@@ -521,7 +534,8 @@ Requirements:
       const res = await generateWithRouter({
         taskType: 'fast_generation',
         prompt,
-        systemPrompt: 'You help shy, blank-slate beginners start creating in seconds. Return strict valid JSON only.',
+        systemPrompt:
+          'You are a senior editorial director at an independent publishing and cinema studio helping beginners start with refined, non-generic concepts. Return strict valid JSON only.',
         jsonMode: true,
         temperature: 0.85,
         maxOutputTokens: 1600,
@@ -529,8 +543,8 @@ Requirements:
       const parsed = extractJsonFromText<{ ideas?: IdeaEntry[] }>(res.text);
       if (Array.isArray(parsed.ideas) && parsed.ideas.length > 0) {
         const sanitized = parsed.ideas.slice(0, 4).map((item, idx) => ({
-          label: String(item.label || `Idea ${idx + 1}`),
-          tagline: String(item.tagline || 'Beginner-friendly starter idea'),
+          label: String(item.label || `Concept ${idx + 1}`),
+          tagline: String(item.tagline || 'Curated studio starter concept'),
           fields: Object.fromEntries(
             Object.entries(item.fields ?? {}).map(([k, v]) => [k, String(v ?? '')])
           ),
@@ -541,7 +555,7 @@ Requirements:
         });
       }
     } catch {
-      // Seamless fallback bank so blank students never hit a dead end
+      // Seamless curated fallback bank so blank students never hit a dead end
     }
 
     const bank = [...(FALLBACK_BANK[body.category] ?? [])];
@@ -551,7 +565,7 @@ Requirements:
     }
     return NextResponse.json({
       ideas: bank.slice(0, 4),
-      provider: 'Instant Starter Bank',
+      provider: 'Curated Studio Bank',
     });
   } catch (err) {
     return NextResponse.json(

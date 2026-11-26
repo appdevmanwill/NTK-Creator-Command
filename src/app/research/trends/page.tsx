@@ -53,8 +53,8 @@ export default function TrendFinderPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="YouTube & Digital Product Trend Finder"
-        subtitle="Validate evergreen demand vs. short-lived fads, inspect momentum curves, and jump straight into Google Trends filtered to YouTube Search."
+        title="Demand & Seasonality Radar"
+        subtitle="Distinguish durable evergreen search demand from temporary spikes, inspect momentum curves, and jump straight to YouTube Search Trends."
       />
 
       <Card>
@@ -110,24 +110,24 @@ export default function TrendFinderPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
               <div className="rounded-xl border bg-[var(--bg-elevated)] p-3">
-                <div className="font-bold text-indigo-400 mb-1">Seasonality</div>
+                <div className="font-semibold text-[var(--accent-text)] mb-1">Seasonality</div>
                 <p className="text-[var(--text-secondary)]">{data.analysis.seasonality}</p>
               </div>
               <div className="rounded-xl border bg-[var(--bg-elevated)] p-3">
-                <div className="font-bold text-emerald-400 mb-1">Digital Product Fit</div>
+                <div className="font-semibold text-emerald-600 dark:text-emerald-400 mb-1">Digital Product Fit</div>
                 <p className="text-[var(--text-secondary)]">{data.analysis.monetizationFit}</p>
               </div>
             </div>
 
             <div className="h-60 rounded-xl border bg-[var(--bg-elevated)] p-3">
-              <div className="text-xs font-bold mb-2">Estimated Search Interest Trajectory</div>
+              <div className="text-xs font-semibold mb-2">Estimated Search Interest Trajectory</div>
               <ResponsiveContainer width="100%" height="88%">
                 <AreaChart data={data.analysis.momentumSeries}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(159,152,140,0.22)" />
                   <XAxis dataKey="period" tick={{ fontSize: 11 }} />
                   <YAxis tick={{ fontSize: 11 }} />
                   <Tooltip />
-                  <Area type="monotone" dataKey="interest" stroke="#6366F1" fill="#6366F1" fillOpacity={0.22} />
+                  <Area type="monotone" dataKey="interest" stroke="#D4AF37" fill="#D4AF37" fillOpacity={0.2} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>

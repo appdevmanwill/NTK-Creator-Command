@@ -9,23 +9,23 @@ import { useExperienceMode } from './ExperienceModeProvider';
 const HELP_ITEMS = [
   {
     icon: Compass,
-    title: 'Where should I start?',
-    body: 'Follow the 4 simple steps on the Home screen: (1) Pick a niche idea, (2) Create one digital product like an ebook or budget sheet, (3) Make a video or brand pack, and (4) Launch safely with a draft upload pack.',
+    title: 'Where do you start?',
+    body: 'Follow the 4-stage path on the Atelier Home screen: (1) study proven channels in Opportunity Atlas, (2) press an Ebook, financial spreadsheet, or planner in Digital Press, (3) build a video or brand pack in Cinema & Visuals, and (4) prepare a private draft at Release & Archive.',
   },
   {
     icon: DollarSign,
-    title: 'Will anything charge my card?',
-    body: 'No. Everything runs locally on your computer using free-tier AI keys or copy-paste Zero-Key prompts. Recommended storefronts like Payhip, Selar, and Gumroad have $0 monthly fees.',
+    title: 'Are there hidden fees or subscriptions?',
+    body: 'No. Everything compiles locally on your computer with free-tier AI keys or copy-paste Zero-Key prompts. Recommended storefronts such as Payhip, Selar, and Gumroad operate with zero monthly fee.',
   },
   {
     icon: ShieldCheck,
-    title: 'Will this post to my YouTube channel by mistake?',
-    body: 'Never. Safe Draft Mode fills in your title, description, and thumbnail, then STOPS on the review screen so nothing goes public without your own final click.',
+    title: 'Can anything publish without approval?',
+    body: 'Never. Safe Release Mode fills in your title, description, and thumbnail, then pauses on the final review screen until you click Publish yourself.',
   },
   {
     icon: FolderDown,
-    title: 'Where are my downloaded files saved?',
-    body: 'Every PDF, Excel sheet, and .ZIP pack you build stays saved in "4. Launch & My Files -> My Downloads" (/library), so you can preview or re-download them anytime.',
+    title: 'Where do your finished files live?',
+    body: 'Every PDF edition, formula workbook, and production ZIP stays archived under "04 · Release & Archive -> My Editions Vault" (/library) for preview or instant re-download.',
   },
 ];
 
@@ -37,16 +37,18 @@ export function QuickHelpDrawer() {
   return (
     <div className="fixed inset-0 z-50 flex justify-end" data-testid="quick-help-drawer">
       <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/65 backdrop-blur-sm"
         onClick={() => setHelpOpen(false)}
       />
-      <aside className="relative z-10 w-full max-w-md bg-[var(--bg-surface)] border-l h-full flex flex-col shadow-2xl">
-        <div className="flex items-center justify-between px-5 py-4 border-b">
-          <div className="flex items-center gap-2">
-            <HelpCircle className="h-5 w-5 text-indigo-400" />
+      <aside className="relative z-10 w-full max-w-md bg-[var(--bg-surface)] border-l border-[var(--border-subtle)] h-full flex flex-col shadow-2xl">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border-subtle)]">
+          <div className="flex items-center gap-2.5">
+            <HelpCircle className="h-5 w-5 text-[var(--accent-text)]" />
             <div>
-              <h2 className="text-sm font-bold text-[var(--text-primary)]">60-Second Beginner Guide</h2>
-              <p className="text-[11px] text-[var(--text-secondary)]">Plain-English answers — no tech jargon</p>
+              <h2 className="font-display text-lg font-semibold text-[var(--text-primary)] leading-tight">
+                Atelier Quick Guide
+              </h2>
+              <p className="text-[11px] text-[var(--text-secondary)]">Clear orientation in under a minute</p>
             </div>
           </div>
           <button
@@ -64,8 +66,11 @@ export function QuickHelpDrawer() {
           {HELP_ITEMS.map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.title} className="rounded-2xl border bg-[var(--bg-elevated)] p-4 space-y-1.5">
-                <div className="flex items-center gap-2 text-xs font-bold text-indigo-400">
+              <div
+                key={item.title}
+                className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-elevated)] p-4 space-y-1.5"
+              >
+                <div className="flex items-center gap-2 text-xs font-semibold text-[var(--accent-text)]">
                   <Icon className="h-4 w-4 shrink-0" />
                   <span>{item.title}</span>
                 </div>
@@ -74,15 +79,15 @@ export function QuickHelpDrawer() {
             );
           })}
 
-          <div className="rounded-2xl border border-indigo-500/30 bg-indigo-500/10 p-4 space-y-2.5">
-            <div className="flex items-center gap-2 text-xs font-bold text-[var(--text-primary)]">
-              <Sliders className="h-4 w-4 text-indigo-400" />
-              <span>Workspace Complexity Mode</span>
+          <div className="rounded-2xl border border-[var(--border-accent)] bg-[var(--accent-soft)] p-4 space-y-2.5">
+            <div className="flex items-center gap-2 text-xs font-semibold text-[var(--text-primary)]">
+              <Sliders className="h-4 w-4 text-[var(--accent-text)]" />
+              <span>Workspace Complexity</span>
             </div>
-            <p className="text-xs text-[var(--text-secondary)]">
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
               {mode === 'guided'
-                ? 'You are in Guided Mode (5 calm steps, advanced dials tucked away).'
-                : 'You are in Pro Mode (all 16 studios, advanced options, and Admin API Key Vault visible).'}
+                ? 'Guided Atelier is active: five calm milestones with advanced settings folded neatly away.'
+                : 'Executive Pro Mode is active: all sixteen studios, advanced parameters, and the API Key Vault are open.'}
             </p>
             <Button
               type="button"
@@ -91,14 +96,14 @@ export function QuickHelpDrawer() {
               onClick={() => setMode(mode === 'guided' ? 'pro' : 'guided')}
               className="w-full"
             >
-              Switch to {mode === 'guided' ? 'Pro Mode (All 16 Tools)' : 'Guided Mode (Beginner Friendly)'}
+              Switch to {mode === 'guided' ? 'Executive Pro (All 16 Studios)' : 'Guided Atelier (5 Steps)'}
             </Button>
           </div>
         </div>
 
-        <div className="border-t p-4 flex items-center justify-between gap-2">
+        <div className="border-t border-[var(--border-subtle)] p-4 flex items-center justify-between gap-2">
           <Link href="/" onClick={() => setHelpOpen(false)} className="flex-1">
-            <Button className="w-full" size="sm">Back to 4-Step Start Screen</Button>
+            <Button className="w-full" size="sm">Return to Atelier Home</Button>
           </Link>
         </div>
       </aside>

@@ -35,12 +35,12 @@ interface DashboardData {
 }
 
 const PRO_QUICK_LAUNCH = [
-  { title: 'Google Flow Movie Pack', desc: 'Character & location profiles + shots + FFmpeg', href: '/packs/flow-movie', icon: Film },
-  { title: 'Digital Product Studio', desc: 'Local PDF ebooks, formula .xlsx & 365-day planners', href: '/products', icon: Package },
-  { title: 'Kaggle & Colab Notebooks', desc: 'Free T4/P100 GPU music, shorts & Whisper packs', href: '/packs/notebooks', icon: Cpu },
-  { title: 'Faceless Channel Finder', desc: '30+ seeded channels + digital product link scan', href: '/research/faceless-finder', icon: Radar },
-  { title: 'Viral Hook Coach', desc: 'Hooks, high-CPM niches & handle availability', href: '/coach', icon: Flame },
-  { title: 'Publishing & OAuth Packs', desc: 'BrowserOS neo draft pack & YouTube Python uploader', href: '/publish-packs', icon: UploadCloud },
+  { title: 'Flow Cinema Studio', desc: 'Character & set continuity profiles, shot prompts & stream-copy FFmpeg', href: '/packs/flow-movie', icon: Film },
+  { title: 'Digital Press Studio', desc: 'Print-editorial PDF editions, formula .xlsx models & 365-day planners', href: '/products', icon: Package },
+  { title: 'Cloud GPU Production Lab', desc: 'Free Colab & Kaggle T4/P100 notebooks for music, shorts & Whisper', href: '/packs/notebooks', icon: Cpu },
+  { title: 'Opportunity Atlas', desc: 'Tracked faceless channels with live digital store & revenue signals', href: '/research/faceless-finder', icon: Radar },
+  { title: 'Editorial Hook Coach', desc: 'Strategy threads, opening hooks & live YouTube handle checks', href: '/coach', icon: Flame },
+  { title: 'Safe Release Desk', desc: 'BrowserOS neo human-in-the-loop drafts & Python YouTube OAuth packs', href: '/publish-packs', icon: UploadCloud },
 ];
 
 export default function DashboardHomePage() {
@@ -58,140 +58,168 @@ export default function DashboardHomePage() {
     const hasProjects = (data?.stats.projectsCount ?? 0) > 0;
     const journeySteps = [
       {
-        step: 'Step 1',
-        title: 'Pick a Winning Idea',
-        desc: 'Browse 30 real faceless channels and see what digital products they sell, or ask the AI Coach for hooks.',
+        numeral: '01',
+        title: 'Study Proven Opportunities',
+        desc: 'Inspect 30 active faceless channels, review niche revenue estimates, and uncover which digital products viewers already buy.',
         href: '/research/faceless-finder',
-        cta: 'Explore 30 Channels',
+        cta: 'Open Opportunity Atlas',
         icon: Radar,
         done: (data?.stats.channelsCount ?? 0) > 0,
       },
       {
-        step: 'Step 2',
-        title: 'Create Your First Digital Product',
-        desc: 'Make a ready-to-sell PDF Ebook, an auto-calculating Excel Sheet, or a 30-Day Planner in minutes.',
+        numeral: '02',
+        title: 'Press a Flagship Digital Edition',
+        desc: 'Author an editorial PDF book, an auto-calculating Excel financial tracker, or a 30-day planner ready for your storefront.',
         href: '/products',
-        cta: 'Create a Product',
+        cta: 'Enter Digital Press',
         icon: Package,
         done: hasProjects,
       },
       {
-        step: 'Step 3',
-        title: 'Make Your Video & Visual Pack',
-        desc: 'Turn a 1-line idea into an AI movie pack or matching channel brand kit with safe BrowserOS neo steps.',
+        numeral: '03',
+        title: 'Direct Your Cinema & Brand Pack',
+        desc: 'Shape a one-line story into locked cast profiles, ordered shots, and a cohesive visual identity kit.',
         href: '/packs/flow-movie',
-        cta: 'Make a Video Pack',
+        cta: 'Open Cinema Studio',
         icon: Film,
         done: hasProjects,
       },
       {
-        step: 'Step 4',
-        title: 'Launch Your Store & Publish Safely',
-        desc: 'Write your $0-monthly storefront copy and prepare a Safe Draft upload that waits for your final click.',
+        numeral: '04',
+        title: 'Prepare Storefront & Safe Release',
+        desc: 'Draft storefront copy for zero-fee platforms and stage an upload package that waits for your final approval.',
         href: '/publish-packs',
-        cta: 'Prepare Safe Draft',
+        cta: 'Open Safe Release Desk',
         icon: UploadCloud,
         done: false,
       },
     ];
 
     return (
-      <div className="space-y-6" data-testid="guided-home">
-        <Card className="border-indigo-500/30 bg-gradient-to-br from-indigo-500/10 via-[var(--bg-surface)] to-sky-500/10 p-6 sm:p-7 space-y-5">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/15 border border-indigo-500/30 px-3 py-0.5 text-xs font-semibold text-indigo-400">
-                <Sparkles className="h-3.5 w-3.5" /> Start Here — Beginner Friendly
+      <div className="space-y-7" data-testid="guided-home">
+        <Card className="atelier-hero-bg border-[var(--border-accent)] p-6 sm:p-8 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div className="space-y-2.5">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-accent)] bg-[var(--accent-soft)] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--accent-text)]">
+                <Sparkles className="h-3 w-3" /> Private Creator Atelier · Guided Edition
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)]">
-                Welcome! What do you want to create today?
+              <h1 className="font-display text-3xl sm:text-4xl lg:text-[2.65rem] font-semibold tracking-tight text-[var(--text-primary)] leading-[1.08]">
+                Build something worth owning.
               </h1>
-              <p className="text-sm text-[var(--text-secondary)] max-w-2xl">
-                Pick one goal below and we&apos;ll guide you step by step. No coding, no paid subscriptions, and nothing ever posts without your final click.
+              <p className="text-sm text-[var(--text-secondary)] max-w-2xl leading-relaxed">
+                Choose a clear starting point below and move through the studio at your own pace. You write zero code, pay zero monthly software fees, and control every final release.
               </p>
             </div>
             <Button variant="secondary" size="sm" onClick={() => setHelpOpen(true)} className="shrink-0">
-              <HelpCircle className="h-4 w-4 text-indigo-400" /> 60-Second Guide
+              <HelpCircle className="h-4 w-4 text-[var(--accent-text)]" /> Atelier Guide
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3" data-testid="starter-picker">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5" data-testid="starter-picker">
             <Link href="/research/faceless-finder" className="group">
-              <div className="h-full rounded-2xl border bg-[var(--bg-surface)] p-4 hover:border-indigo-500/60 transition flex flex-col justify-between gap-3">
-                <div className="flex items-start gap-3">
-                  <div className="rounded-xl bg-sky-500/15 p-2.5 text-sky-400 shrink-0">
-                    <Compass className="h-5 w-5" />
+              <div className="h-full rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-5 hover:border-[var(--border-accent)] transition-all flex flex-col justify-between gap-4">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-semibold uppercase tracking-[0.18em] text-[var(--accent-text)]">
+                      01 / Discover
+                    </span>
+                    <Compass className="h-4 w-4 text-[var(--accent-text)]" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-[var(--text-primary)]">Find a profitable channel idea</div>
-                    <p className="text-xs text-[var(--text-secondary)] mt-1">See real niches, earnings estimates, and product links.</p>
+                    <div className="font-display text-xl font-semibold text-[var(--text-primary)] leading-snug">
+                      Spot Proven Niches &amp; Offers
+                    </div>
+                    <p className="text-xs text-[var(--text-secondary)] mt-1.5 leading-relaxed">
+                      Examine real faceless channels, monthly revenue estimates, and linked digital products.
+                    </p>
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-sky-400 inline-flex items-center">
-                  Start with Ideas <ArrowRight className="h-3.5 w-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
+                <span className="text-xs font-semibold text-[var(--accent-text)] inline-flex items-center">
+                  Open Opportunity Atlas <ArrowRight className="h-3.5 w-3.5 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>
             </Link>
 
             <Link href="/products" className="group">
-              <div className="h-full rounded-2xl border bg-[var(--bg-surface)] p-4 hover:border-indigo-500/60 transition flex flex-col justify-between gap-3">
-                <div className="flex items-start gap-3">
-                  <div className="rounded-xl bg-indigo-500/15 p-2.5 text-indigo-400 shrink-0">
-                    <Package className="h-5 w-5" />
+              <div className="h-full rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-5 hover:border-[var(--border-accent)] transition-all flex flex-col justify-between gap-4">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-semibold uppercase tracking-[0.18em] text-[var(--accent-text)]">
+                      02 / Publish
+                    </span>
+                    <Package className="h-4 w-4 text-[var(--accent-text)]" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-[var(--text-primary)]">Create my first ebook or spreadsheet</div>
-                    <p className="text-xs text-[var(--text-secondary)] mt-1">Export a finished PDF or Excel workbook ready to sell.</p>
+                    <div className="font-display text-xl font-semibold text-[var(--text-primary)] leading-snug">
+                      Press a Flagship Digital Edition
+                    </div>
+                    <p className="text-xs text-[var(--text-secondary)] mt-1.5 leading-relaxed">
+                      Compile a print-grade PDF book, formula Excel workbook, or hyperlinked planner locally.
+                    </p>
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-indigo-400 inline-flex items-center">
-                  Create a Product <ArrowRight className="h-3.5 w-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
+                <span className="text-xs font-semibold text-[var(--accent-text)] inline-flex items-center">
+                  Enter Digital Press <ArrowRight className="h-3.5 w-3.5 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>
             </Link>
 
             <Link href="/packs/flow-movie" className="group">
-              <div className="h-full rounded-2xl border bg-[var(--bg-surface)] p-4 hover:border-indigo-500/60 transition flex flex-col justify-between gap-3">
-                <div className="flex items-start gap-3">
-                  <div className="rounded-xl bg-emerald-500/15 p-2.5 text-emerald-400 shrink-0">
-                    <Film className="h-5 w-5" />
+              <div className="h-full rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-5 hover:border-[var(--border-accent)] transition-all flex flex-col justify-between gap-4">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-semibold uppercase tracking-[0.18em] text-[var(--accent-text)]">
+                      03 / Direct
+                    </span>
+                    <Film className="h-4 w-4 text-[var(--accent-text)]" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-[var(--text-primary)]">Build my first AI video pack</div>
-                    <p className="text-xs text-[var(--text-secondary)] mt-1">Type a 1-line story and get ready-to-use video prompts.</p>
+                    <div className="font-display text-xl font-semibold text-[var(--text-primary)] leading-snug">
+                      Direct a Cinematic Video Pack
+                    </div>
+                    <p className="text-xs text-[var(--text-secondary)] mt-1.5 leading-relaxed">
+                      Expand a single premise into consistent cast profiles, ordered shots, and assembly cues.
+                    </p>
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-emerald-400 inline-flex items-center">
-                  Build Video Pack <ArrowRight className="h-3.5 w-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
+                <span className="text-xs font-semibold text-[var(--accent-text)] inline-flex items-center">
+                  Open Cinema Studio <ArrowRight className="h-3.5 w-3.5 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>
             </Link>
           </div>
         </Card>
 
-        <div className="space-y-3">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--text-secondary)]">
-            Your 4-Step Creator Journey
-          </h2>
+        <div className="space-y-3.5">
+          <div className="flex items-center justify-between">
+            <h2 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+              Four-Stage Studio Architecture
+            </h2>
+            <span className="text-[11px] font-mono text-[var(--text-secondary)]">
+              Guided Edition
+            </span>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4" data-testid="four-step-journey">
             {journeySteps.map((item) => {
               const Icon = item.icon;
               return (
-                <Card key={item.step} className="flex flex-col justify-between gap-4">
+                <Card key={item.numeral} className="flex flex-col justify-between gap-4 hover:border-[var(--border-accent)] transition-colors">
                   <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-3">
-                      <div className="rounded-xl bg-indigo-500/15 p-2.5 text-indigo-400 shrink-0">
-                        <Icon className="h-5 w-5" />
+                    <div className="flex items-start gap-4">
+                      <div className="font-display text-3xl font-semibold leading-none text-[var(--accent-text)] select-none pt-0.5">
+                        {item.numeral}
                       </div>
                       <div>
-                        <div className="text-[11px] font-bold uppercase tracking-wider text-indigo-400">{item.step}</div>
-                        <h3 className="text-base font-bold text-[var(--text-primary)]">{item.title}</h3>
-                        <p className="text-xs text-[var(--text-secondary)] mt-1 leading-relaxed">{item.desc}</p>
+                        <div className="flex items-center gap-2">
+                          <Icon className="h-3.5 w-3.5 text-[var(--accent-text)]" />
+                          <h3 className="text-base font-semibold text-[var(--text-primary)]">{item.title}</h3>
+                        </div>
+                        <p className="text-xs text-[var(--text-secondary)] mt-1.5 leading-relaxed">{item.desc}</p>
                       </div>
                     </div>
-                    {item.done && <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0" />}
+                    {item.done && <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-1" />}
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end pt-1">
                     <Link href={item.href}>
                       <Button size="sm" variant="secondary">
                         {item.cta} <ArrowRight className="h-3.5 w-3.5" />
@@ -206,21 +234,21 @@ export default function DashboardHomePage() {
 
         <Card className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-3.5">
           <div className="flex flex-wrap items-center gap-4 text-xs text-[var(--text-secondary)]">
-            <span className="inline-flex items-center gap-1.5 font-semibold text-emerald-400">
+            <span className="inline-flex items-center gap-1.5 font-semibold text-emerald-700 dark:text-emerald-400">
               <ShieldCheck className="h-4 w-4" />
-              AI Ready: {data ? `${data.stats.healthyKeysCount}/${data.stats.keysCount} healthy` : '—'}
+              AI Pool Ready: {data ? `${data.stats.healthyKeysCount}/${data.stats.keysCount} healthy` : '—'}
             </span>
-            <span>{data?.stats.channelsCount ?? 30} starter channels</span>
-            <span>{data?.stats.projectsCount ?? 0} saved creations</span>
+            <span>{data?.stats.channelsCount ?? 30} benchmarked channels</span>
+            <span>{data?.stats.projectsCount ?? 0} saved editions</span>
           </div>
           <div className="flex items-center gap-2">
             <Link href="/library">
               <Button size="sm" variant="ghost">
-                <FolderArchive className="h-3.5 w-3.5" /> My Downloads
+                <FolderArchive className="h-3.5 w-3.5" /> My Editions Vault
               </Button>
             </Link>
             <Button size="sm" variant="secondary" onClick={() => setMode('pro')}>
-              Switch to Pro Command Center
+              Switch to Executive Pro
             </Button>
           </div>
         </Card>
@@ -231,13 +259,13 @@ export default function DashboardHomePage() {
   return (
     <div className="space-y-6" data-testid="pro-home">
       <PageHeader
-        title="Command Center"
-        subtitle="Local-first AI agent pack builder, digital product studio, and YouTube research workspace engineered for $0 incremental cloud spend."
+        title="Executive Atelier"
+        subtitle="Local-first production studio for cinema agent packs, digital editions, and channel intelligence."
         badge="Pro Mode"
         actions={
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" onClick={() => setMode('guided')}>
-              Switch to Guided Mode
+              Switch to Guided Atelier
             </Button>
             <Link href="/admin/keys">
               <Button variant="secondary" size="sm">
@@ -250,40 +278,58 @@ export default function DashboardHomePage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
-          <div className="text-xs font-semibold uppercase text-[var(--text-secondary)]">API Vault Health</div>
-          <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-emerald-400">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+            API Vault Health
+          </div>
+          <div className="mt-2.5 flex items-baseline justify-between">
+            <span className="font-display text-3xl font-semibold text-emerald-600 dark:text-emerald-400">
               {data ? `${data.stats.healthyKeysCount}/${data.stats.keysCount}` : '—'}
             </span>
             <span className="text-xs text-[var(--text-secondary)]">healthy keys</span>
           </div>
         </Card>
         <Card>
-          <div className="text-xs font-semibold uppercase text-[var(--text-secondary)]">Saved Packs & Products</div>
-          <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-indigo-400">{data?.stats.projectsCount ?? '—'}</span>
-            <Link href="/library" className="text-xs text-indigo-400 hover:underline">Open Library</Link>
+          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+            Saved Editions
+          </div>
+          <div className="mt-2.5 flex items-baseline justify-between">
+            <span className="font-display text-3xl font-semibold text-[var(--accent-text)]">
+              {data?.stats.projectsCount ?? '—'}
+            </span>
+            <Link href="/library" className="text-xs font-medium text-[var(--accent-text)] hover:underline">
+              Open Vault
+            </Link>
           </div>
         </Card>
         <Card>
-          <div className="text-xs font-semibold uppercase text-[var(--text-secondary)]">Tracked Faceless Channels</div>
-          <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-sky-400">{data?.stats.channelsCount ?? '—'}</span>
-            <Link href="/research/faceless-finder" className="text-xs text-sky-400 hover:underline">Explore</Link>
+          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+            Indexed Channels
+          </div>
+          <div className="mt-2.5 flex items-baseline justify-between">
+            <span className="font-display text-3xl font-semibold text-[var(--text-primary)]">
+              {data?.stats.channelsCount ?? '—'}
+            </span>
+            <Link href="/research/faceless-finder" className="text-xs font-medium text-[var(--accent-text)] hover:underline">
+              Explore
+            </Link>
           </div>
         </Card>
         <Card>
-          <div className="text-xs font-semibold uppercase text-[var(--text-secondary)]">Saved Drafts</div>
-          <div className="mt-2 flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-amber-400">{data?.stats.pausedJobsCount ?? 0}</span>
-            <span className="text-xs text-[var(--text-secondary)]">recoverable jobs</span>
+          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+            Checkpointed Jobs
+          </div>
+          <div className="mt-2.5 flex items-baseline justify-between">
+            <span className="font-display text-3xl font-semibold text-amber-600 dark:text-amber-400">
+              {data?.stats.pausedJobsCount ?? 0}
+            </span>
+            <span className="text-xs text-[var(--text-secondary)]">resumable drafts</span>
           </div>
         </Card>
       </div>
 
       {data?.pausedJobs?.length ? (
         <Card className="border-amber-500/40 bg-amber-500/5 space-y-3">
-          <h2 className="text-sm font-bold text-amber-400">Saved Drafts Ready to Resume</h2>
+          <h2 className="text-sm font-semibold text-amber-700 dark:text-amber-400">Checkpointed Drafts Ready to Resume</h2>
           <div className="space-y-2">
             {data.pausedJobs.map((j) => (
               <div key={j.id} className="flex items-center justify-between text-xs border rounded-xl p-2.5 bg-[var(--bg-surface)]">
@@ -291,7 +337,7 @@ export default function DashboardHomePage() {
                   <span className="font-semibold">{j.title}</span>{' '}
                   <span className="text-[var(--text-secondary)]">({j.moduleType})</span>
                 </div>
-                <span className="font-mono text-amber-400">
+                <span className="font-mono text-amber-700 dark:text-amber-400">
                   {j.completedSteps}/{j.totalSteps} steps saved
                 </span>
               </div>
@@ -301,26 +347,26 @@ export default function DashboardHomePage() {
       ) : null}
 
       <div className="space-y-3">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--text-secondary)]">
-          Quick Launch Studios
+        <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+          Studio Modules
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {PRO_QUICK_LAUNCH.map((item) => {
             const Icon = item.icon;
             return (
               <Link key={item.href} href={item.href} className="group">
-                <Card className="h-full transition-all group-hover:border-indigo-500/60 group-hover:shadow-md flex flex-col justify-between gap-3">
+                <Card className="h-full transition-all group-hover:border-[var(--border-accent)] flex flex-col justify-between gap-4">
                   <div className="flex items-start gap-3">
-                    <div className="rounded-xl bg-indigo-500/15 p-2.5 text-indigo-400">
+                    <div className="rounded-xl border border-[var(--border-accent)] bg-[var(--accent-soft)] p-2.5 text-[var(--accent-text)]">
                       <Icon className="h-5 w-5" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold text-[var(--text-primary)]">{item.title}</h3>
-                      <p className="text-xs text-[var(--text-secondary)] mt-1">{item.desc}</p>
+                      <h3 className="text-sm font-semibold text-[var(--text-primary)]">{item.title}</h3>
+                      <p className="text-xs text-[var(--text-secondary)] mt-1 leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
-                  <div className="flex items-center text-xs font-semibold text-indigo-400">
-                    Open Studio <ArrowRight className="h-3.5 w-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
+                  <div className="flex items-center text-xs font-semibold text-[var(--accent-text)]">
+                    Enter Studio <ArrowRight className="h-3.5 w-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </Card>
               </Link>
@@ -332,26 +378,33 @@ export default function DashboardHomePage() {
       <Card className="space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <FolderArchive className="h-4 w-4 text-indigo-400" />
-            <h2 className="text-sm font-bold">Recent Packs & Products</h2>
+            <FolderArchive className="h-4 w-4 text-[var(--accent-text)]" />
+            <h2 className="text-sm font-semibold">Recent Editions &amp; Packs</h2>
           </div>
-          <Link href="/library" className="text-xs text-indigo-400 hover:underline">
-            View All
+          <Link href="/library" className="text-xs font-medium text-[var(--accent-text)] hover:underline">
+            View Archive
           </Link>
         </div>
         {!data?.recentProjects?.length ? (
           <p className="text-xs text-[var(--text-secondary)]">
-            No packs or products compiled yet. Launch any studio above to generate your first artifact.
+            No editions compiled yet. Open any studio above to author your first deliverable.
           </p>
         ) : (
           <div className="space-y-2">
             {data.recentProjects.map((p) => (
-              <div key={p.id} className="flex items-center justify-between gap-3 rounded-xl border bg-[var(--bg-elevated)] px-3.5 py-2.5 text-xs">
+              <div
+                key={p.id}
+                className="flex items-center justify-between gap-3 rounded-xl border bg-[var(--bg-elevated)] px-3.5 py-2.5 text-xs"
+              >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <StatusBadge status={p.type} />
                   <span className="font-semibold truncate">{p.title}</span>
                 </div>
-                <a href={`/api/projects/${p.id}/download`} download className="text-indigo-400 hover:underline inline-flex items-center gap-1 shrink-0">
+                <a
+                  href={`/api/projects/${p.id}/download`}
+                  download
+                  className="text-[var(--accent-text)] font-medium hover:underline inline-flex items-center gap-1 shrink-0"
+                >
                   <Download className="h-3.5 w-3.5" /> Download
                 </a>
               </div>

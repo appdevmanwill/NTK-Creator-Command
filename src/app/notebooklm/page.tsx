@@ -9,12 +9,12 @@ import { useToast } from '@/components/ToastProvider';
 
 export default function NotebookLmBlueprintPage() {
   const { pushToast } = useToast();
-  const [channelName, setChannelName] = useState('Quiet Ledger Academy');
-  const [niche, setNiche] = useState('Personal Finance & Micro Digital Products');
-  const [targetAudience, setTargetAudience] = useState('Beginners building side-income and savings habits');
-  const [flagshipProduct, setFlagshipProduct] = useState('30-Day Cashflow & Budget OS ($15)');
+  const [channelName, setChannelName] = useState('Meridian Ledger House');
+  const [niche, setNiche] = useState('Personal Finance & Micro Digital Editions');
+  const [targetAudience, setTargetAudience] = useState('Independent earners building savings habits and calm cashflow');
+  const [flagshipProduct, setFlagshipProduct] = useState("The Quiet Compounder's Ledger ($15)");
   const [storePlatform, setStorePlatform] = useState('Payhip');
-  const [visualStyle, setVisualStyle] = useState('Minimalist midnight slate + indigo stickman & clean typography');
+  const [visualStyle, setVisualStyle] = useState('Matte obsidian & champagne gold editorial illustration with crisp serif cover typography');
   const [uploadCadence, setUploadCadence] = useState('3 videos/week');
   const [googleAccountAgeNote, setGoogleAccountAgeNote] = useState('Launching on an aged Google account for initial YouTube trust & consistent cover branding');
   const [loading, setLoading] = useState(false);
@@ -57,8 +57,8 @@ export default function NotebookLmBlueprintPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="NotebookLM Channel & Product Blueprint Wizard"
-        subtitle='Compile a structured Channel Bible outputting the sequential "type next" launch prompt with aged Google account trust & consistent cover branding.'
+        title="NotebookLM Channel Bible"
+        subtitle='Compile a structured Channel Bible outputting the sequential "type next" launch prompt with aged Google account trust and cohesive cover branding.'
         badge='Sequential "type next"'
       />
 

@@ -116,9 +116,9 @@ export default function FacelessFinderPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Winning Faceless Channels"
-        subtitle="See 30 real-style faceless channels, compare niche monthly earnings, and tick 'Sells Digital Products' to spot proven product ideas."
-        badge={`${totalInDb} Tracked`}
+        title="Opportunity Atlas"
+        subtitle="Examine 30 benchmarked faceless channels, compare niche revenue estimates, and filter by 'Sells Digital Products' to uncover proven offers."
+        badge={`${totalInDb} Benchmarked`}
       />
 
       <StudioStarterBanner
@@ -157,10 +157,10 @@ export default function FacelessFinderPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {benchmarks.map((b) => (
             <Card key={b.niche} className="p-3.5 space-y-1">
-              <div className="text-[11px] font-bold text-indigo-400 truncate">{b.niche}</div>
-              <div className="text-base font-bold">${b.avgMonthlyAdSense.toLocaleString()}/mo</div>
+              <div className="text-[11px] font-semibold text-[var(--accent-text)] truncate">{b.niche}</div>
+              <div className="font-display text-xl font-semibold">${b.avgMonthlyAdSense.toLocaleString()}/mo</div>
               <div className="text-[11px] text-[var(--text-secondary)]">
-                {b.channels} ch • {b.digitalProductRate}% sell products
+                {b.channels} ch · {b.digitalProductRate}% sell products
               </div>
             </Card>
           ))}
@@ -232,7 +232,7 @@ export default function FacelessFinderPage() {
             <input type="checkbox" checked={startedThisYear} onChange={(e) => setStartedThisYear(e.target.checked)} />
             Started This Year ({new Date().getFullYear()})
           </label>
-          <label className="flex items-center gap-2 text-xs font-semibold text-indigo-400 cursor-pointer">
+          <label className="flex items-center gap-2 text-xs font-semibold text-[var(--accent-text)] cursor-pointer">
             <input
               type="checkbox"
               checked={digitalProductsOnly}
@@ -262,7 +262,7 @@ export default function FacelessFinderPage() {
                 <Button size="sm" variant="ghost" onClick={() => handleSyncRow(ch.id)} disabled={syncingId === ch.id}>
                   <RefreshCw className={`h-3.5 w-3.5 ${syncingId === ch.id ? 'animate-spin' : ''}`} />
                 </Button>
-                <a href={ch.url} target="_blank" rel="noreferrer" className="p-1.5 text-[var(--text-secondary)] hover:text-indigo-400">
+                <a href={ch.url} target="_blank" rel="noreferrer" className="p-1.5 text-[var(--text-secondary)] hover:text-[var(--accent-text)]">
                   <ExternalLink className="h-3.5 w-3.5" />
                 </a>
               </div>
@@ -284,13 +284,13 @@ export default function FacelessFinderPage() {
             </div>
 
             {ch.sellsDigitalProducts && (
-              <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-3 py-2 text-xs flex items-center justify-between gap-2">
+              <div className="rounded-xl border border-[var(--border-accent)] bg-[var(--accent-soft)] px-3 py-2 text-xs flex items-center justify-between gap-2">
                 <div>
-                  <span className="font-semibold text-indigo-400">Digital Product:</span>{' '}
+                  <span className="font-semibold text-[var(--accent-text)]">Digital Product:</span>{' '}
                   <span>{ch.digitalProductType || 'Store Offer'}</span>
                 </div>
                 {ch.digitalProductUrl && (
-                  <a href={ch.digitalProductUrl} target="_blank" rel="noreferrer" className="text-indigo-400 hover:underline inline-flex items-center gap-1 shrink-0">
+                  <a href={ch.digitalProductUrl} target="_blank" rel="noreferrer" className="text-[var(--accent-text)] hover:underline inline-flex items-center gap-1 shrink-0">
                     Store <ExternalLink className="h-3 w-3" />
                   </a>
                 )}
@@ -303,10 +303,10 @@ export default function FacelessFinderPage() {
       </div>
 
       <NextStepCard
-        title="Ready to Build Your Own Product Based on What You Found?"
-        description="Jump to the Digital Product Studio to create your first PDF Ebook, Formula Sheet, or Planner—or brainstorm channel names with the AI Coach."
+        title="Ready to Author an Edition Around What You Found?"
+        description="Enter Digital Press Studio to create a print-grade PDF book, formula model, or planner tailored to this niche."
         href="/products"
-        cta="Step 2: Create a Product"
+        cta="02 · Enter Digital Press"
       />
     </div>
   );

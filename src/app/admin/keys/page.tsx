@@ -187,8 +187,8 @@ export default function AdminKeysPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Admin API Key Vault & Auto-Failover Router"
-        subtitle="AES-256-GCM encrypted local key storage with automatic 429 cooldown rotation, multi-provider failover, and live model discovery."
+        title="API Key Vault & Failover Router"
+        subtitle="AES-256-GCM encrypted local vault with automatic 429 cooldown rotation, multi-provider failover, and live model discovery."
         badge="AES-256-GCM"
         actions={
           <Button variant="secondary" onClick={handleRescan} disabled={rescanning}>
@@ -201,8 +201,8 @@ export default function AdminKeysPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <Card className="lg:col-span-1 space-y-4">
           <div className="flex items-center gap-2">
-            <Plus className="h-4 w-4 text-indigo-400" />
-            <h2 className="text-sm font-bold">Add Provider API Key</h2>
+            <Plus className="h-4 w-4 text-[var(--accent-text)]" />
+            <h2 className="text-sm font-semibold">Add Provider API Key</h2>
           </div>
           <form onSubmit={handleAddKey} className="space-y-3">
             <div>
@@ -281,8 +281,8 @@ export default function AdminKeysPage() {
           <Card className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <KeyRound className="h-4 w-4 text-indigo-400" />
-                <h2 className="text-sm font-bold">Stored Keys ({keys.length})</h2>
+                <KeyRound className="h-4 w-4 text-[var(--accent-text)]" />
+                <h2 className="text-sm font-semibold">Stored Keys ({keys.length})</h2>
               </div>
               <Button size="sm" variant="ghost" onClick={fetchVault}>
                 <RefreshCw className="h-3.5 w-3.5" /> Refresh
@@ -301,8 +301,8 @@ export default function AdminKeysPage() {
                   <div key={k.id} className="rounded-xl border bg-[var(--bg-elevated)] p-3.5 space-y-2.5">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-sm font-bold text-[var(--text-primary)]">{k.label}</span>
-                        <span className="rounded-md bg-indigo-500/15 px-2 py-0.5 text-[11px] font-mono font-semibold text-indigo-400">
+                        <span className="text-sm font-semibold text-[var(--text-primary)]">{k.label}</span>
+                        <span className="rounded-md border border-[var(--border-accent)] bg-[var(--accent-soft)] px-2 py-0.5 text-[11px] font-mono font-semibold text-[var(--accent-text)]">
                           {k.provider}
                         </span>
                         <StatusBadge status={k.status} />
@@ -361,7 +361,7 @@ export default function AdminKeysPage() {
                               key={m}
                               type="button"
                               onClick={() => handlePatchKey(k.id, { defaultModel: m })}
-                              className="rounded-md border px-2 py-0.5 text-[11px] font-mono hover:border-indigo-500"
+                              className="rounded-md border border-[var(--border-subtle)] px-2 py-0.5 text-[11px] font-mono hover:border-[var(--border-accent)]"
                             >
                               {m}
                             </button>

@@ -20,17 +20,17 @@ export default function FlowBulkPage() {
   const [youtubeUrl, setYoutubeUrl] = useState('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
   const [imageBase64, setImageBase64] = useState('');
   const [imageMimeType, setImageMimeType] = useState('image/jpeg');
-  const [styleHeader, setStyleHeader] = useState('Flat high-contrast 2D vector explainer illustration, deep midnight slate background, glowing indigo and amber highlights, bold clean silhouettes');
-  const [palette, setPalette] = useState<string[]>(['#0F172A', '#4F46E5', '#F59E0B', '#F8FAFC']);
+  const [styleHeader, setStyleHeader] = useState('Architectural editorial 2D illustration, matte obsidian canvas, warm champagne gold and ivory geometry, crisp dramatic rim lighting');
+  const [palette, setPalette] = useState<string[]>(['#09090B', '#D4AF37', '#F5F1E8', '#9E7318']);
   const [savedStyles, setSavedStyles] = useState<SavedStyle[]>([]);
   const [styleName, setStyleName] = useState('');
 
-  const [title, setTitle] = useState('Why Silent Creators Outsell Loud Channels');
-  const [topic, setTopic] = useState('How micro digital products turn 5,000 views into steady daily sales');
+  const [title, setTitle] = useState('Why Quiet Authority Outsells Noise');
+  const [topic, setTopic] = useState('How flagship digital editions convert modest channel views into recurring daily sales');
   const [aspectRatio, setAspectRatio] = useState<'16:9' | '9:16'>('16:9');
   const [targetMinutes, setTargetMinutes] = useState(2);
   const [vibeCloseness, setVibeCloseness] = useState<'EXACT' | 'BALANCED' | 'CREATIVE'>('BALANCED');
-  const [recurringCharacter, setRecurringCharacter] = useState('Minimalist indigo hoodie stickman figure with glowing visor');
+  const [recurringCharacter, setRecurringCharacter] = useState('Minimalist charcoal silhouette figure wearing a tailored camel coat and holding a brass folio');
 
   const [analyzing, setAnalyzing] = useState(false);
   const [generating, setGenerating] = useState(false);
@@ -139,16 +139,16 @@ export default function FlowBulkPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Google Flow Bulk Image & Style Cloner"
-        subtitle="Extract visual style from any YouTube thumbnail or screenshot, lock one Nano Banana global style header, and generate two-digit ordered scenes (01..NN) + timed narration."
+        title="Visual Style Cloner"
+        subtitle="Extract color grammar and art direction from any reference frame, lock one global style header, and compile ordered scenes (01..NN) with timed narration."
         badge="~7.5 scenes/min"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         <Card className="lg:col-span-5 space-y-4">
           <div className="flex items-center gap-2">
-            <Eye className="h-4 w-4 text-indigo-400" />
-            <h2 className="text-sm font-bold">1. Extract or Load Visual Style</h2>
+            <Eye className="h-4 w-4 text-[var(--accent-text)]" />
+            <h2 className="text-sm font-semibold">1. Extract or Load Visual Style</h2>
           </div>
 
           {savedStyles.length > 0 && (
@@ -209,8 +209,8 @@ export default function FlowBulkPage() {
 
         <Card className="lg:col-span-7 space-y-4">
           <div className="flex items-center gap-2">
-            <Layers className="h-4 w-4 text-indigo-400" />
-            <h2 className="text-sm font-bold">2. Bulk Ordered Scenes & Narration</h2>
+            <Layers className="h-4 w-4 text-[var(--accent-text)]" />
+            <h2 className="text-sm font-semibold">2. Bulk Ordered Scenes &amp; Narration</h2>
           </div>
 
           <IdeaSparkWidget
@@ -251,7 +251,7 @@ export default function FlowBulkPage() {
                 max={10}
                 value={targetMinutes}
                 onChange={(e) => setTargetMinutes(Number(e.target.value))}
-                className="w-full accent-indigo-600"
+                className="w-full accent-amber-500"
               />
             </div>
             <div>

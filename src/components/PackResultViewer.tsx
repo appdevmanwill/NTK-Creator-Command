@@ -183,7 +183,7 @@ export function PackResultViewer({
                     onClick={() => setSelectedPath(f.path)}
                     className={`w-full flex items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs font-mono transition ${
                       active
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-[var(--accent)] text-[var(--accent-fg)] font-semibold'
                         : 'text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] hover:text-[var(--text-primary)]'
                     }`}
                   >
@@ -232,11 +232,11 @@ export function PackResultViewer({
               <div key={tp.label} className="rounded-xl border bg-[var(--bg-elevated)] p-3 flex flex-col justify-between gap-2">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <span className="text-xs font-semibold text-indigo-400">{tp.label}</span>
+                    <span className="text-xs font-semibold text-[var(--accent-text)]">{tp.label}</span>
                     <button
                       type="button"
                       onClick={() => copyText(`tp-${idx}`, tp.prompt)}
-                      className="inline-flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] hover:border-indigo-500/50"
+                      className="inline-flex items-center gap-1 rounded-lg border border-[var(--border-subtle)] px-2 py-1 text-[11px] hover:border-[var(--border-accent)]"
                     >
                       {copiedId === `tp-${idx}` ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
                       Copy

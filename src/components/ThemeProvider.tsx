@@ -37,7 +37,7 @@ function applyThemeToDocument(resolved: 'light' | 'dark') {
   }
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) {
-    meta.setAttribute('content', resolved === 'dark' ? '#070b14' : '#f4f6fb');
+    meta.setAttribute('content', resolved === 'dark' ? '#09090b' : '#f6f3ec');
   }
 }
 

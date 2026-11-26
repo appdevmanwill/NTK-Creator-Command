@@ -18,11 +18,11 @@ export default function StoreFunnelPage() {
   const { pushToast } = useToast();
   const [savedProducts, setSavedProducts] = useState<SavedProjectOption[]>([]);
   const [attachedProjectId, setAttachedProjectId] = useState('');
-  const [productTitle, setProductTitle] = useState('The 30-Day Cashflow & Side-Income Reset');
-  const [productSummary, setProductSummary] = useState('A practical ebook + formula spreadsheet bundle helping beginners budget and launch a $15 digital product.');
-  const [targetAudience, setTargetAudience] = useState('Young professionals and creators seeking extra monthly income');
+  const [productTitle, setProductTitle] = useState("The Quiet Compounder's Ledger");
+  const [productSummary, setProductSummary] = useState('An editorial PDF handbook and live Excel allocation model built to plug weekly spending leaks in 15 minutes a week.');
+  const [targetAudience, setTargetAudience] = useState('Independent earners and first-time creators');
   const [platform, setPlatform] = useState<'PAYHIP' | 'SELAR' | 'GUMROAD' | 'SHOPIFY'>('PAYHIP');
-  const [storeUrl, setStoreUrl] = useState('https://payhip.com/ntkhub/cashflow-reset');
+  const [storeUrl, setStoreUrl] = useState('https://payhip.com/ntkhub/quiet-compounder-ledger');
   const [starterPriceUsd, setStarterPriceUsd] = useState(15);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{
@@ -80,8 +80,8 @@ export default function StoreFunnelPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Storefront Copy, Funnel & Promo Script Builder"
-        subtitle='Write ready-to-paste copy for $0/month storefronts (Payhip, Selar, Gumroad) plus a "One Product, Many Videos" 10-video content plan.'
+        title="Storefront & Launch Copy Desk"
+        subtitle='Draft conversion-grade storefront copy for zero-fee platforms (Payhip, Selar, Gumroad) alongside a 10-video "One Product, Many Videos" plan.'
         badge="One Product, Many Videos"
       />
 
@@ -183,10 +183,10 @@ export default function StoreFunnelPage() {
             providerSummary={result.providerSummary}
           />
           <NextStepCard
-            title="Ready to Make Your Promo Video or Story Pack?"
-            description="Jump into the Video Pack builder or prepare a Safe Draft upload with your store link at the top of the description."
+            title="Ready to Direct Your Promo Video or Stage Your Release?"
+            description="Open Cinema Studio or prepare a Safe Release package with your store URL placed above the fold."
             href="/publish-packs"
-            cta="Go to Safe Draft Publisher"
+            cta="Open Safe Release Desk"
           />
         </div>
       )}

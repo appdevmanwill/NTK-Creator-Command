@@ -10,9 +10,9 @@ import { useToast } from '@/components/ToastProvider';
 export default function BrandAndSpyPage() {
   const { pushToast } = useToast();
   const [mode, setMode] = useState<'BRAND_PACK' | 'AD_SPY_PACK'>('BRAND_PACK');
-  const [brandOrKeyword, setBrandOrKeyword] = useState('Smart Budget Academy');
-  const [niche, setNiche] = useState('Personal Finance & Digital Templates');
-  const [mascotIdea, setMascotIdea] = useState('Friendly cobalt-blue owl wearing minimal reading glasses');
+  const [brandOrKeyword, setBrandOrKeyword] = useState('Meridian Ledger House');
+  const [niche, setNiche] = useState('Personal Finance & Editorial Models');
+  const [mascotIdea, setMascotIdea] = useState('Tailored brass compass owl emblem with warm ivory linework on deep obsidian');
   const [uploadScheduleText, setUploadScheduleText] = useState('New Videos Every Tuesday & Friday');
   const [textOnlyBanner, setTextOnlyBanner] = useState(false);
   const [targetCountry, setTargetCountry] = useState('US');
@@ -55,8 +55,8 @@ export default function BrandAndSpyPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Brand/Mascot & Competitor Ad Spy Packs"
-        subtitle="Generate consistent logo, PFP, banner, mascot, and 16:9 thumbnail prompts OR compile $0 Meta Ad Library & Google Ads Transparency research packs."
+        title="Brand Identity & Ad Intelligence"
+        subtitle="Architect cohesive marks, mascots, channel banners, and 16:9 covers — or compile $0 Meta Ad Library and Google Ads Transparency briefs."
         badge="Zero Paid Ad Tools"
       />
 

@@ -14,8 +14,8 @@ export default function PublishPacksPage() {
   const [platforms, setPlatforms] = useState<string[]>(['YouTube', 'TikTok']);
   const [localVideoPath, setLocalVideoPath] = useState('C:\\Videos\\final_release.mp4');
   const [localThumbnailPath, setLocalThumbnailPath] = useState('C:\\Videos\\thumbnail.png');
-  const [titleOrTopic, setTitleOrTopic] = useState('How to Automate Your Monthly Budget in 15 Minutes');
-  const [storeLink, setStoreLink] = useState('https://payhip.com/ntkhub/budget-os');
+  const [titleOrTopic, setTitleOrTopic] = useState('Three Recurring Cash Leaks Hidden Inside Everyday Accounts');
+  const [storeLink, setStoreLink] = useState('https://payhip.com/ntkhub/quiet-compounder-ledger');
   const [scheduleIso, setScheduleIso] = useState('2026-12-01T15:00:00Z');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{
@@ -59,8 +59,9 @@ export default function PublishPacksPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Safe Draft & Publishing Pack"
-        subtitle="Generate your SEO title, description with your product link at the top, tags, and safe upload instructions."
+        title="Safe Release Desk"
+        subtitle="Generate your SEO title, store-first description, tags, and supervised upload instructions that pause before any public publish."
+        badge="Human-in-the-Loop"
       />
 
       <StudioStarterBanner

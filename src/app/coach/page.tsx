@@ -88,8 +88,8 @@ export default function ViralHookCoachPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="AI Coach & Viral Hooks"
-        subtitle="Persistent multi-thread strategy coach powered by your Multi-Key Failover Router, with instant YouTube channel availability checks."
+        title="Editorial Hook & Niche Coach"
+        subtitle="Persistent strategy workbench powered by the Multi-Key Failover Router, with instant YouTube channel availability verification."
         actions={
           <Button
             variant="secondary"
@@ -106,7 +106,7 @@ export default function ViralHookCoachPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         <Card className="lg:col-span-3 space-y-2 max-h-[620px] overflow-y-auto">
-          <div className="text-xs font-bold uppercase text-[var(--text-secondary)]">Saved Threads</div>
+          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--text-secondary)]">Saved Threads</div>
           {threads.length === 0 ? (
             <p className="text-xs text-[var(--text-secondary)]">Start a chat to save threads locally.</p>
           ) : (
@@ -118,9 +118,9 @@ export default function ViralHookCoachPage() {
                   setActiveThreadId(t.id);
                   setMessages(t.messages);
                 }}
-                className={`w-full text-left rounded-xl px-3 py-2 text-xs truncate border ${
+                className={`w-full text-left rounded-xl px-3 py-2 text-xs truncate border transition ${
                   t.id === activeThreadId
-                    ? 'bg-indigo-600 text-white border-indigo-600'
+                    ? 'bg-[var(--accent)] text-[var(--accent-fg)] border-[var(--accent)] font-semibold'
                     : 'bg-[var(--bg-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
@@ -137,9 +137,9 @@ export default function ViralHookCoachPage() {
                 key={chip}
                 type="button"
                 onClick={() => sendMessage(chip)}
-                className="rounded-full border bg-[var(--bg-elevated)] px-3 py-1 text-xs hover:border-indigo-500 text-left"
+                className="rounded-full border bg-[var(--bg-elevated)] px-3 py-1 text-xs hover:border-[var(--border-accent)] text-left transition"
               >
-                <Flame className="h-3 w-3 inline mr-1 text-amber-400" />
+                <Flame className="h-3 w-3 inline mr-1 text-[var(--accent-text)]" />
                 {chip}
               </button>
             ))}
@@ -148,7 +148,7 @@ export default function ViralHookCoachPage() {
           <div className="flex-1 overflow-y-auto py-4 space-y-3" data-testid="coach-messages">
             {messages.length === 0 ? (
               <div className="text-xs text-[var(--text-secondary)] text-center py-12">
-                Click any starter chip above or ask for hooks, high-CPM niches, digital products, or channel names.
+                Select any starter prompt above or ask for hooks, high-CPM niches, digital editions, or channel names.
               </div>
             ) : (
               messages.map((m) => {
@@ -158,7 +158,7 @@ export default function ViralHookCoachPage() {
                     key={m.id}
                     className={`rounded-2xl p-3.5 text-xs whitespace-pre-wrap ${
                       m.role === 'user'
-                        ? 'bg-indigo-600 text-white ml-auto max-w-[85%]'
+                        ? 'bg-[var(--accent)] text-[var(--accent-fg)] font-medium ml-auto max-w-[85%]'
                         : 'bg-[var(--bg-elevated)] border mr-auto max-w-[92%]'
                     }`}
                   >
@@ -172,7 +172,7 @@ export default function ViralHookCoachPage() {
                               href={`https://www.youtube.com/results?search_query=${encodeURIComponent(ch)}&sp=EgIQAg%253D%253D`}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-indigo-400 hover:underline inline-flex items-center gap-0.5"
+                              className="text-[var(--accent-text)] hover:underline inline-flex items-center gap-0.5"
                             >
                               Check YouTube Availability <ExternalLink className="h-3 w-3" />
                             </a>
