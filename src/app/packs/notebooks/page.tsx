@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Cpu, Sparkles } from 'lucide-react';
 import { Button, Card, Input, Label, PageHeader, Select, Textarea } from '@/components/ui';
 import { PackFilePreview, PackResultViewer, TriggerPromptOption } from '@/components/PackResultViewer';
+import { IdeaSparkWidget } from '@/components/IdeaSparkWidget';
 import { useToast } from '@/components/ToastProvider';
 
 export default function NotebooksPage() {
@@ -59,7 +60,15 @@ export default function NotebooksPage() {
         badge="nbformat 4 • $0 GPU"
       />
 
-      <Card>
+      <Card className="space-y-4">
+        <IdeaSparkWidget
+          category="NOTEBOOK_GPU"
+          heading="Not sure what audio or video prompt to run on Cloud GPU?"
+          onApplyIdea={(fields) => {
+            if (fields.title) setTitle(fields.title);
+            if (fields.promptOrLyrics) setPromptOrLyrics(fields.promptOrLyrics);
+          }}
+        />
         <form onSubmit={handleGenerate} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>

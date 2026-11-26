@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { Film, Sparkles, Wand2 } from 'lucide-react';
 import { Button, Card, Input, Label, PageHeader, Select, Textarea } from '@/components/ui';
 import { PackFilePreview, PackResultViewer, PausedQuotaState, TriggerPromptOption } from '@/components/PackResultViewer';
+import { AdvancedOptionsToggle, NextStepCard, StudioStarterBanner } from '@/components/GuidedHelpers';
+import { IdeaSparkWidget } from '@/components/IdeaSparkWidget';
 import { useToast } from '@/components/ToastProvider';
 
 interface OutlineData {
@@ -130,68 +132,59 @@ export default function FlowMoviePage() {
     <div className="space-y-6">
       <PageHeader
         title="Google Flow AI Movie & Series Pack Builder"
-        subtitle="Build checkpointed Google Flow packs with locked character & location profiles, Turbo-OFF safety rules, credit-saving 1-clip shot lists, and CPU-friendly FFmpeg scripts."
+        subtitle="Type a 1-line story idea, review your characters and scenes, and download a complete Google Flow instruction pack (.ZIP)."
         badge="BrowserOS neo • FEAICCWS"
+      />
+
+      <StudioStarterBanner
+        whatYouGet="Locked character & location profiles (so faces and rooms stay consistent), scene-by-scene shot prompts, Turbo-OFF safety instructions, and simple video-joining commands."
+        safeNote="1 clip/shot credit saver"
+        samples={[
+          {
+            label: 'Lagos Night Thriller',
+            onApply: () => {
+              setOutlineMode('ONE_LINE');
+              setIdea('A late-night Lagos dispatch rider finds an old cassette revealing a hidden tech fortune.');
+              pushToast({ title: 'Loaded Lagos Thriller idea', tone: 'info' });
+            },
+          },
+          {
+            label: '9:16 Vertical Mystery Short',
+            onApply: () => {
+              setOutlineMode('ONE_LINE');
+              setAspectRatio('9:16');
+              setRuntimeMinutes(1);
+              setIdea('A young baker opens a locked flour tin and finds a map pointing beneath her own shop.');
+              pushToast({ title: 'Loaded 9:16 Vertical Mystery sample', tone: 'info' });
+            },
+          },
+          {
+            label: 'Ancient History Episode',
+            onApply: () => {
+              setOutlineMode('ONE_LINE');
+              setAspectRatio('16:9');
+              setRuntimeMinutes(3);
+              setIdea('A teenage astronomer in ancient Timbuktu races before dawn to protect star charts from a sandstorm.');
+              pushToast({ title: 'Loaded History sample', tone: 'info' });
+            },
+          },
+        ]}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         <Card className="lg:col-span-5 space-y-4">
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <Label>Format</Label>
-              <Select value={format} onChange={(e) => setFormat(e.target.value as typeof format)}>
-                <option value="ONE_OFF">One-off Movie</option>
-                <option value="NEW_SERIES">New Series (Ep 1)</option>
-                <option value="CONTINUE_SERIES">Continue Existing Series</option>
-              </Select>
-            </div>
-            <div>
-              <Label>Aspect Ratio</Label>
-              <Select value={aspectRatio} onChange={(e) => setAspectRatio(e.target.value as '16:9' | '9:16')}>
-                <option value="16:9">16:9 Widescreen</option>
-                <option value="9:16">9:16 Vertical</option>
-              </Select>
-            </div>
-          </div>
-
-          {format === 'CONTINUE_SERIES' && (
-            <div>
-              <Label>Prior Saved Series Project</Label>
-              <Select value={seriesProjectId} onChange={(e) => setSeriesProjectId(e.target.value)}>
-                <option value="">Select saved series...</option>
-                {seriesList.map((s) => (
-                  <option key={s.id} value={s.id}>{s.title}</option>
-                ))}
-              </Select>
-            </div>
-          )}
-
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <Label className="mb-0">Target Runtime: {runtimeMinutes} min</Label>
-              <span className="text-xs font-mono text-indigo-400">~{estCredits.toLocaleString()} Flow credits</span>
-            </div>
-            <input
-              type="range"
-              min={1}
-              max={60}
-              value={runtimeMinutes}
-              onChange={(e) => setRuntimeMinutes(Number(e.target.value))}
-              className="w-full accent-indigo-600"
-            />
-          </div>
-
-          <div>
-            <Label>Outline Mode</Label>
-            <Select value={outlineMode} onChange={(e) => setOutlineMode(e.target.value as 'ONE_LINE' | 'MANUAL')}>
-              <option value="ONE_LINE">Write outline from 1-line idea</option>
-              <option value="MANUAL">Fill in details myself</option>
-            </Select>
-          </div>
+          <IdeaSparkWidget
+            category="FLOW_MOVIE"
+            heading="No movie idea yet? Let AI invent one for you"
+            onApplyIdea={(fields) => {
+              setOutlineMode('ONE_LINE');
+              if (fields.idea) setIdea(fields.idea);
+            }}
+          />
 
           {outlineMode === 'ONE_LINE' ? (
             <div>
-              <Label>1-Line Movie Idea</Label>
+              <Label>Your 1-Line Movie Idea</Label>
               <Textarea rows={3} value={idea} onChange={(e) => setIdea(e.target.value)} />
             </div>
           ) : (
@@ -214,6 +207,61 @@ export default function FlowMoviePage() {
               </div>
             </div>
           )}
+
+          <AdvancedOptionsToggle title="Customize Format, Aspect Ratio & Runtime">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label>Format</Label>
+                <Select value={format} onChange={(e) => setFormat(e.target.value as typeof format)}>
+                  <option value="ONE_OFF">One-off Movie</option>
+                  <option value="NEW_SERIES">New Series (Ep 1)</option>
+                  <option value="CONTINUE_SERIES">Continue Existing Series</option>
+                </Select>
+              </div>
+              <div>
+                <Label>Aspect Ratio</Label>
+                <Select value={aspectRatio} onChange={(e) => setAspectRatio(e.target.value as '16:9' | '9:16')}>
+                  <option value="16:9">16:9 Widescreen</option>
+                  <option value="9:16">9:16 Vertical</option>
+                </Select>
+              </div>
+            </div>
+
+            {format === 'CONTINUE_SERIES' && (
+              <div>
+                <Label>Prior Saved Series Project</Label>
+                <Select value={seriesProjectId} onChange={(e) => setSeriesProjectId(e.target.value)}>
+                  <option value="">Select saved series...</option>
+                  {seriesList.map((s) => (
+                    <option key={s.id} value={s.id}>{s.title}</option>
+                  ))}
+                </Select>
+              </div>
+            )}
+
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <Label className="mb-0">Target Runtime: {runtimeMinutes} min</Label>
+                <span className="text-xs font-mono text-indigo-400">~{estCredits.toLocaleString()} Flow credits</span>
+              </div>
+              <input
+                type="range"
+                min={1}
+                max={60}
+                value={runtimeMinutes}
+                onChange={(e) => setRuntimeMinutes(Number(e.target.value))}
+                className="w-full accent-indigo-600"
+              />
+            </div>
+
+            <div>
+              <Label>Outline Mode</Label>
+              <Select value={outlineMode} onChange={(e) => setOutlineMode(e.target.value as 'ONE_LINE' | 'MANUAL')}>
+                <option value="ONE_LINE">Write outline from 1-line idea</option>
+                <option value="MANUAL">Fill in details myself</option>
+              </Select>
+            </div>
+          </AdvancedOptionsToggle>
 
           <Button onClick={handleGenerateOutline} disabled={loadingOutline} className="w-full">
             <Wand2 className="h-4 w-4" />
@@ -263,7 +311,7 @@ export default function FlowMoviePage() {
 
           {!outline ? (
             <p className="text-xs text-[var(--text-secondary)]">
-              Generate an outline on the left first. You can edit the title, logline, characters, locations, and scenes before compiling the final `.zip` pack.
+              Click &ldquo;Step 1: Generate Editable Outline&rdquo; on the left. You can review or tweak any character, location, or scene before compiling your `.zip` pack.
             </p>
           ) : (
             <div className="space-y-3">
@@ -332,16 +380,26 @@ export default function FlowMoviePage() {
       </div>
 
       {(result || pausedQuota) && (
-        <PackResultViewer
-          projectId={result?.projectId}
-          title={outline?.title || 'Google Flow Movie Pack'}
-          files={result?.files ?? []}
-          triggerPrompts={result?.triggerPrompts ?? []}
-          providerSummary={result?.providerSummary}
-          pausedQuota={pausedQuota}
-          onRetryResume={() => pausedQuota && handleBuildPack(pausedQuota.jobId)}
-          onZeroKeyImported={(pasted) => handleBuildPack(pausedQuota?.jobId, pasted)}
-        />
+        <div className="space-y-4">
+          <PackResultViewer
+            projectId={result?.projectId}
+            title={outline?.title || 'Google Flow Movie Pack'}
+            files={result?.files ?? []}
+            triggerPrompts={result?.triggerPrompts ?? []}
+            providerSummary={result?.providerSummary}
+            pausedQuota={pausedQuota}
+            onRetryResume={() => pausedQuota && handleBuildPack(pausedQuota.jobId)}
+            onZeroKeyImported={(pasted) => handleBuildPack(pausedQuota?.jobId, pasted)}
+          />
+          {result?.projectId && (
+            <NextStepCard
+              title="Next: Prepare Your Safe Draft Upload Pack"
+              description="Once your video clips are assembled, generate your SEO title, description with store link, and Safe Draft instructions."
+              href="/publish-packs"
+              cta="Open Safe Draft Publisher"
+            />
+          )}
+        </div>
       )}
     </div>
   );

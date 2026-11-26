@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Radar, Sparkles } from 'lucide-react';
 import { Button, Card, Input, Label, PageHeader, Select } from '@/components/ui';
 import { PackFilePreview, PackResultViewer, TriggerPromptOption } from '@/components/PackResultViewer';
+import { IdeaSparkWidget } from '@/components/IdeaSparkWidget';
 import { useToast } from '@/components/ToastProvider';
 
 export default function BrandAndSpyPage() {
@@ -59,7 +60,16 @@ export default function BrandAndSpyPage() {
         badge="Zero Paid Ad Tools"
       />
 
-      <Card>
+      <Card className="space-y-4">
+        <IdeaSparkWidget
+          category={mode === 'BRAND_PACK' ? 'BRAND_MASCOT' : 'AD_SPY'}
+          heading="Need a brand name, mascot, or product keyword to spy on?"
+          onApplyIdea={(fields) => {
+            if (fields.brandOrKeyword) setBrandOrKeyword(fields.brandOrKeyword);
+            if (fields.niche) setNiche(fields.niche);
+            if (fields.mascotIdea) setMascotIdea(fields.mascotIdea);
+          }}
+        />
         <form onSubmit={handleBuild} className="space-y-4">
           <div className="flex gap-2">
             <Button

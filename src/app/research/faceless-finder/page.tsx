@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { ExternalLink, Plus, Radar, RefreshCw, Search } from 'lucide-react';
+import { ExternalLink, Plus, RefreshCw, Search } from 'lucide-react';
 import { Button, Card, Input, Label, PageHeader, Select, StatusBadge } from '@/components/ui';
+import { NextStepCard, StudioStarterBanner } from '@/components/GuidedHelpers';
 import { useToast } from '@/components/ToastProvider';
 
 interface ChannelItem {
@@ -115,9 +116,41 @@ export default function FacelessFinderPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Personal Faceless Finder"
-        subtitle="Track profitable faceless channels, spot digital product monetization funnels (Gumroad, Payhip, Selar, Shopify), and sync live stats locally."
+        title="Winning Faceless Channels"
+        subtitle="See 30 real-style faceless channels, compare niche monthly earnings, and tick 'Sells Digital Products' to spot proven product ideas."
         badge={`${totalInDb} Tracked`}
+      />
+
+      <StudioStarterBanner
+        whatYouGet="Real niche benchmarks plus direct links to digital products (spreadsheets, ebooks, planners) that successful faceless creators sell."
+        safeNote="Read-only research tracker"
+        samples={[
+          {
+            label: 'Show Channels Selling Products',
+            onApply: () => {
+              setDigitalProductsOnly(true);
+              pushToast({ title: 'Filtered to channels selling digital products', tone: 'info' });
+            },
+          },
+          {
+            label: 'Started This Year (2026)',
+            onApply: () => {
+              setStartedThisYear(true);
+              pushToast({ title: 'Filtered to channels started in 2026', tone: 'info' });
+            },
+          },
+          {
+            label: 'Reset Filters',
+            onApply: () => {
+              setQ('');
+              setNiche('ALL');
+              setStyle('ALL');
+              setMonetizedOnly(false);
+              setStartedThisYear(false);
+              setDigitalProductsOnly(false);
+            },
+          },
+        ]}
       />
 
       {benchmarks.length > 0 && (
@@ -268,6 +301,13 @@ export default function FacelessFinderPage() {
           </Card>
         ))}
       </div>
+
+      <NextStepCard
+        title="Ready to Build Your Own Product Based on What You Found?"
+        description="Jump to the Digital Product Studio to create your first PDF Ebook, Formula Sheet, or Planner—or brainstorm channel names with the AI Coach."
+        href="/products"
+        cta="Step 2: Create a Product"
+      />
     </div>
   );
 }

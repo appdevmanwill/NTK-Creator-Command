@@ -2,11 +2,13 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { ToastProvider } from '@/components/ToastProvider';
+import { ExperienceModeProvider } from '@/components/ExperienceModeProvider';
+import { QuickHelpDrawer } from '@/components/QuickHelpDrawer';
 import { AppShell } from '@/components/AppShell';
 
 export const metadata: Metadata = {
   title: 'NTK Creator Command',
-  description: 'Local-first AI agent pack builder, digital product studio, and creator intelligence command center by NTK Hub.',
+  description: 'Beginner-friendly local creator studio for digital products, AI video packs, and YouTube research by NTK Hub.',
 };
 
 const noFoucScript = `
@@ -30,9 +32,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="antialiased">
         <ThemeProvider>
-          <ToastProvider>
-            <AppShell>{children}</AppShell>
-          </ToastProvider>
+          <ExperienceModeProvider>
+            <ToastProvider>
+              <AppShell>{children}</AppShell>
+              <QuickHelpDrawer />
+            </ToastProvider>
+          </ExperienceModeProvider>
         </ThemeProvider>
       </body>
     </html>

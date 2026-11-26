@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { BookOpen } from 'lucide-react';
 import { Button, Card, Input, Label, PageHeader, Textarea } from '@/components/ui';
 import { PackFilePreview, PackResultViewer } from '@/components/PackResultViewer';
+import { IdeaSparkWidget } from '@/components/IdeaSparkWidget';
 import { useToast } from '@/components/ToastProvider';
 
 export default function NotebookLmBlueprintPage() {
@@ -61,7 +62,17 @@ export default function NotebookLmBlueprintPage() {
         badge='Sequential "type next"'
       />
 
-      <Card>
+      <Card className="space-y-4">
+        <IdeaSparkWidget
+          category="NOTEBOOKLM_CHANNEL"
+          heading="Starting completely from scratch? Spark a full channel + product combo"
+          onApplyIdea={(fields) => {
+            if (fields.channelName) setChannelName(fields.channelName);
+            if (fields.niche) setNiche(fields.niche);
+            if (fields.targetAudience) setTargetAudience(fields.targetAudience);
+            if (fields.flagshipProduct) setFlagshipProduct(fields.flagshipProduct);
+          }}
+        />
         <form onSubmit={handleBuild} className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label>Channel Name</Label>

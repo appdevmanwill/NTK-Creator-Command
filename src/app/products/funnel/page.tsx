@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Compass, Sparkles } from 'lucide-react';
+import { Compass } from 'lucide-react';
 import { Button, Card, Input, Label, PageHeader, Select, Textarea } from '@/components/ui';
 import { PackFilePreview, PackResultViewer } from '@/components/PackResultViewer';
+import { AdvancedOptionsToggle, NextStepCard, StudioStarterBanner } from '@/components/GuidedHelpers';
+import { IdeaSparkWidget } from '@/components/IdeaSparkWidget';
 import { useToast } from '@/components/ToastProvider';
 
 interface SavedProjectOption {
@@ -30,6 +32,12 @@ export default function StoreFunnelPage() {
   } | null>(null);
 
   useEffect(() => {
+    const qs = new URLSearchParams(window.location.search);
+    const qpId = qs.get('productId');
+    const qpTitle = qs.get('title');
+    if (qpId) setAttachedProjectId(qpId);
+    if (qpTitle) setProductTitle(qpTitle);
+
     fetch('/api/projects')
       .then((r) => r.json())
       .then((d) => {
@@ -73,15 +81,29 @@ export default function StoreFunnelPage() {
     <div className="space-y-6">
       <PageHeader
         title="Storefront Copy, Funnel & Promo Script Builder"
-        subtitle='Generate zero-monthly-fee storefront copy (Payhip, Selar, Gumroad) or Shopify pages, $7–$25 pricing ladders, and a "One Product, Many Videos" 10-video organic YouTube plan.'
+        subtitle='Write ready-to-paste copy for $0/month storefronts (Payhip, Selar, Gumroad) plus a "One Product, Many Videos" 10-video content plan.'
         badge="One Product, Many Videos"
       />
 
-      <Card>
+      <StudioStarterBanner
+        whatYouGet="Headline, instant-download bullets, $7–$25 pricing tiers, 10 organic YouTube/Shorts video hooks pointing to one store link, and 2 short promo scripts."
+        safeNote="Works on $0/mo storefronts"
+      />
+
+      <Card className="space-y-4">
+        <IdeaSparkWidget
+          category="STORE_FUNNEL"
+          heading="Need a product & offer idea to write a store page for?"
+          onApplyIdea={(fields) => {
+            if (fields.productTitle) setProductTitle(fields.productTitle);
+            if (fields.productSummary) setProductSummary(fields.productSummary);
+            if (fields.targetAudience) setTargetAudience(fields.targetAudience);
+          }}
+        />
         <form onSubmit={handleGenerate} className="space-y-4">
           {savedProducts.length > 0 && (
             <div>
-              <Label>Attach Created Digital Product (Optional)</Label>
+              <Label>Attach Your Created Digital Product (Optional)</Label>
               <Select
                 value={attachedProjectId}
                 onChange={(e) => {
@@ -101,7 +123,7 @@ export default function StoreFunnelPage() {
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label>Product Title</Label>
               <Input value={productTitle} onChange={(e) => setProductTitle(e.target.value)} required />
@@ -115,48 +137,58 @@ export default function StoreFunnelPage() {
                 <option value="SHOPIFY">Shopify</option>
               </Select>
             </div>
-            <div>
-              <Label>Starter Price ($7–$25)</Label>
-              <Input
-                type="number"
-                min={3}
-                max={99}
-                value={starterPriceUsd}
-                onChange={(e) => setStarterPriceUsd(Number(e.target.value) || 15)}
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>Target Audience</Label>
-              <Input value={targetAudience} onChange={(e) => setTargetAudience(e.target.value)} />
-            </div>
-            <div>
-              <Label>Permanent Store Link</Label>
-              <Input value={storeUrl} onChange={(e) => setStoreUrl(e.target.value)} />
-            </div>
           </div>
 
           <div>
-            <Label>Product Summary & Core Promise</Label>
+            <Label>What Problem Does Your Product Solve?</Label>
             <Textarea rows={2} value={productSummary} onChange={(e) => setProductSummary(e.target.value)} required />
           </div>
 
+          <AdvancedOptionsToggle>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label>Target Audience</Label>
+                <Input value={targetAudience} onChange={(e) => setTargetAudience(e.target.value)} />
+              </div>
+              <div>
+                <Label>Permanent Store Link</Label>
+                <Input value={storeUrl} onChange={(e) => setStoreUrl(e.target.value)} />
+              </div>
+              <div>
+                <Label>Starter Price ($7–$25)</Label>
+                <Input
+                  type="number"
+                  min={3}
+                  max={99}
+                  value={starterPriceUsd}
+                  onChange={(e) => setStarterPriceUsd(Number(e.target.value) || 15)}
+                />
+              </div>
+            </div>
+          </AdvancedOptionsToggle>
+
           <Button type="submit" disabled={loading}>
             <Compass className="h-4 w-4" />
-            {loading ? 'Writing Funnel & 10-Video Plan...' : 'Build Storefront Copy & Promo Scripts .ZIP'}
+            {loading ? 'Writing Store Copy & 10-Video Plan...' : 'Build Storefront Copy & Promo Scripts .ZIP'}
           </Button>
         </form>
       </Card>
 
       {result && (
-        <PackResultViewer
-          projectId={result.projectId}
-          title={`${productTitle} (${platform} Funnel)`}
-          files={result.files}
-          providerSummary={result.providerSummary}
-        />
+        <div className="space-y-4">
+          <PackResultViewer
+            projectId={result.projectId}
+            title={`${productTitle} (${platform} Funnel)`}
+            files={result.files}
+            providerSummary={result.providerSummary}
+          />
+          <NextStepCard
+            title="Ready to Make Your Promo Video or Story Pack?"
+            description="Jump into the Video Pack builder or prepare a Safe Draft upload with your store link at the top of the description."
+            href="/publish-packs"
+            cta="Go to Safe Draft Publisher"
+          />
+        </div>
       )}
     </div>
   );

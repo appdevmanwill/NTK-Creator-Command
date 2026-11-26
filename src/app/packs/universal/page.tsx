@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Globe } from 'lucide-react';
 import { Button, Card, Input, Label, PageHeader, Select, Textarea } from '@/components/ui';
 import { PackFilePreview, PackResultViewer, TriggerPromptOption } from '@/components/PackResultViewer';
+import { IdeaSparkWidget } from '@/components/IdeaSparkWidget';
 import { useToast } from '@/components/ToastProvider';
 
 const PRESETS = [
@@ -57,6 +58,16 @@ export default function UniversalPackPage() {
       />
 
       <Card className="space-y-4">
+        <IdeaSparkWidget
+          category="UNIVERSAL_PLAYBOOK"
+          heading="Need an idea for which website & task to automate?"
+          onApplyIdea={(fields) => {
+            if (fields.platformName) setPlatformName(fields.platformName);
+            if (fields.platformUrl) setPlatformUrl(fields.platformUrl);
+            if (fields.creativeGoal) setCreativeGoal(fields.creativeGoal);
+          }}
+        />
+
         <div className="flex flex-wrap gap-2">
           {PRESETS.map((p) => (
             <button

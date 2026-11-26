@@ -16,6 +16,8 @@ import {
 } from 'recharts';
 import { Button, Card, Input, Label, PageHeader, Select, Textarea } from '@/components/ui';
 import { PausedQuotaState, PackResultViewer } from '@/components/PackResultViewer';
+import { AdvancedOptionsToggle, NextStepCard, StudioStarterBanner } from '@/components/GuidedHelpers';
+import { IdeaSparkWidget } from '@/components/IdeaSparkWidget';
 import { useToast } from '@/components/ToastProvider';
 
 type StudioTab = 'EBOOK' | 'SPREADSHEET' | 'PLANNER' | 'JOURNAL';
@@ -78,6 +80,7 @@ export default function DigitalProductsStudioPage() {
   const generateProduct = async (resumeJobId?: string) => {
     setLoading(true);
     setPausedQuota(null);
+    setArtifact(null);
     try {
       const payload =
         tab === 'EBOOK'
@@ -150,12 +153,56 @@ export default function DigitalProductsStudioPage() {
     { id: 'JOURNAL', label: 'Journals & Workbooks (PDF)', icon: NotebookPen },
   ];
 
+  const activeTitle =
+    tab === 'EBOOK'
+      ? ebookTitle
+      : tab === 'SPREADSHEET'
+      ? sheetTitle
+      : tab === 'PLANNER'
+      ? plannerTitle
+      : journalTitle;
+
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Local Digital Product Studio"
-        subtitle="Compile commercial-grade PDFs and formula-powered Excel workbooks locally at $0 cost—ready to sell on Payhip, Selar, Gumroad, or Shopify."
+        title="Digital Product Studio"
+        subtitle="Pick a product type below, type your topic (or click a sample), and export a finished PDF or Excel workbook ready to sell."
         badge="$0 Local Engine"
+      />
+
+      <StudioStarterBanner
+        whatYouGet="A finished, styled PDF ebook, auto-calculating Excel (.xlsx) workbook, 30/365-day planner, or printable journal saved right to your computer."
+        safeNote="100% local • $0 tool cost"
+        samples={[
+          {
+            label: '30-Day Budget Reset Ebook',
+            onApply: () => {
+              setTab('EBOOK');
+              setEbookTitle('The 30-Day Cashflow & Side-Income Reset');
+              setEbookTopic('Practical budgeting, cutting hidden expenses, and launching a $15 digital product');
+              pushToast({ title: 'Loaded Ebook sample', tone: 'info' });
+            },
+          },
+          {
+            label: 'Monthly Cashflow Sheet (.xlsx)',
+            onApply: () => {
+              setTab('SPREADSHEET');
+              setSheetTitle('Creator Monthly Cashflow & Product Revenue Tracker');
+              setSheetPrompt('Track digital product sales, ad/tool expenses, savings transfers, and monthly net balance');
+              pushToast({ title: 'Loaded Spreadsheet sample', tone: 'info' });
+            },
+          },
+          {
+            label: '30-Day Focus Planner',
+            onApply: () => {
+              setTab('PLANNER');
+              setPlannerTitle('Creator Focus & Habit Command Planner');
+              setPlannerTheme('Daily deep work, content velocity, and zero-impulse spending');
+              setDurationDays(30);
+              pushToast({ title: 'Loaded 30-Day Planner sample', tone: 'info' });
+            },
+          },
+        ]}
       />
 
       <div className="flex flex-wrap gap-2">
@@ -176,151 +223,196 @@ export default function DigitalProductsStudioPage() {
       </div>
 
       <Card className="space-y-4">
+        <IdeaSparkWidget
+          category={tab}
+          heading="No product idea yet? Let AI suggest a sellable topic for you"
+          onApplyIdea={(fields) => {
+            if (tab === 'EBOOK') {
+              if (fields.title) setEbookTitle(fields.title);
+              if (fields.topic) setEbookTopic(fields.topic);
+              if (fields.audience) setEbookAudience(fields.audience);
+            } else if (tab === 'SPREADSHEET') {
+              if (fields.title) setSheetTitle(fields.title);
+              if (fields.prompt) setSheetPrompt(fields.prompt);
+              if (fields.audience) setSheetAudience(fields.audience);
+            } else if (tab === 'PLANNER') {
+              if (fields.title) setPlannerTitle(fields.title);
+              if (fields.theme) setPlannerTheme(fields.theme);
+            } else if (tab === 'JOURNAL') {
+              if (fields.title) setJournalTitle(fields.title);
+              if (fields.journalType) setJournalType(fields.journalType);
+              if (fields.topic) setJournalTopic(fields.topic);
+            }
+          }}
+        />
         {tab === 'EBOOK' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>Book Title (Clear Buyer Promise)</Label>
-              <Input value={ebookTitle} onChange={(e) => setEbookTitle(e.target.value)} />
-            </div>
-            <div>
-              <Label>Target Audience</Label>
-              <Input value={ebookAudience} onChange={(e) => setEbookAudience(e.target.value)} />
-            </div>
-            <div className="md:col-span-2">
-              <Label>Topic & Core Outcome</Label>
-              <Textarea rows={2} value={ebookTopic} onChange={(e) => setEbookTopic(e.target.value)} />
-            </div>
-            <div>
-              <Label>Illustrations Mode</Label>
-              <Select
-                value={illustrationMode}
-                onChange={(e) => setIllustrationMode(e.target.value as 'FLAT_SVG' | 'PLACEHOLDER_PROMPTS')}
-              >
-                <option value="FLAT_SVG">Built-In Flat SVG Vector Graphics</option>
-                <option value="PLACEHOLDER_PROMPTS">Illustration Prompt Placeholders (For Flow)</option>
-              </Select>
-            </div>
-            <div>
-              <Label>Chapters (3–8)</Label>
-              <Input
-                type="number"
-                min={3}
-                max={8}
-                value={chapterCount}
-                onChange={(e) => setChapterCount(Math.min(8, Math.max(3, Number(e.target.value) || 4)))}
-              />
-            </div>
-            <div>
-              <Label>Author Name</Label>
-              <Input value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
-            </div>
-            <div>
-              <Label>Writing Style</Label>
-              <Input value={writingStyle} onChange={(e) => setWritingStyle(e.target.value)} />
-            </div>
-            <div>
-              <Label>Brand Accent Color</Label>
-              <div className="flex items-center gap-2">
-                <input type="color" value={ebookColor} onChange={(e) => setEbookColor(e.target.value)} className="h-9 w-12 rounded border" />
-                <Input value={ebookColor} onChange={(e) => setEbookColor(e.target.value)} />
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label>Book Title (Clear Buyer Promise)</Label>
+                <Input value={ebookTitle} onChange={(e) => setEbookTitle(e.target.value)} />
+              </div>
+              <div>
+                <Label>Who Is This Book For?</Label>
+                <Input value={ebookAudience} onChange={(e) => setEbookAudience(e.target.value)} />
               </div>
             </div>
+            <div>
+              <Label>What Will Readers Learn?</Label>
+              <Textarea rows={2} value={ebookTopic} onChange={(e) => setEbookTopic(e.target.value)} />
+            </div>
+
+            <AdvancedOptionsToggle>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label>Illustrations Mode</Label>
+                  <Select
+                    value={illustrationMode}
+                    onChange={(e) => setIllustrationMode(e.target.value as 'FLAT_SVG' | 'PLACEHOLDER_PROMPTS')}
+                  >
+                    <option value="FLAT_SVG">Built-In Flat SVG Vector Graphics</option>
+                    <option value="PLACEHOLDER_PROMPTS">Illustration Prompt Placeholders (For Flow)</option>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Chapters (3–8)</Label>
+                  <Input
+                    type="number"
+                    min={3}
+                    max={8}
+                    value={chapterCount}
+                    onChange={(e) => setChapterCount(Math.min(8, Math.max(3, Number(e.target.value) || 4)))}
+                  />
+                </div>
+                <div>
+                  <Label>Author Name</Label>
+                  <Input value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
+                </div>
+                <div>
+                  <Label>Writing Style</Label>
+                  <Input value={writingStyle} onChange={(e) => setWritingStyle(e.target.value)} />
+                </div>
+                <div>
+                  <Label>Brand Accent Color</Label>
+                  <div className="flex items-center gap-2">
+                    <input type="color" value={ebookColor} onChange={(e) => setEbookColor(e.target.value)} className="h-9 w-12 rounded border" />
+                    <Input value={ebookColor} onChange={(e) => setEbookColor(e.target.value)} />
+                  </div>
+                </div>
+              </div>
+            </AdvancedOptionsToggle>
           </div>
         )}
 
         {tab === 'SPREADSHEET' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>Spreadsheet Title</Label>
-              <Input value={sheetTitle} onChange={(e) => setSheetTitle(e.target.value)} />
-            </div>
-            <div>
-              <Label>Target Audience</Label>
-              <Input value={sheetAudience} onChange={(e) => setSheetAudience(e.target.value)} />
-            </div>
-            <div className="md:col-span-2">
-              <Label>Spreadsheet Purpose & Columns</Label>
-              <Textarea rows={2} value={sheetPrompt} onChange={(e) => setSheetPrompt(e.target.value)} />
-            </div>
-            <div>
-              <Label>Complexity</Label>
-              <Select value={sheetComplexity} onChange={(e) => setSheetComplexity(e.target.value as typeof sheetComplexity)}>
-                <option value="SIMPLE">Simple</option>
-                <option value="STANDARD">Standard (Dashboard + Formulas)</option>
-                <option value="ADVANCED">Advanced Multi-Category</option>
-              </Select>
-            </div>
-            <div>
-              <Label>Brand Color</Label>
-              <div className="flex items-center gap-2">
-                <input type="color" value={sheetColor} onChange={(e) => setSheetColor(e.target.value)} className="h-9 w-12 rounded border" />
-                <Input value={sheetColor} onChange={(e) => setSheetColor(e.target.value)} />
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label>Spreadsheet Title</Label>
+                <Input value={sheetTitle} onChange={(e) => setSheetTitle(e.target.value)} />
+              </div>
+              <div>
+                <Label>Who Is It For?</Label>
+                <Input value={sheetAudience} onChange={(e) => setSheetAudience(e.target.value)} />
               </div>
             </div>
+            <div>
+              <Label>What Should This Sheet Track?</Label>
+              <Textarea rows={2} value={sheetPrompt} onChange={(e) => setSheetPrompt(e.target.value)} />
+            </div>
+            <AdvancedOptionsToggle>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label>Complexity</Label>
+                  <Select value={sheetComplexity} onChange={(e) => setSheetComplexity(e.target.value as typeof sheetComplexity)}>
+                    <option value="SIMPLE">Simple</option>
+                    <option value="STANDARD">Standard (Dashboard + Formulas)</option>
+                    <option value="ADVANCED">Advanced Multi-Category</option>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Brand Color</Label>
+                  <div className="flex items-center gap-2">
+                    <input type="color" value={sheetColor} onChange={(e) => setSheetColor(e.target.value)} className="h-9 w-12 rounded border" />
+                    <Input value={sheetColor} onChange={(e) => setSheetColor(e.target.value)} />
+                  </div>
+                </div>
+              </div>
+            </AdvancedOptionsToggle>
           </div>
         )}
 
         {tab === 'PLANNER' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>Planner Title</Label>
-              <Input value={plannerTitle} onChange={(e) => setPlannerTitle(e.target.value)} />
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label>Planner Title</Label>
+                <Input value={plannerTitle} onChange={(e) => setPlannerTitle(e.target.value)} />
+              </div>
+              <div>
+                <Label>Length</Label>
+                <Select
+                  value={String(durationDays)}
+                  onChange={(e) => setDurationDays(Number(e.target.value) === 365 ? 365 : 30)}
+                >
+                  <option value="30">30-Day Fast Build PDF</option>
+                  <option value="365">365-Day Full-Year Hyperlinked PDF</option>
+                </Select>
+              </div>
             </div>
             <div>
-              <Label>Duration</Label>
-              <Select
-                value={String(durationDays)}
-                onChange={(e) => setDurationDays(Number(e.target.value) === 365 ? 365 : 30)}
-              >
-                <option value="30">30-Day Fast Build PDF</option>
-                <option value="365">365-Day Full-Year Hyperlinked PDF</option>
-              </Select>
-            </div>
-            <div className="md:col-span-2">
               <Label>Planner Theme</Label>
               <Input value={plannerTheme} onChange={(e) => setPlannerTheme(e.target.value)} />
             </div>
-            <div>
-              <Label>Layout Style</Label>
-              <Input value={layoutStyle} onChange={(e) => setLayoutStyle(e.target.value)} />
-            </div>
-            <div>
-              <Label>Brand Color</Label>
-              <div className="flex items-center gap-2">
-                <input type="color" value={plannerColor} onChange={(e) => setPlannerColor(e.target.value)} className="h-9 w-12 rounded border" />
-                <Input value={plannerColor} onChange={(e) => setPlannerColor(e.target.value)} />
+            <AdvancedOptionsToggle>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label>Layout Style</Label>
+                  <Input value={layoutStyle} onChange={(e) => setLayoutStyle(e.target.value)} />
+                </div>
+                <div>
+                  <Label>Brand Color</Label>
+                  <div className="flex items-center gap-2">
+                    <input type="color" value={plannerColor} onChange={(e) => setPlannerColor(e.target.value)} className="h-9 w-12 rounded border" />
+                    <Input value={plannerColor} onChange={(e) => setPlannerColor(e.target.value)} />
+                  </div>
+                </div>
               </div>
-            </div>
+            </AdvancedOptionsToggle>
           </div>
         )}
 
         {tab === 'JOURNAL' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>Workbook / Journal Title</Label>
-              <Input value={journalTitle} onChange={(e) => setJournalTitle(e.target.value)} />
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label>Workbook / Journal Title</Label>
+                <Input value={journalTitle} onChange={(e) => setJournalTitle(e.target.value)} />
+              </div>
+              <div>
+                <Label>Workbook Type</Label>
+                <Input value={journalType} onChange={(e) => setJournalType(e.target.value)} />
+              </div>
             </div>
             <div>
-              <Label>Workbook Type</Label>
-              <Input value={journalType} onChange={(e) => setJournalType(e.target.value)} />
-            </div>
-            <div className="md:col-span-2">
               <Label>Core Focus</Label>
               <Textarea rows={2} value={journalTopic} onChange={(e) => setJournalTopic(e.target.value)} />
             </div>
-            <div>
-              <Label>Brand Color</Label>
-              <div className="flex items-center gap-2">
-                <input type="color" value={journalColor} onChange={(e) => setJournalColor(e.target.value)} className="h-9 w-12 rounded border" />
-                <Input value={journalColor} onChange={(e) => setJournalColor(e.target.value)} />
+            <AdvancedOptionsToggle>
+              <div>
+                <Label>Brand Color</Label>
+                <div className="flex items-center gap-2 max-w-xs">
+                  <input type="color" value={journalColor} onChange={(e) => setJournalColor(e.target.value)} className="h-9 w-12 rounded border" />
+                  <Input value={journalColor} onChange={(e) => setJournalColor(e.target.value)} />
+                </div>
               </div>
-            </div>
+            </AdvancedOptionsToggle>
           </div>
         )}
 
         <Button onClick={() => generateProduct()} disabled={loading} data-testid="generate-product-btn">
           <Sparkles className="h-4 w-4" />
-          {loading ? 'Generating & Rendering Artifact...' : `Generate ${tab === 'SPREADSHEET' ? '.XLSX Workbook' : '.PDF Product'}`}
+          {loading ? 'Creating & Rendering File...' : `Create ${tab === 'SPREADSHEET' ? 'Excel Workbook (.XLSX)' : 'PDF Product'}`}
         </Button>
       </Card>
 
@@ -334,92 +426,101 @@ export default function DigitalProductsStudioPage() {
       )}
 
       {artifact && (
-        <Card className="space-y-5" data-testid="product-artifact-card">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h3 className="text-lg font-bold">{artifact.fileName}</h3>
-              <p className="text-xs text-[var(--text-secondary)]">
-                Size: {Math.round(artifact.bytes / 1024)} KB • {artifact.pdfEngine || 'ExcelJS Formula Workbook'} •{' '}
-                {artifact.providerSummary || 'Local'}
-              </p>
+        <div className="space-y-4">
+          <Card className="space-y-5" data-testid="product-artifact-card">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h3 className="text-lg font-bold">{artifact.fileName}</h3>
+                <p className="text-xs text-[var(--text-secondary)]">
+                  Size: {Math.round(artifact.bytes / 1024)} KB • {artifact.pdfEngine || 'ExcelJS Formula Workbook'} •{' '}
+                  {artifact.providerSummary || 'Local'}
+                </p>
+              </div>
+              <a href={`/api/projects/${artifact.projectId}/download`} download data-testid="download-product-link">
+                <Button>
+                  <Download className="h-4 w-4" /> Download {artifact.kind === 'SPREADSHEET' ? '.XLSX' : '.PDF'}
+                </Button>
+              </a>
             </div>
-            <a href={`/api/projects/${artifact.projectId}/download`} download data-testid="download-product-link">
-              <Button>
-                <Download className="h-4 w-4" /> Download {artifact.kind === 'SPREADSHEET' ? '.XLSX' : '.PDF'}
-              </Button>
-            </a>
-          </div>
 
-          {artifact.previewChapters && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {artifact.previewChapters.map((c) => (
-                <div key={c.number} className="rounded-xl border bg-[var(--bg-elevated)] p-3 text-xs space-y-1">
-                  <div className="font-bold text-indigo-400">
-                    Chapter {c.number}: {c.title}
+            {artifact.previewChapters && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {artifact.previewChapters.map((c) => (
+                  <div key={c.number} className="rounded-xl border bg-[var(--bg-elevated)] p-3 text-xs space-y-1">
+                    <div className="font-bold text-indigo-400">
+                      Chapter {c.number}: {c.title}
+                    </div>
+                    <p className="text-[var(--text-secondary)]">
+                      <strong>Personal Story Prompt:</strong> {c.personalStoryTip}
+                    </p>
                   </div>
-                  <p className="text-[var(--text-secondary)]">
-                    <strong>Personal Story Prompt:</strong> {c.personalStoryTip}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
 
-          {artifact.spreadsheetPreview && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="rounded-xl border bg-[var(--bg-elevated)] p-3">
-                  <div className="text-xs text-[var(--text-secondary)]">Total Income</div>
-                  <div className="text-lg font-bold text-emerald-400">${artifact.spreadsheetPreview.totalIncome.toLocaleString()}</div>
+            {artifact.spreadsheetPreview && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="rounded-xl border bg-[var(--bg-elevated)] p-3">
+                    <div className="text-xs text-[var(--text-secondary)]">Total Income</div>
+                    <div className="text-lg font-bold text-emerald-400">${artifact.spreadsheetPreview.totalIncome.toLocaleString()}</div>
+                  </div>
+                  <div className="rounded-xl border bg-[var(--bg-elevated)] p-3">
+                    <div className="text-xs text-[var(--text-secondary)]">Total Expenses</div>
+                    <div className="text-lg font-bold text-rose-400">${artifact.spreadsheetPreview.totalExpense.toLocaleString()}</div>
+                  </div>
+                  <div className="rounded-xl border bg-[var(--bg-elevated)] p-3">
+                    <div className="text-xs text-[var(--text-secondary)]">Net Balance</div>
+                    <div className="text-lg font-bold text-indigo-400">${artifact.spreadsheetPreview.netBalance.toLocaleString()}</div>
+                  </div>
                 </div>
-                <div className="rounded-xl border bg-[var(--bg-elevated)] p-3">
-                  <div className="text-xs text-[var(--text-secondary)]">Total Expenses</div>
-                  <div className="text-lg font-bold text-rose-400">${artifact.spreadsheetPreview.totalExpense.toLocaleString()}</div>
-                </div>
-                <div className="rounded-xl border bg-[var(--bg-elevated)] p-3">
-                  <div className="text-xs text-[var(--text-secondary)]">Net Balance</div>
-                  <div className="text-lg font-bold text-indigo-400">${artifact.spreadsheetPreview.netBalance.toLocaleString()}</div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div className="h-64 rounded-xl border bg-[var(--bg-elevated)] p-3">
+                    <div className="text-xs font-bold mb-2">Category Breakdown (Bar)</div>
+                    <ResponsiveContainer width="100%" height="88%">
+                      <BarChart data={artifact.spreadsheetPreview.chartSummary}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
+                        <XAxis dataKey="category" tick={{ fontSize: 11 }} />
+                        <YAxis tick={{ fontSize: 11 }} />
+                        <Tooltip />
+                        <Bar dataKey="total" fill="#6366F1" radius={[6, 6, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="h-64 rounded-xl border bg-[var(--bg-elevated)] p-3">
+                    <div className="text-xs font-bold mb-2">Category Share (Pie)</div>
+                    <ResponsiveContainer width="100%" height="88%">
+                      <PieChart>
+                        <Pie
+                          data={artifact.spreadsheetPreview.chartSummary}
+                          dataKey="total"
+                          nameKey="category"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={72}
+                          label
+                        >
+                          {artifact.spreadsheetPreview.chartSummary.map((_, idx) => (
+                            <Cell key={idx} fill={CHART_COLORS[idx % CHART_COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
               </div>
+            )}
+          </Card>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <div className="h-64 rounded-xl border bg-[var(--bg-elevated)] p-3">
-                  <div className="text-xs font-bold mb-2">Category Breakdown (Bar)</div>
-                  <ResponsiveContainer width="100%" height="88%">
-                    <BarChart data={artifact.spreadsheetPreview.chartSummary}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
-                      <XAxis dataKey="category" tick={{ fontSize: 11 }} />
-                      <YAxis tick={{ fontSize: 11 }} />
-                      <Tooltip />
-                      <Bar dataKey="total" fill="#6366F1" radius={[6, 6, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="h-64 rounded-xl border bg-[var(--bg-elevated)] p-3">
-                  <div className="text-xs font-bold mb-2">Category Share (Pie)</div>
-                  <ResponsiveContainer width="100%" height="88%">
-                    <PieChart>
-                      <Pie
-                        data={artifact.spreadsheetPreview.chartSummary}
-                        dataKey="total"
-                        nameKey="category"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={72}
-                        label
-                      >
-                        {artifact.spreadsheetPreview.chartSummary.map((_, idx) => (
-                          <Cell key={idx} fill={CHART_COLORS[idx % CHART_COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            </div>
-          )}
-        </Card>
+          <NextStepCard
+            title={`Write the Store Page & 10 Video Ideas for "${activeTitle}"`}
+            description="Your product file is ready! Next, generate your Payhip/Selar sales copy, pricing ladder, and promo video scripts."
+            href={`/products/funnel?productId=${encodeURIComponent(artifact.projectId)}&title=${encodeURIComponent(activeTitle)}`}
+            cta="Write Store Page & Promo Plan"
+          />
+        </div>
       )}
     </div>
   );

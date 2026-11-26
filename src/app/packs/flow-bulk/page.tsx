@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { BookmarkPlus, Eye, Layers, Sparkles } from 'lucide-react';
 import { Button, Card, Input, Label, PageHeader, Select, Textarea } from '@/components/ui';
 import { PackFilePreview, PackResultViewer } from '@/components/PackResultViewer';
+import { IdeaSparkWidget } from '@/components/IdeaSparkWidget';
 import { useToast } from '@/components/ToastProvider';
 
 interface SavedStyle {
@@ -211,6 +212,16 @@ export default function FlowBulkPage() {
             <Layers className="h-4 w-4 text-indigo-400" />
             <h2 className="text-sm font-bold">2. Bulk Ordered Scenes & Narration</h2>
           </div>
+
+          <IdeaSparkWidget
+            category="FLOW_BULK"
+            heading="Need a video topic & character idea?"
+            onApplyIdea={(fields) => {
+              if (fields.title) setTitle(fields.title);
+              if (fields.topic) setTopic(fields.topic);
+              if (fields.recurringCharacter) setRecurringCharacter(fields.recurringCharacter);
+            }}
+          />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
