@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model ApiKeyRecord {
+  id               String    @id @default(cuid())
+  label            String
+  provider         String    // GEMINI | GROQ | OPENROUTER | CUSTOM | YOUTUBE
+  encryptedKey     String
+  iv               String
+  authTag          String
+  keyHash          String    @unique
+  maskedKey        String
+  baseUrl          String?
+  defaultModel     String?
+  enabled          Boolean   @default(true)
+  priority         Int       @default(100)
+  capabilitiesJson String    @default("{\"text\":true,\"vision\":false,\"long_context\":false,\"json\":true,\"audio\":false}")
+  status           String    @default("HEALTHY") // HEALTHY | COOLDOWN | EXHAUSTED_TODAY | INVALID
+  cooldownUntil    DateTime?
+  exhaustedUntil   DateTime?
+  modelHealthJson  String    @default("{}")
+  totalRequests    Int       @default(0)
+  totalFailures    Int       @default(0)
+  lastError        String?
+  lastUsedAt       DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model RouterConfig {
+  id                     String   @id @default("default")
+  rotationStrategy       String   @default("PRIORITY_FAILOVER") // PRIORITY_FAILOVER | ROUND_ROBIN
+  zeroKeyFallbackEnabled Boolean  @default(true)
+  taskRoutingJson        String   @default("{}")
+  roundRobinCursor       Int      @default(0)
+  updatedAt              DateTime @updatedAt
+}
+
+model FailoverLog {
+  id           String   @id @default(cuid())
+  jobId        String?
+  taskType     String
+  fromProvider String
+  fromModel    String
+  toProvider   String?
+  toModel      String?
+  reason       String
+  httpStatus   Int?
+  createdAt    DateTime @default(now())
+}
+
+model GenerationJob {
+  id                  String   @id @default(cuid())
+  moduleType          String
+  title               String
+  status              String   @default("PENDING") // PENDING | RUNNING | PAUSED_QUOTA | COMPLETED | FAILED
+  totalSteps          Int      @default(1)
+  completedSteps      Int      @default(0)
+  checkpointStateJson String   @default("{}")
+  outputPath          String?
+  lastProviderUsed    String?
+  lastError           String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Project {
+  id             String   @id @default(cuid())
+  type           String   // FLOW_MOVIE | FLOW_BULK | KAGGLE_COLAB | UNIVERSAL_PACK | BRAND_PACK | AD_SPY_PACK | EBOOK | SPREADSHEET | PLANNER | JOURNAL | STORE_FUNNEL | PUBLISH_PACK | OAUTH_PACK
+  title          String
+  seriesGroupId  String?
+  metadataJson   String   @default("{}")
+  filesJson      String   @default("[]")
+  outputFilePath String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model SavedFlowStyle {
+  id              String   @id @default(cuid())
+  name            String
+  sourceReference String
+  styleHeader     String
+  paletteJson     String   @default("{}")
+  createdAt       DateTime @default(now())
+}
+
+model TrackedChannel {
+  id                    String    @id @default(cuid())
+  name                  String
+  handle                String
+  url                   String    @unique
+  niche                 String
+  videoStyle            String
+  subscribers           Int       @default(0)
+  uploadsPerWeek        Float     @default(0)
+  avgLengthMin          Float     @default(0)
+  startedDate           String
+  estMonthlyViews       Int       @default(0)
+  estMonthlyAdSense     Float     @default(0)
+  monetizationConfirmed Boolean   @default(false)
+  sellsDigitalProducts  Boolean   @default(false)
+  digitalProductUrl     String?
+  digitalProductType    String?
+  notes                 String?
+  lastSyncedAt          DateTime?
+  createdAt             DateTime  @default(now())
+}
+
+model ChatThread {
+  id        String        @id @default(cuid())
+  title     String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  messages  ChatMessage[]
+}
+
+model ChatMessage {
+  id           String     @id @default(cuid())
+  threadId     String
+  role         String     // user | assistant | system
+  content      String
+  providerUsed String?
+  modelUsed    String?
+  createdAt    DateTime   @default(now())
+  thread       ChatThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+}

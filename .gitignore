@@ -1,0 +1,29 @@
+# NTK Operational Folders & Sensitive Data
+FILES/
+files/
+WORKING/
+HANDOFF_TO_GEMINI/
+HANDOFF_TO_CHATGPT/
+ARCHIVE/
+DEPLOY_MANUAL/
+
+# Secrets & Databases
+.env
+.env.*
+!.env.example
+.ntk-vault-key
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+prisma/*.db
+prisma/*.db-*
+
+# Generated Storage & Build Artifacts
+storage/
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
